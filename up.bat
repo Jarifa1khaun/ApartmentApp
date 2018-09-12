@@ -1,0 +1,1 @@
+docker-compose -f master.yaml build && docker-compose -f master.yaml up -d
