@@ -1,0 +1,44 @@
+1. apartment finder will be free of cost
+2. front page will hold a map and two input boxes
+	, the first input will be used for inputting center of search 
+	and the second one will be used to set the radius of the search 
+	circle. 
+	the purpose of the map is to show the circle, that will be rendered 
+	using the given input. 
+3. after setting the center a search panel will emerge, where 
+	user will be able to input their search preferences 
+4. there will be numerous search options 
+	a. nearby (mosque, market, school, hospital) 
+	b. flat size
+	c. bed room / bath room combination 
+	d. rent
+	e. which floor
+	f. existence of lift/escalator
+	g. security measurements
+	i. month of availability
+	
+	in nearby, there will be a system for ranking, every input value will
+	possess a field for proirity weight, which will be used to filter and
+	sort the result set.
+5. search results will be shown as a list, by clicking any item of that list
+	will bring a pop up modal, where more information and possibly pictures
+	will be rendered along with contact number
+6. creating a ad for renting can only be done by registered users
+7. new user can be created from the front page's right corner. 
+8. after successful user creation, anyone can create an ad, update existing ad or 
+	delete invalid ad
+9. admin will have a full view of users and ads 
+10. admin can invalidate the access of any user, delete unwanted ad etc
+
+
+** nearby feature will be implemented through google maps' places api 
+** tech stack for this app will be MERN Stack (MongoDB, ExpressJS, ReactJS, NodeJS)
+	although, react can be replaced by traditional HTML, CSS, jQuery stack
+** Mongoose will be used to map mongoDb.
+** JWT will be used for authenticaton.
+** Morgan will be used for logging.
+** Docker will host the entire app (both front and back, including Mongo)
+** Mocha can be used for testing purposes. 
+** if required Jenkins can be used for CI/CD. 
+** if React is used, grunt.js will be used to minify the project 
+	and webpack will be used to pack everything.
