@@ -1,0 +1,11 @@
+1. search panel 
+2. search result list 
+3. result display modal
+4. add new ad button
+5. log in prompt
+6. sign up prompt
+7. user details page
+8. user update page
+9. user past advertisements 
+10. add new/update existing ad prompt
+11. delete dialog
