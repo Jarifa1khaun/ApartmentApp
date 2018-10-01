@@ -7,3 +7,4 @@ In order to bring up the app, just use up.bat and to tear down everything use do
 Thank you. 
 
 P.S: install the following plugin in chrome: https://goo.gl/XMJiWd
+please input set NODE_ENV = development in your command line before running nodemon.
