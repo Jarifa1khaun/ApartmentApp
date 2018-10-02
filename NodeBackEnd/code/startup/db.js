@@ -4,5 +4,5 @@ const config = require('config');
 
 module.exports = function() {
   mongoose.connect(config.get('mongoURL'))
-    .then(() => winston.info('Connected to MongoDB...'));
+    .then(() => console.log('Connected to MongoDB...'));
 }

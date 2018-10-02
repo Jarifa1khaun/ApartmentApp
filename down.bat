@@ -1,1 +1,0 @@
-docker-compose -f master.yaml down
