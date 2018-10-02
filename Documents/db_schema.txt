@@ -1,0 +1,91 @@
+{
+	user: {
+		name: 'Istiyak Siddiquee', 
+		email: 'istiyaksiddiquee@yahoo.com', 
+		address: string, 
+		thana: string, 
+		postCode: string, 
+		zilla: string, 
+		password: string,
+		profile_image: base64String,
+		avatar: base64String,
+		contact_number: string, 
+		alternative_contact: string
+	}
+}
+
+house: [
+
+	{
+		_id: string, 
+		user: user, 
+		created_on: date, 
+		invalid_after: date, 
+		is_rented: boolean, 
+		contact_number: string, 
+		alternative_contact: string,
+		lat: double, 
+		long: double, 
+		address: string, 
+		thana: string, 
+		postCode: string, 
+		zilla: string, 
+		rent: double,
+		size: double,
+		floor: int, 
+		security_guards: boolean, 
+		lift_escalator: boolean, 
+		month_of_availability: date, 
+		rooms: {
+			bedroom: int, 
+			bathroom: int, 
+			kitchen: int, 
+			drawing: int, 
+			living: int
+		},
+		nearby: {
+			{
+				type: mosque, 
+				distance: double, 
+				lat: double, 
+				long: double, 
+				name: string
+			},
+			{
+				type: market, 
+				distance: double, 
+				lat: double, 
+				long: double, 
+				name: string
+			},
+			{
+				type: school, 
+				distance: double, 
+				lat: double, 
+				long: double, 
+				name: string
+			},
+			{
+				type: hospital,
+				distance: double, 
+				lat: double, 
+				long: double, 
+				name: string
+			}
+		},
+		images: {
+			{
+				tag: string, 
+				value: base64String
+			}, 
+			{
+				tag: string, 
+				value: base64String
+			}, 
+			{
+				tag: string, 
+				value: base64String
+			}			
+		}
+	}
+]

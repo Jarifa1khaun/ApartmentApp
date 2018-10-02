@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="MongoDb" id="Project_47e3d5" template="Default" database="MongoDb" >
+	<schema name="apartment" catalogname="apartment" >
+		<table name="houses" >
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<column name="user" type="oid" length="800" decimal="0" jt="-8" mandatory="y" />
+			<column name="created_on" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="invalid_after" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="is_rented" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="contact_number" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="alternative_contact_number" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="lat" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="long" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="address" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="thana" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="post_code" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="zilla" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="rent" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="size" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="floor" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="security_guards" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="lift_or_escalator" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="month_of_availability" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="rooms" type="map" length="800" decimal="0" jt="4999544" mandatory="y" >
+				<column name="bedroom" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+				<column name="bathroom" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+				<column name="kitchen" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+				<column name="drawing" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+				<column name="living" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			</column>
+			<column name="nearby" type="list" length="800" decimal="0" jt="4999545" >
+				<column name="type" type="string" length="800" decimal="0" jt="12" />
+				<column name="distance" type="string" length="800" decimal="0" jt="12" />
+				<column name="lat" type="string" length="800" decimal="0" jt="12" />
+				<column name="long" type="string" length="800" decimal="0" jt="12" />
+				<column name="name" type="string" length="800" decimal="0" jt="12" />
+			</column>
+			<column name="images" type="list" length="800" decimal="0" jt="4999545" >
+				<column name="tag" type="string" length="800" decimal="0" jt="12" />
+				<column name="value" type="string" length="800" decimal="0" jt="12" />
+			</column>
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+			<fk name="Ref" virtual="y" to_schema="apartment" to_table="users" >
+				<fk_column name="user" pk="_id" />
+			</fk>
+		</table>
+		<table name="users" >
+			<column name="_id" type="oid" length="800" decimal="0" jt="-8" mandatory="y" autoincrement="y" />
+			<column name="name" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="email" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="address" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="thana" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="post_code" type="integer" length="800" decimal="0" jt="4" mandatory="y" />
+			<column name="zilla" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="password" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="profile_image" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="profile_avatar" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="contact_number" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="alternative_contact" type="string" length="800" decimal="0" jt="12" mandatory="y" />
+			<column name="created_on" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="last_logged_in" type="date" length="800" decimal="0" jt="91" mandatory="y" />
+			<column name="is_admin" type="boolean" length="800" decimal="0" jt="16" mandatory="y" />
+			<index name="_id_" unique="PRIMARY_KEY" >
+				<column name="_id" />
+			</index>
+		</table>
+	</schema>
+	<connector name="MongoDb" database="MongoDb" driver_class="com.dbschema.MongoJdbcDriver" driver_jar="mongojdbc1.2.jar" driver_desc="No Authentication" host="localhost" port="4000" instance="apartment" />
+	<layout name="Default Layout" id="Layout_484a04f" show_relation="columns" >
+		<entity schema="apartment" name="houses" color="BED3F4" x="48" y="208" />
+		<entity schema="apartment" name="houses" column="rooms" color="BED3F4" x="304" y="48" />
+		<entity schema="apartment" name="houses" column="nearby" color="BED3F4" x="304" y="208" />
+		<entity schema="apartment" name="houses" column="images" color="BED3F4" x="304" y="368" />
+		<entity schema="apartment" name="users" color="BED3F4" x="48" y="208" />
+	</layout>
+	<layout name="Sample Layout with Tools" id="Layout_2b4215a" show_column_type="y" show_relation="columns" >
+		<entity schema="apartment" name="houses" color="BED3F4" x="48" y="80" />
+		<entity schema="apartment" name="houses" column="rooms" color="BED3F4" x="384" y="160" />
+		<entity schema="apartment" name="houses" column="nearby" color="BED3F4" x="400" y="304" />
+		<entity schema="apartment" name="houses" column="images" color="BED3F4" x="416" y="448" />
+		<entity schema="apartment" name="users" color="BED3F4" x="608" y="96" />
+		<group name="Apartment" color="ECF0F7" >
+			<entity schema="apartment" name="houses" column="nearby" />
+			<entity schema="apartment" name="houses" column="rooms" />
+			<entity schema="apartment" name="houses" />
+			<entity schema="apartment" name="houses" column="images" />
+			<entity schema="apartment" name="users" />
+		</group>
+		<script name="Sample Query Editor" id="Editor_4f26d69" language="SQL" >
+			<string><![CDATA[// PLACE THE CARET OVER EACH LINE AND PRESS EXECUTE ( F8 )
+
+apartment.houses.find()
+
+//OR
+
+USE apartment;
+db.houses.find()
+
+//OR
+
+USE apartment;
+db.getCollection('houses').find()]]></string>
+		</script>
+		<browser id="Browse_5213bf7" name="Sample Relational Data Browse" confirm_updates="y" >
+			<browse_table schema="apartment" entity="houses" x="20" y="20" width="400" height="300" record_view="y" >
+				<browse_table schema="apartment" entity="users" fk="Ref" x="440" y="20" width="500" height="350" record_view="y" />
+			</browse_table>
+		</browser>
+		<query id="Query_3f3f951" name="Sample Query Builder" >
+			<query_table schema="apartment" name="houses" alias="houses" x="48" y="48" >
+				<column name="_id" />
+				<column name="user" />
+				<column name="created_on" />
+				<column name="invalid_after" />
+				<column name="is_rented" />
+				<column name="contact_number" />
+				<column name="alternative_contact_number" />
+				<column name="lat" />
+				<column name="long" />
+				<column name="address" />
+				<column name="thana" />
+				<column name="post_code" />
+				<column name="zilla" />
+				<column name="rent" />
+				<column name="size" />
+				<column name="floor" />
+				<column name="security_guards" />
+				<column name="lift_or_escalator" />
+				<column name="month_of_availability" />
+				<column name="rooms" />
+				<column name="nearby" />
+				<column name="images" />
+				<query_table schema="apartment" name="users" alias="users" x="320" y="48" fk="Ref" type="Inner Join" >
+					<column name="_id" />
+					<column name="name" />
+					<column name="email" />
+					<column name="address" />
+					<column name="thana" />
+					<column name="post_code" />
+					<column name="zilla" />
+					<column name="password" />
+					<column name="profile_image" />
+					<column name="profile_avatar" />
+					<column name="contact_number" />
+					<column name="alternative_contact" />
+					<column name="created_on" />
+					<column name="last_logged_in" />
+					<column name="is_admin" />
+				</query_table>
+			</query_table>
+		</query>
+	</layout>
+</project>

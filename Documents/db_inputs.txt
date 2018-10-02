@@ -1,0 +1,74 @@
+
+User: {
+  "_id": "5babeedb443b670700fac1b7",
+  "name": "Istiyak Siddiquee",
+  "email": "istiyaksiddiquee@yahoo.com",
+  "address": "13/C-7/C, Block-B, Babar Road, Mohammad Pur",
+  "thana": "mohammadpur",
+  "post_code": 1207,
+  "zilla": "Dhaka",
+  "password": "123456",
+  "profile_image": "images_goes_here_in_base64_format",
+  "profile_avatar": "avatar_goes_here_in_base64_format",
+  "contact_number": "01710312915",
+  "alternative_contact": "none",
+  "created_on": "2018-11-30T18:00:00.000Z",
+  "last_logged_in": "2018-12-01T18:00:00.000Z",
+  "is_admin": true
+}
+
+
+house: {
+  "_id": "5babefe1443b670700fac1b9",
+  "user": "5babeedb443b670700fac1b7",
+  "created_on": "2018-01-11T18:00:00.000Z",
+  "invalid_after": "02-15-2018",
+  "is_rented": "false",
+  "contact_number": "01710312915",
+  "alternative_contact_number": "nill",
+  "lat": "12.35",
+  "long": "1568.6",
+  "address": "13/C",
+  "thana": "Mohammadpur",
+  "post_code": "1207",
+  "zilla": "dhaka",
+  "rent": "5000",
+  "size": "1800",
+  "floor": "5",
+  "security_guards": "false",
+  "lift_or_escalator": "false",
+  "month_of_availability": "12-01-2018",
+  "rooms": {
+    "bedroom": "2",
+    "bathroom": "2",
+    "kitchen": "1",
+    "drawing": "1",
+    "living": "1"
+  },
+  "nearby": [
+    {
+      "type": "mosque",
+      "distance": "12.56",
+      "lat": "12.3",
+      "long": "65.6",
+      "name": "mosjid"
+    },
+    {
+      "type": "market",
+      "distance": "56.8",
+      "lat": "45.6",
+      "long": "96.4",
+      "name": "market"
+    }
+  ],
+  "images": [
+    {
+      "tag": "front_room",
+      "value": "base64_value_here"
+    },
+    {
+      "tag": "bed_1",
+      "value": "base64_value_here"
+    }
+  ]
+}
