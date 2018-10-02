@@ -1,1 +1,1 @@
-This is the node back end of the app. It is dockerized and it will be created and destroyed using the up and down files.
+This is the node back end of the app.
