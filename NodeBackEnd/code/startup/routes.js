@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const users = require('../routes/users');
 const auth = require('../routes/auth');
 const error = require('../middleware/error');
@@ -9,5 +10,6 @@ module.exports = function(app) {
   app.use('/api/users', users);
   app.use('/api/auth', auth);
   
+  app.use(morgan);
   app.use(error);
 }
