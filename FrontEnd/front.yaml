@@ -1,0 +1,10 @@
+version: '3'
+services:
+  ajax-nginx-work:
+    build:
+      context: .
+      dockerfile: FrontDockerFile
+      args:
+        buildno: 1
+    ports:
+    - "80:80"
