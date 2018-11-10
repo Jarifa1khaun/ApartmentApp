@@ -28,7 +28,7 @@ services:
     networks:
       - back
     volumes:
-      - E:\db_back:/data/db
+      - ${DATA_DIR}:/data/db
   #--------------------------------------
   web-front:
     container_name: ${UI_CONTAINER_NAME}
