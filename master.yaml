@@ -14,8 +14,18 @@ services:
       CONTAINER_PORT: ${CONTAINER_PORT}
     ports:
     - ${HOST_PORT}:${CONTAINER_PORT}
+    depends_on:
+      - "mongodb"
     networks:
     - back
+  #--------------------------------------
+  mongodb:
+    image: mongo:latest
+    container_name: apartmentmongo
+    networks:
+      - back
+    volumes:
+      - E:\db_back:/data/db
   #--------------------------------------
   web-front:
     container_name: apartment_front
@@ -26,6 +36,9 @@ services:
         buildno: 1
     ports:
     - "80:80"
+    depends_on:
+      - "mongodb"
+      - "node"
     links:
     - node
     networks:
