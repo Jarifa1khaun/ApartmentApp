@@ -10,5 +10,7 @@ require('./startup/db')();
 require('./startup/config')();
 require('./startup/validation')();
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+const port = process.env.CONTAINER_PORT;
+const environment = process.env.NODE_ENV;
+
+app.listen(port, () => console.log(`${environment} server is running on port ${port}...`));

@@ -9,4 +9,8 @@ module.exports = function() {
   if (!config.get('mongoURL')) {
     throw new Error('FATAL ERROR: mongodb URL is not defined.');
   }
+
+  const privateKey = config.get('jwtPrivateKey');
+
+  console.log(`server is working with ${privateKey}`);
 }
