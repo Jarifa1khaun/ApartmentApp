@@ -1,19 +1,22 @@
+###########################################
 version: '3'
 ###########################################
 services:  
   #--------------------------------------
   node:
-    container_name: apartment_server
+    container_name: ${SERVER_CONTAINER_NAME}
     build:
       context: ./NodeBackEnd
       dockerfile: NodeDockerFile
       args:        
-        -  CONTAINER_PORT:${CONTAINER_PORT}
+        -  CONTAINER_PORT:${SERVER_CONTAINER_PORT}
     environment:
       NODE_ENV: ${NODE_ENV}
-      CONTAINER_PORT: ${CONTAINER_PORT}
+      CONTAINER_PORT: ${SERVER_CONTAINER_PORT}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      DB_URI: mongodb://${DB_CONTAINER_NAME}:${DB_PORT}/${DB_NAME}      
     ports:
-    - ${HOST_PORT}:${CONTAINER_PORT}
+    - ${SERVER_HOST_PORT}:${SERVER_CONTAINER_PORT}
     depends_on:
       - "mongodb"
     networks:
@@ -21,21 +24,21 @@ services:
   #--------------------------------------
   mongodb:
     image: mongo:latest
-    container_name: apartmentmongo
+    container_name: ${DB_CONTAINER_NAME}
     networks:
       - back
     volumes:
       - E:\db_back:/data/db
   #--------------------------------------
   web-front:
-    container_name: apartment_front
+    container_name: ${UI_CONTAINER_NAME}
     build:
       context: ./FrontEnd
       dockerfile: FrontDockerFile
       args:
         buildno: 1
     ports:
-    - "80:80"
+    - ${FRONT_HOST_PORT}:${FRONT_CONTAINER_PORT}
     depends_on:
       - "mongodb"
       - "node"
