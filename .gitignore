@@ -1,2 +1,3 @@
 NodeBackEnd/code/node_modules/*
 .vscode
+NodeBackEnd/code/package-lock.json
