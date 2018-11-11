@@ -1,0 +1,35 @@
+###########################################
+version: '3'
+###########################################
+services:  
+  #--------------------------------------
+  node:
+    container_name: ${SERVER_CONTAINER_NAME}
+    build:
+      context: ./NodeBackEnd
+      dockerfile: NodeDockerFile
+      args:        
+        -  CONTAINER_PORT:${SERVER_CONTAINER_PORT}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      CONTAINER_PORT: ${SERVER_CONTAINER_PORT}
+      JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
+      DB_URI: mongodb://${DB_CONTAINER_NAME}:${DB_PORT}/${DB_NAME}      
+    ports:
+    - ${SERVER_HOST_PORT}:${SERVER_CONTAINER_PORT}
+    depends_on:
+      - "mongodb"
+    networks:
+    - back
+  #--------------------------------------
+  mongodb:
+    image: mongo:latest
+    container_name: ${DB_CONTAINER_NAME}
+    networks:
+      - back
+    volumes:
+      - ${DATA_DIR}:/data/db  
+###########################################
+networks:  
+  back:
+    driver: bridge
