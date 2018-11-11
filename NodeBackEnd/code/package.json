@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
-    "config": "^1.29.4",
     "express": "^4.16.2",
     "express-async-errors": "^2.1.0",
     "fawn": "^2.1.5",
@@ -21,8 +20,8 @@
     "mongoose": "^5.0.2",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
-    "winston": "^2.4.0",
-    "winston-mongodb": "^3.0.0"
+    "swagger-ui": "^3.19.5",
+    "swagger-ui-express": "^4.0.1"
   },
   "keywords": [],
   "author": "",
