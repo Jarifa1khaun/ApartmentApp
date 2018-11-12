@@ -28,8 +28,10 @@ services:
     networks:
       - back
     volumes:
-      - ${DATA_DIR}:/data/db  
+      - mongo-dev-vol:/data/db
 ###########################################
 networks:  
   back:
     driver: bridge
+volumes:
+  mongo-dev-vol:
