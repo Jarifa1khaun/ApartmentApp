@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "bcrypt": "^1.0.3",
+    "cors": "^2.8.5",
     "express": "^4.16.2",
     "express-async-errors": "^2.1.0",
     "fawn": "^2.1.5",

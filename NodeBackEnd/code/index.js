@@ -1,8 +1,10 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
 
 app.use(morgan('dev'));
+app.use(cors());
 
 require('./startup/routes')(app);
 require('./startup/db')();
