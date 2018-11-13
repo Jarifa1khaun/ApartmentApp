@@ -1,0 +1,1 @@
+docker-compose -f web.yaml build && docker-compose -f web.yaml up

@@ -1,0 +1,20 @@
+###########################################
+version: '3'
+###########################################
+services:  
+  #--------------------------------------  
+  web-front:
+    container_name: ${UI_CONTAINER_NAME}
+    build:
+      context: ./FrontEnd
+      dockerfile: FrontDockerFile
+      args:
+        buildno: 1
+    ports:
+    - ${FRONT_HOST_PORT}:${FRONT_CONTAINER_PORT}
+    networks:
+    - front
+###########################################
+networks:
+  front:        
+    driver: bridge
