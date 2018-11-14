@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "@google/maps": "^0.5.5",
     "bcrypt": "^1.0.3",
     "cors": "^2.8.5",
     "express": "^4.16.2",
@@ -22,7 +23,8 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
     "swagger-ui": "^3.19.5",
-    "swagger-ui-express": "^4.0.1"
+    "swagger-ui-express": "^4.0.1",
+    "axios": "^0.18.0"
   },
   "keywords": [],
   "author": "",

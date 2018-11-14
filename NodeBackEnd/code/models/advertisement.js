@@ -31,112 +31,135 @@ const advertisementSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  invalid_after:  { 
+  invalid_after: {
     type: Date,
-    default: new Date(+new Date() + 31*24*60*60*1000) // default validation: 31 days 
+    default: new Date(+new Date() + 31 * 24 * 60 * 60 * 1000) // default validation: 31 days 
   },
-  is_rented:  { 
+  is_rented: {
     type: Boolean,
     required: true, // required
     default: false
-  },  
-  contact_number: { 
-    type: String, 
+  },
+  contact_number: {
+    type: String,
     required: true, // required
     trim: true,
     minlength: 11,
     maxlength: 14
   },
-  alternative_contact: { 
+  alternative_contact: {
     type: String,
     trim: true,
     minlength: 11,
     maxlength: 14
   },
-  lat: { 
+  lat: {
     type: Number,
     required: true, // required
   },
-  long: { 
+  long: {
     type: Number,
     required: true, // required
   },
-  address: { 
+  address: {
     type: String,
     trim: true
   },
-  thana: { 
+  thana: {
     type: String,
     trim: true
   },
-  postCode: { 
+  postCode: {
     type: String,
     trim: true
   },
-  zilla: { 
+  zilla: {
     type: String,
     trim: true
   },
-  rent: { 
+  rent: {
     type: Number,
     required: true, // required
   },
-  size: { 
+  size: {
     type: Number
   },
-  floor: { 
+  floor: {
     type: Number
   },
-  security_guards: { 
+  security_guards: {
     type: Boolean
   },
-  lift_escalator: { 
+  lift_escalator: {
     type: Boolean
   },
-  month_of_availability: { 
+  month_of_availability: {
     type: String,
-    enum: ['January', 'February', 'March',  'April',  'May',  'June',  'July',  'August',  'September',  'October',  'November', 'December'],
+    enum: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     required: true, // required
   },
   rooms: {
-    bedroom: { 
+    bedroom: {
       type: Number
     },
-    bathroom: { 
+    bathroom: {
       type: Number
     },
-    kitchen: { 
+    kitchen: {
       type: Number
     },
-    drawing: { 
+    drawing: {
       type: Number
     },
-    living: { 
+    living: {
       type: Number
     }
   },
   nearby: [{
+    name: {
+      type: String
+    },
+    id: {
+      type: String
+    },
+    place_id: {
+      type: String
+    },
     type: {
       type: String,
       enum: ['mosque', 'hospital', 'school', 'park', 'department_store']
     },
-    distance: { 
-      type: Number
-    }, 
-    lat: { 
+    distance: {
       type: Number
     },
-    long: { 
+    lat: {
       type: Number
     },
-    name: { 
+    long: {
+      type: Number
+    },
+    vicinity: {
       type: String
-    }
-  }], 
+    },
+    photos: [{
+      height: {
+        type: Number
+      },
+      width: {
+        type: Number
+      },
+      html_attributions: [{
+        type: String
+      }],
+      photo_reference: {
+        type: String
+      },
+    }]
+  }],
   images: [{
     tag: {
       type: String
-    }, 
+    },
     value: {
       type: String // base64 converted
     }

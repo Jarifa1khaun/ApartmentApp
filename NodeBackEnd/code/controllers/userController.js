@@ -33,28 +33,33 @@ async function createUser(req, res) {
 
 async function updateUser(req, res) {
 
-    const {
-        error
-    } = userValidator.validateUserWithoutRequired(req.body);
-
-    if (error) return res.status(400).send(error.details[0].message);    
-
-    let user = await User.findOne({
-        _id: req.body._id
-    });
-
-    if (!user) return res.status(400).send('No user found for this id.');
+    if (req.user.isAdmin === true || req.user._id === req.body._id) {
+        const {
+            error
+        } = userValidator.validateUserWithoutRequired(req.body);
     
-    user = _.pick(req.body, ['name', 'email', 'isAdmin']);
-    if (req.body.password) {
-        const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(user.password, salt);
-    }    
+        if (error) return res.status(400).send(error.details[0].message);    
     
-    User.findOneAndUpdate({ _id: req.body._id }, user, {upsert:true}, function(err, user){
-        if (err) return res.send(500, { error: err });
-        return res.send("successfully updated");
-    });        
+        let user = await User.findOne({
+            _id: req.body._id
+        });
+    
+        if (!user) return res.status(404).send('No user found for this id.');
+        
+        user = _.pick(req.body, ['name', 'email', 'isAdmin']);
+        if (req.body.password) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+        }    
+        
+        User.findOneAndUpdate({ _id: req.body._id }, user, {upsert:true}, function(err, user){
+            if (err) return res.send(500, { error: err });
+            return res.send("successfully updated");
+        });
+    } else {
+        res.status(403).send('You do not have necessary permission to perform this operation.');
+    }
+    
 };
 
 async function deleteSingleUser(req, res) {
@@ -79,7 +84,7 @@ async function getAllUser(req, res) {
 
 async function findUserById(req, res) {
 
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id);   
     res.send(_.pick(user, ['name', 'email', 'isAdmin']));
 }
 

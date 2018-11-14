@@ -9,7 +9,7 @@ router.get('/me', auth, userController.profileInfo);
 router.get('/', [auth, admin], userController.getAllUser);
 router.get('/:id', [auth, admin], userController.findUserById);
 router.post('/', userController.createUser);
-router.put('/', userController.updateUser);
+router.put('/', auth, userController.updateUser);
 router.delete('/', [auth, admin], userController.deleteSingleUser);
 
 module.exports = router;
