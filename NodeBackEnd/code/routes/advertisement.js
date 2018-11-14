@@ -4,10 +4,13 @@ const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
 const advertisementController = require('../controllers/advertisementController');
 
-router.get('/', [auth, admin], advertisementController.getAllAdvertisement);
-router.get('/:id', [auth, admin], advertisementController.findAdvertisementById);
-router.post('/', advertisementController.createAdvertisement);
-// router.put('/', userController.updateUser);
-router.delete('/', [auth, admin], advertisementController.deleteSingleAdvertisement);
+router.get('/', advertisementController.getAllAdvertisement);
+router.post('/', auth, advertisementController.createAdvertisement);
+router.put('/', advertisementController.updateAdvertisement);
+router.delete('/', auth, advertisementController.deleteSingleAdvertisement);
+
+router.get('/getAdvertisementByUserId/:id', [auth, admin], advertisementController.findAdvertisementsByUserId);
+router.get('/getAdvertisementByUserId', auth, advertisementController.findAdvertisementsByUserId);
+router.get('/:id', advertisementController.findAdvertisementById);
 
 module.exports = router;

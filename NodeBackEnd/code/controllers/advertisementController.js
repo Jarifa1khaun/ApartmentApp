@@ -11,37 +11,37 @@ async function createAdvertisement(req, res) {
 
     if (error) return res.status(400).send(error.details[0].message);
 
-    let advertisement = new Advertisement(_.pick(req.body, ['name', 'user', 'created_on']));
+    let advertisement = new Advertisement(req.body);
     await advertisement.save();
 
     return res.send(advertisement);
 };
 
-// async function updateUser(req, res) {
+async function updateAdvertisement(req, res) {
 
-//     const {
-//         error
-//     } = userValidator.validateUserWithoutRequired(req.body);
+    // const {
+    //     error
+    // } = userValidator.validateUserWithoutRequired(req.body);
 
-//     if (error) return res.status(400).send(error.details[0].message);    
+    // if (error) return res.status(400).send(error.details[0].message);    
 
-//     let user = await User.findOne({
-//         _id: req.body._id
-//     });
+    // let user = await User.findOne({
+    //     _id: req.body._id
+    // });
 
-//     if (!user) return res.status(400).send('No user found for this id.');
+    // if (!user) return res.status(400).send('No user found for this id.');
     
-//     user = _.pick(req.body, ['name', 'email', 'isAdmin']);
-//     if (req.body.password) {
-//         const salt = await bcrypt.genSalt(10);
-//         user.password = await bcrypt.hash(user.password, salt);
-//     }    
+    // user = _.pick(req.body, ['name', 'email', 'isAdmin']);
+    // if (req.body.password) {
+    //     const salt = await bcrypt.genSalt(10);
+    //     user.password = await bcrypt.hash(user.password, salt);
+    // }    
     
-//     User.findOneAndUpdate({ _id: req.body._id }, user, {upsert:true}, function(err, user){
-//         if (err) return res.send(500, { error: err });
-//         return res.send("successfully updated");
-//     });        
-// };
+    // User.findOneAndUpdate({ _id: req.body._id }, user, {upsert:true}, function(err, user){
+    //     if (err) return res.send(500, { error: err });
+    //     return res.send("successfully updated");
+    // });        
+};
 
 async function deleteSingleAdvertisement(req, res) {
     Advertisement.deleteOne({
@@ -69,8 +69,26 @@ async function findAdvertisementById(req, res) {
     res.send(advertisement);
 }
 
+
+async function findAdvertisementsByUserId(req, res) {
+
+    let userId = req.params.id; 
+    if (!userId) {
+        userId = req.user._id;
+    }
+
+    Advertisement.find({ user: userId }, function (err, advertisements) {
+        if (err) {
+            res.status(500).send(err);
+        } else {            
+            res.send(advertisements);
+        }
+    });
+}
+
 exports.createAdvertisement = createAdvertisement;
-// exports.updateUser = updateUser;
+exports.updateAdvertisement = updateAdvertisement;
 exports.getAllAdvertisement = getAllAdvertisement;
 exports.findAdvertisementById = findAdvertisementById;
 exports.deleteSingleAdvertisement = deleteSingleAdvertisement;
+exports.findAdvertisementsByUserId = findAdvertisementsByUserId;
