@@ -4,10 +4,12 @@ const BOOLEAN_TYPE = 'BOOLEAN';
 async function getSortedArray(criteria, advertisementArray) {    
 
     if (criteria !== undefined && advertisementArray !== undefined && advertisementArray.length > 0) {
+        
+        let rankedArray = [];
         for (i in advertisementArray) {
 
             let totalScore = 0;
-            advertisement = advertisementArray[i];
+            let advertisement = advertisementArray[i];
     
             totalScore += getFLPMinisumScore(NUMERIC_TYPE, criteria.rent.value, criteria.rent.priority, advertisement.rent);
             totalScore += getFLPMinisumScore(NUMERIC_TYPE, criteria.size.value, criteria.size.priority, advertisement.size);
@@ -30,10 +32,11 @@ async function getSortedArray(criteria, advertisementArray) {
             totalScore += getFLPMinisumScore(NUMERIC_TYPE, criteria.nearby.department_store.value, criteria.nearby.department_store.priority, advertisement.nearby[4].distance);
     
             advertisement.rank = totalScore;
-        }
+            rankedArray.push(advertisement);
+        } 
+        
+        return rankedArray.sort(compare);
 
-        advertisementArray.sort(compare);
-        return advertisementArray;
     } else {
         return null;
     }    

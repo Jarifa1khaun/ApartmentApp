@@ -15,7 +15,7 @@ async function createAdvertisement(req, res) {
     if (error) return res.status(400).send(error.details[0].message);
 
     let advertisement = new Advertisement(req.body);
-    advertisement.user = req.user._id;
+    advertisement.user = req.user._id
     advertisement.location = {type: "Point", coordinates: [req.body.long, req.body.lat]};
     await advertisement.save();
     res.status(200).send(advertisement);
@@ -108,17 +108,28 @@ async function getAdviceOnHouses(req, res) {
         location: {
             $geoWithin: {
                 $center: [
-                    [long, lat], radius / 3963.2
+                    [long, lat], radius
                 ]
             }
+        },
+        rent: {
+            $lte: rent
         }
-        // rent: {
-        //     $lte: rent
-        // }
     });
-    res.status(200).send(advertisements);
-    // const sortedAds = await algorithm.getSortedArray(advertisements);
-    // console.log(sortedAds);
+
+    const sortedAds = await algorithm.getSortedArray(req.body, advertisements);
+    
+    let arr = [];
+    for (i in sortedAds) {
+        arr.push(sortedAds[i].rank);
+    }
+
+    let returnObj = {
+        data: sortedAds,
+        ranks: arr
+    };
+    
+    res.status(200).send(returnObj);
 }
 
 async function nearbyUpdate(advertisement) {
