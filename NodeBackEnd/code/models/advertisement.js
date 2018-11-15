@@ -93,10 +93,24 @@ const advertisementSchema = new mongoose.Schema({
   lift_escalator: {
     type: Boolean
   },
+  parking: {
+    type: Boolean
+  },
   month_of_availability: {
     type: String,
     enum: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     required: true, // required
+  },
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true // required
+    },
+    coordinates: {
+      type: [Number],
+      required: true // required
+    }
   },
   rooms: {
     bedroom: {
@@ -165,10 +179,5 @@ const advertisementSchema = new mongoose.Schema({
     }
   }]
 });
-
-advertisementSchema.methods.generateAuthToken = function () {
-  const token = 'some token';
-  return token;
-}
 
 module.exports = mongoose.model('Advertisement', advertisementSchema, 'advertisements');

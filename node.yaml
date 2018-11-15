@@ -14,7 +14,8 @@ services:
       NODE_ENV: ${NODE_ENV}
       CONTAINER_PORT: ${SERVER_CONTAINER_PORT}
       JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
-      DB_URI: mongodb://${DB_CONTAINER_NAME}:${DB_PORT}/${DB_NAME}      
+      DB_URI: mongodb://${DB_CONTAINER_NAME}:${DB_PORT}/${DB_NAME}
+      API_KEY: ${API_KEY}
     ports:
     - ${SERVER_HOST_PORT}:${SERVER_CONTAINER_PORT}
     depends_on:

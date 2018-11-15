@@ -14,4 +14,6 @@ router.get('/getAdvertisementByUserId/:id', [auth, admin], advertisementControll
 router.get('/getAdvertisementByUserId', auth, advertisementController.findAdvertisementsByUserId);
 router.get('/:id', advertisementController.findAdvertisementById);
 
+router.post('/getAdvice', advertisementController.getAdviceOnHouses);
+
 module.exports = router;

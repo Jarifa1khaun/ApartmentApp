@@ -1,0 +1,35 @@
+searching 
+- inputs: 	
+		lat long => center 
+		radius 
+		filters with priority 
+- output: 
+		all the houses that fall in the circle, 
+		sorted by their flp minisum algorithm rank 
+		smallest rank value gets the top place
+1. load all the houses at first; load the id and lat long parameter only to save space and for efficiency
+2. calculate and separate those that are inside the circle 
+3. iterate through the list of eligible houses and calculate their minisum rank 
+4. sort the list using minisum rank, toppest being the smallest 
+
+
+
+storing 
+1. validate every field using joi 
+2. send to google places api for nearby fields (5/6 times)
+
+
+decisions
+- range won't be used because range is used for filtering, we are not showing filtered result
+	we will show suggestion about every house that's within the radius based on user's expectation
+- numerical values will signify highest possible value, values that are beyond this 
+	will be pruned away and ignored. 
+- there will be five priority bands, HIGHEST, HIGH, MEDIUM, LOW, LOWEST.
+- priorities will be reversed valued. i.e. HIGHEST will be translated to numerical value 1 
+	HIGH to 2, MEDIUM to 3, LOW to 4, LOWEST to 5. 
+- house with the least minisum value will be shown first, highest on the last. 
+- boolean fields will be translated to match or non-match. match will result in 0(zero) and 
+    non-match in 1. this way expected values will get preference.
+- nearby will be treated differently. database value will be on the left side of the subtraction, 
+    resulting a negative value for values less than the specified one. this will give preference to 
+    close proximity establishments, where as bigger distances than the specified will be treated the same way as before.
