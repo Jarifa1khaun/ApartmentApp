@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
 const auth = require('../middleware/auth');
 const admin = require('../middleware/admin');
-const mapUtils = require('../helper/mapsUtil');
+
 const advertisementController = require('../controllers/advertisementController');
 
 router.get('/', advertisementController.getAllAdvertisement);
