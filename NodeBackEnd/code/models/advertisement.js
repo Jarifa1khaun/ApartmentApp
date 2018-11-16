@@ -33,7 +33,7 @@ const advertisementSchema = new mongoose.Schema({
   },
   invalid_after: {
     type: Date,
-    default: new Date(+new Date() + 31 * 24 * 60 * 60 * 1000) // default validation: 31 days 
+    default: new Date(+new Date() + 31 * 24 * 60 * 60 * 1000).getTime() // default validation: 31 days 
   },
   is_rented: {
     type: Boolean,

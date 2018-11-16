@@ -30,15 +30,15 @@ async function updateAdvertisement(req, res) {
             if (req.user.isAdmin === true || advertisement.user === req.user._id) {
                 const status = await nearbyUpdate(advertisement);
                 if (status === 200) {
-                    res.status(status).send("successfully updated.");
+                    return res.status(status).send("successfully updated.");
                 } else {
-                    res.status(status).send("something wrong happened.");
+                    return res.status(status).send("something wrong happened.");
                 }
             } else {
-                res.status(403).send('You do not have necessary permission to perform this operation.');
+                return res.status(403).send('You do not have necessary permission to perform this operation.');
             }
         } else {
-            res.status(404).send('Item not found');
+           return res.status(404).send('Item not found');
         }
     } catch (error) {
         console.log(error);
@@ -46,11 +46,22 @@ async function updateAdvertisement(req, res) {
 };
 
 async function deleteSingleAdvertisement(req, res) {
-    await Advertisement.deleteOne({
-        _id: req.body._id
-    }, function (err) {
-        if (error) return res.status(400).send(error.details[0].message);
-    });
+
+    const advertisement = await Advertisement.findById(req.body._id);
+    if (advertisement) {
+        if (req.user.isAdmin === true || advertisement.user === req.user._id) {
+            await Advertisement.deleteOne({
+                _id: req.body._id
+            }, function (err) {
+                if (error) return res.status(400).send(error.details[0].message);
+            });
+        } else {
+            return res.status(403).send('You do not have necessary permission to perform this operation.');
+        }
+    } else {
+        return res.status(404).send('Item not found');
+    }
+    
     return res.status(200).send('advertisement deletion successful');
 }
 
@@ -108,13 +119,14 @@ async function getAdviceOnHouses(req, res) {
         location: {
             $geoWithin: {
                 $center: [
-                    [long, lat], radius
+                    [long, lat], radius/1000
                 ]
             }
         },
         rent: {
             $lte: rent
-        }
+        },
+        is_rented: false
     });
 
     const sortedAds = await algorithm.getSortedArray(req.body, advertisements);

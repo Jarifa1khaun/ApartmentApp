@@ -8,7 +8,12 @@ module.exports = function (req, res, next) {
 
   try {
     const jwtPrivateKey = process.env.JWT_PRIVATE_KEY;
-    const decoded = jwt.verify(token, jwtPrivateKey);    
+    const decoded = jwt.verify(token, jwtPrivateKey);
+    
+    if (decoded.validity === undefined || decoded.validity < new Date().getTime()) {
+      return res.status(401).send('Token timeout. Need to login again.');
+    }
+
     req.user = decoded;
     next();
   } catch (ex) {
