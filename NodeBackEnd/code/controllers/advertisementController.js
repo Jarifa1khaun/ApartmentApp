@@ -16,7 +16,10 @@ async function createAdvertisement(req, res) {
 
     let advertisement = new Advertisement(req.body);
     advertisement.user = req.user._id
-    advertisement.location = {type: "Point", coordinates: [req.body.long, req.body.lat]};
+    advertisement.location = {
+        type: "Point",
+        coordinates: [req.body.long, req.body.lat]
+    };
     await advertisement.save();
     res.status(200).send(advertisement);
     nearbyUpdate(advertisement);
@@ -38,7 +41,7 @@ async function updateAdvertisement(req, res) {
                 return res.status(403).send('You do not have necessary permission to perform this operation.');
             }
         } else {
-           return res.status(404).send('Item not found');
+            return res.status(404).send('Item not found');
         }
     } catch (error) {
         console.log(error);
@@ -61,13 +64,36 @@ async function deleteSingleAdvertisement(req, res) {
     } else {
         return res.status(404).send('Item not found');
     }
-    
+
     return res.status(200).send('advertisement deletion successful');
 }
 
 async function getAllAdvertisement(req, res) {
 
-    Advertisement.find({}, function (err, advertisements) {
+    let query = {}
+    const pageNumber = parseInt(req.query.pageNumber);
+    const pageSize = parseInt(req.query.pageSize);    
+
+    if (pageNumber < 0 || pageNumber === 0) {
+        response = {
+            "error": true,
+            "message": "invalid page number, should start from 1."
+        };
+        return res.status(400).json(response);
+    }
+
+    if (pageSize < 0 || pageSize === 0) {
+        response = {
+            "error": true,
+            "message": "invalid page size, should be greater than 0."
+        };
+        return res.status(400).json(response);
+    }
+
+    query.skip = pageSize * (pageNumber - 1);
+    query.limit = pageSize;
+
+    Advertisement.find({}, {}, query, function (err, advertisements) {
         if (err) {
             if (error) return res.status(500).send(error.details[0].message);
         } else {
@@ -119,7 +145,7 @@ async function getAdviceOnHouses(req, res) {
         location: {
             $geoWithin: {
                 $center: [
-                    [long, lat], radius/1000
+                    [long, lat], radius / 1000
                 ]
             }
         },
@@ -128,7 +154,7 @@ async function getAdviceOnHouses(req, res) {
     });
 
     const sortedAds = await algorithm.getSortedArray(req.body, advertisements);
-    
+
     let arr = [];
     for (i in sortedAds) {
         arr.push(sortedAds[i].rank);
@@ -138,7 +164,7 @@ async function getAdviceOnHouses(req, res) {
         data: sortedAds,
         ranks: arr
     };
-    
+
     res.status(200).send(returnObj);
 }
 

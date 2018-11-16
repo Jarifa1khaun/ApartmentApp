@@ -73,7 +73,30 @@ async function deleteSingleUser(req, res) {
 
 async function getAllUser(req, res) {
 
-    User.find({}, function (err, users) {
+    let query = {}
+    const pageNumber = parseInt(req.query.pageNumber);
+    const pageSize = parseInt(req.query.pageSize);    
+
+    if (pageNumber < 0 || pageNumber === 0) {
+        response = {
+            "error": true,
+            "message": "invalid page number, should start from 1."
+        };
+        return res.status(400).json(response);
+    }
+
+    if (pageSize < 0 || pageSize === 0) {
+        response = {
+            "error": true,
+            "message": "invalid page size, should be greater than 0."
+        };
+        return res.status(400).json(response);
+    }
+
+    query.skip = pageSize * (pageNumber - 1);
+    query.limit = pageSize;
+
+    User.find({}, {}, query, function (err, users) {
         if (err) {
             if (error) return res.status(500).send(error.details[0].message);
         } else {            
