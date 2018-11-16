@@ -1,0 +1,573 @@
+{
+	"info": {
+		"_postman_id": "820a6a77-9df0-4683-a7e1-c36ece8c36b8",
+		"name": "Khoj_Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"test1@test.com\",\n\t\"password\": \"123456789\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						},
+						"description": "login request"
+					},
+					"response": []
+				},
+				{
+					"name": "userList",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMjM2MzEwYjg4MTAwMTY1OTRmMTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxMzY2NzV9.mdbxqGJz3dZdj0tQ1MNq9a5yzHXCYBn4hOmYnJ0kx-0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						},
+						"description": "just send the auth token"
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMjM2MzEwYjg4MTAwMTY1OTRmMTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxMzk4NDB9.O0zF57mWfb3fy8A3WlpFRA_7sKr7MO5BsB9DWhEnI8o",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/users/5beb09e4e4af880016dc268e",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"5beb09e4e4af880016dc268e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profileInfo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVkODhkNGZiNzk4YTAwMTBiNTgxYWEiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyOTM4MTl9.TkNsnOezSBvbbAaCJFF32hS2wyY0EwXnTIzVMsQGEGs",
+								"disabled": false
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "localhost:3000/api/users/me",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								"me"
+							]
+						},
+						"description": "Profile information"
+					},
+					"response": []
+				},
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"Test 5\", \n\t\"email\": \"test5@test.com\",\n\t\"password\": \"123456789\",\n\t\"isAdmin\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						},
+						"description": "sign up form"
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMjM2MzEwYjg4MTAwMTY1OTRmMTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxMzY2NzV9.mdbxqGJz3dZdj0tQ1MNq9a5yzHXCYBn4hOmYnJ0kx-0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"_id\": \"5beb09e4e4af880016dc268e\",\n\t \"name\": \"edited 1\",\n    \"email\": \"test1@test.com\",\n\t\"isAdmin\": true\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						},
+						"description": "add all the parameters of user object, even if its not updated."
+					},
+					"response": []
+				},
+				{
+					"name": "userDelete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMGJmOTNmYjVhMzAwMTYwOTg0ODEiLCJpYXQiOjE1NDIxMzA2ODF9.xMw2lXqrsord3NheKZduwi4dJkaqRxvhV2NTV1xyU0s",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"_id\": \"5beb0a87e4af880016dc268f\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						},
+						"description": "only works if you are an admin"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Advertisement",
+			"item": [
+				{
+					"name": "createAdvertisement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyODQxMDN9.ZYlx2JpLGbGB8ZKnnUlnBzDjamhjeuWfETSxKTbswOI",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"test house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.7514013,\n\t\"long\": 90.3746233, \n\t\"rent\": 5000,\n\t\"month_of_availability\": \"February\",\n\t\"user\": \"5bebb0164267e50010e53ec5\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdvertisementList",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMDllNGU0YWY4ODAwMTZkYzI2OGUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNDY5MjB9.lWnNxyqIJR50l6qwdd3lxQaMD976o-W1QSXbnU31EfA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSingleAdvertisement",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMDllNGU0YWY4ODAwMTZkYzI2OGUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNDY5MjB9.lWnNxyqIJR50l6qwdd3lxQaMD976o-W1QSXbnU31EfA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/5bed63acbb6768001032fc51",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								"5bed63acbb6768001032fc51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAdvertisement",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMDllNGU0YWY4ODAwMTZkYzI2OGUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNDY5MjB9.lWnNxyqIJR50l6qwdd3lxQaMD976o-W1QSXbnU31EfA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"_id\": \"5beb4c0d84bd0d001085ef81\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createAdvertisement",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVkODhkNGZiNzk4YTAwMTBiNTgxYWEiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyOTM4MTl9.TkNsnOezSBvbbAaCJFF32hS2wyY0EwXnTIzVMsQGEGs",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"name\": \"patna house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01718040773\",\n\t\"alternative_contact\": \"12345678910\",\n\t\"lat\": 25.514536,\n\t\"long\": 84.829435,\n\t\n\t\"address\": \"address of the second house\",\n\t\"thana\": \"malibagh\",\n\t\"postCode\": \"1220\",\n\t\"zilla\": \"ctg\",\n\t\"rent\": 30000,\n\t\"size\": 1000,\n\t\"floor\": 1,\n\t\"security_guards\": true,\n\t\"lift_escalator\": true,\n\t\"month_of_availability\": \"March\",\n\t\"rooms\": {\n\t    \"bedroom\": 3,\n\t    \"bathroom\": 1,\n\t    \"kitchen\": 1,\n\t    \"drawing\": 1,\n\t    \"living\": 2\n\t  },\n\t\"images\": [\n\t\t{\n\t\t\t\"tag\": \"bedroom\",\n\t\t\t\"value\": \"this is an image for the bedroom\"\n\t\t},\n\t\t{\n\t\t\t\"tag\": \"veranda\",\n\t\t\t\"value\": \"image of veranda\"\n\t\t},\n\t\t{\n\t\t\t\"tag\": \"road\",\n\t\t\t\"value\": \"image of front road\"\n\t\t}\n\t]\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllAdvertisement",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdvertisementByUserId for admin",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNzI3OTR9.aa50RhXdfXOt04SRPkyKPaakuaRacf4Oi5FBSNLmOLk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/getAdvertisementByUserId/5bebb0164267e50010e53ec5",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								"getAdvertisementByUserId",
+								"5bebb0164267e50010e53ec5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdvertisementByUserId for logged User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxZjQyNjdlNTAwMTBlNTNlYzYiLCJpYXQiOjE1NDIxODM3MjN9.ef7byvK9nw7EbB63bJ-2q9zYgp2DZ-OcJVbkRC0gbLw",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/getAdvertisementByUserId/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								"getAdvertisementByUserId",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateAdvertisement",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyODQxMDN9.ZYlx2JpLGbGB8ZKnnUlnBzDjamhjeuWfETSxKTbswOI",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"_id\": \"5bed63acbb6768001032fc51\"\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAdvice",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyNzM2NDB9.eGaVL-v8zmU4Rje35an3wae4FFQWoaolOo96vD4ea1I",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"center_lat\": 23.7514013,\r\n\t\"center_long\": 90.3746233, \r\n\t\"radius\": 100,\r\n\t\"rent\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"size\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"floor\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"security_guards\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"lift_escalator\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"parking\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"month_of_availability\": {\r\n\t\t\"value\": \"January\",\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"rooms\": {\r\n\t\t\"bedroom\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"bathroom\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"kitchen\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"drawing\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"living\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t}\r\n\t},\r\n\t\"nearby\": {\r\n\t\t\"mosque\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"hospital\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},  \r\n\t\t\"school\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},  \r\n\t\t\"park\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},  \r\n\t\t\"department_store\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t}\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "localhost:3000/api/advertisement/getAdvice",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"advertisement",
+								"getAdvice"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
