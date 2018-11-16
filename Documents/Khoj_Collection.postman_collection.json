@@ -46,7 +46,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMjM2MzEwYjg4MTAwMTY1OTRmMTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxMzY2NzV9.mdbxqGJz3dZdj0tQ1MNq9a5yzHXCYBn4hOmYnJ0kx-0",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
 								"type": "text"
 							}
 						],
@@ -55,7 +55,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/users/",
+							"raw": "localhost:3000/api/users/?pageNumber=1&pageSize=1",
 							"host": [
 								"localhost"
 							],
@@ -64,6 +64,16 @@
 								"api",
 								"users",
 								""
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "1"
+								}
 							]
 						},
 						"description": "just send the auth token"
@@ -102,19 +112,19 @@
 				},
 				{
 					"name": "profileInfo",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVkODhkNGZiNzk4YTAwMTBiNTgxYWEiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyOTM4MTl9.TkNsnOezSBvbbAaCJFF32hS2wyY0EwXnTIzVMsQGEGs",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
 								"disabled": false
 							}
 						],
-						"body": {},
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
 						"url": {
 							"raw": "localhost:3000/api/users/me",
 							"host": [
@@ -144,7 +154,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test 5\", \n\t\"email\": \"test5@test.com\",\n\t\"password\": \"123456789\",\n\t\"isAdmin\": true\n}"
+							"raw": "{\n\t\"name\": \"Test 2\", \n\t\"email\": \"test2@test.com\",\n\t\"password\": \"123456789\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/users/",
@@ -248,7 +258,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyODQxMDN9.ZYlx2JpLGbGB8ZKnnUlnBzDjamhjeuWfETSxKTbswOI",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
 								"type": "text"
 							},
 							{
@@ -260,7 +270,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"test house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.7514013,\n\t\"long\": 90.3746233, \n\t\"rent\": 5000,\n\t\"month_of_availability\": \"February\",\n\t\"user\": \"5bebb0164267e50010e53ec5\"\n}"
+							"raw": "{\n\t\"name\": \"PM house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.765223, \n\t\"long\": 90.382972,\n\t\"rent\": 40000,\n\t\"sublet\": false,\n\t\"month_of_availability\": \"February\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/advertisement/",
@@ -285,7 +295,8 @@
 							{
 								"key": "x-auth-token",
 								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMDllNGU0YWY4ODAwMTZkYzI2OGUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNDY5MjB9.lWnNxyqIJR50l6qwdd3lxQaMD976o-W1QSXbnU31EfA",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"body": {
@@ -293,7 +304,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/advertisement/",
+							"raw": "localhost:3000/api/advertisement/?pageNumber=3&pageSize=5",
 							"host": [
 								"localhost"
 							],
@@ -302,6 +313,16 @@
 								"api",
 								"advertisement",
 								""
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "3"
+								},
+								{
+									"key": "pageSize",
+									"value": "5"
+								}
 							]
 						}
 					},
@@ -539,7 +560,8 @@
 							{
 								"key": "x-auth-token",
 								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyNzM2NDB9.eGaVL-v8zmU4Rje35an3wae4FFQWoaolOo96vD4ea1I",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							},
 							{
 								"key": "Content-Type",
@@ -550,7 +572,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"center_lat\": 23.7514013,\r\n\t\"center_long\": 90.3746233, \r\n\t\"radius\": 100,\r\n\t\"rent\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"size\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"floor\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"security_guards\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"lift_escalator\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"parking\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"month_of_availability\": {\r\n\t\t\"value\": \"January\",\r\n\t\t\"priority\": 3\r\n\t},\r\n\t\"rooms\": {\r\n\t\t\"bedroom\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"bathroom\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"kitchen\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"drawing\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"living\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t}\r\n\t},\r\n\t\"nearby\": {\r\n\t\t\"mosque\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},\r\n\t\t\"hospital\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},  \r\n\t\t\"school\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},  \r\n\t\t\"park\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t},  \r\n\t\t\"department_store\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": 3\r\n\t\t}\r\n\t}\r\n}"
+							"raw": "{\r\n\t\"center_lat\": 23.770832,\r\n\t\"center_long\": 90.365729, \r\n\t\"radius\": 100,\r\n\t\"sublet\": false,\r\n\t\"rent\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"size\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"floor\": {\r\n\t\t\"value\": 10,\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"security_guards\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"lift_escalator\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"parking\": {\r\n\t\t\"value\": true,\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"month_of_availability\": {\r\n\t\t\"value\": \"January\",\r\n\t\t\"priority\": \"HIGHEST\"\r\n\t},\r\n\t\"rooms\": {\r\n\t\t\"bedroom\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},\r\n\t\t\"bathroom\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},\r\n\t\t\"kitchen\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},\r\n\t\t\"drawing\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},\r\n\t\t\"living\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t}\r\n\t},\r\n\t\"nearby\": {\r\n\t\t\"mosque\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},\r\n\t\t\"hospital\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},  \r\n\t\t\"school\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},  \r\n\t\t\"park\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t},  \r\n\t\t\"department_store\": {\r\n\t\t\t\"value\": 10,\r\n\t\t\t\"priority\": \"HIGHEST\"\r\n\t\t}\r\n\t}\r\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/advertisement/getAdvice",
