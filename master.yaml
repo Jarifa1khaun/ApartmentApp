@@ -16,6 +16,7 @@ services:
       JWT_PRIVATE_KEY: ${JWT_PRIVATE_KEY}
       DB_URI: mongodb://${DB_CONTAINER_NAME}:${DB_PORT}/${DB_NAME}
       API_KEY: ${API_KEY}
+      SESSION_DURATION: ${SESSION_DURATION}
     ports:
     - ${SERVER_HOST_PORT}:${SERVER_CONTAINER_PORT}
     depends_on:

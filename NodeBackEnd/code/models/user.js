@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 5,
     maxlength: 255,
-    unique: true
+    unique: true,
+    index: true
   },
   password: {
     type: String,
@@ -25,8 +26,10 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.methods.generateAuthToken = function() { 
-  const jwtPrivateKey =process.env.JWT_PRIVATE_KEY;  
-  const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin, validity: new Date(+new Date() +  5 * 60 * 1000).getTime() }, jwtPrivateKey); // change 5
+  const jwtPrivateKey = process.env.JWT_PRIVATE_KEY; 
+  const sessionDuration =  process.env.SESSION_DURATION;
+  
+  const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin, validity: new Date().getTime() + sessionDuration * 60 * 1000 }, jwtPrivateKey); // change 5
   return token;
 }
 

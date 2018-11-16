@@ -96,6 +96,10 @@ const advertisementSchema = new mongoose.Schema({
   parking: {
     type: Boolean
   },
+  sublet: {
+    type: Boolean,
+    required: true // required
+  },
   month_of_availability: {
     type: String,
     enum: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
@@ -110,7 +114,7 @@ const advertisementSchema = new mongoose.Schema({
     coordinates: {
       type: [Number],
       required: true // required
-    }
+    }    
   },
   rooms: {
     bedroom: {
@@ -179,5 +183,7 @@ const advertisementSchema = new mongoose.Schema({
     }
   }]
 });
+
+advertisementSchema.index({ location: '2dsphere' });
 
 module.exports = mongoose.model('Advertisement', advertisementSchema, 'advertisements');

@@ -113,7 +113,7 @@ async function getAdviceOnHouses(req, res) {
     const lat = req.body.center_lat;
     const long = req.body.center_long;
     const radius = req.body.radius;
-    const rent = req.body.rent.value;
+    const subletVal = req.body.sublet;
 
     const advertisements = await Advertisement.find({
         location: {
@@ -123,9 +123,7 @@ async function getAdviceOnHouses(req, res) {
                 ]
             }
         },
-        rent: {
-            $lte: rent
-        },
+        sublet: subletVal,
         is_rented: false
     });
 
