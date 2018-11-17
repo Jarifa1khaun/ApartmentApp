@@ -435,7 +435,7 @@
 				"tags": [
 					"Advertisement"
 				],
-				"description": "Creates a new user in the store. Duplicate email not allowed",
+				"description": "Creates a new advertisement in the db.",
 				"operationId": "creteAdvertisement",
 				"parameters": [
 					{
@@ -446,28 +446,12 @@
 						"type": "string"
 					},
 					{
-						"name": "user",
+						"name": "advertisement",
 						"in": "body",
-						"description": "user information that needs to be stored",
+						"description": "advertisement information that needs to be stored",
 						"required": true,
 						"schema": {
-							"type": "object",
-							"required": [
-								"name",
-								"email",
-								"password"
-							],
-							"properties": {
-								"name": {
-									"type": "string"
-								},
-								"email": {
-									"type": "string"
-								},
-								"password": {
-									"type": "string"
-								}
-							}
+							"$ref": "#/definitions/Advertisement"
 						}
 					}
 				],
@@ -475,17 +459,11 @@
 					"200": {
 						"description": "response sent after new user creation",
 						"schema": {
-							"$ref": "#/definitions/User"
-						},
-						"headers": {
-							"x-auth-token": {
-								"type": "string",
-								"description": "a JWT token generated for authentication of future requests"
-							}
+							"$ref": "#/definitions/Advertisement"
 						}
 					},
 					"400": {
-						"description": "response sent after new user creation",
+						"description": "response sent after new advertisement creation",
 						"schema": {
 							"$ref": "#/definitions/Error"
 						}
@@ -599,6 +577,187 @@
 					},
 					"500": {
 						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/advertisement/${id}": {
+			"get": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "returns a single advertisement",
+				"operationId": "findAdvertisementById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "The id of the advertisement of interest"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "a single advertisement object",
+						"schema": {
+							"$ref": "#/definitions/Advertisement"
+						}
+					},
+					"404": {
+						"description": "response sent after not finding what the user is looking for",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/advertisement/getAdvertisementByUserId": {
+			"get": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "Returns all advertisement created by current user",
+				"operationId": "findAdvertisementsByUserId",
+				"parameters": [
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "maximum number of results to return",
+						"required": false,
+						"type": "integer"
+					},
+					{
+						"name": "pageNumber",
+						"in": "query",
+						"description": "index of page, starts from 0 (zero)",
+						"required": false,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "array of advertisement objects",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Advertisements"
+							}
+						}
+					},
+					"400": {
+						"description": "response sent after getting an invalid request",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/advertisement/getAdvertisementByUserId/${id}": {
+			"get": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "advertisement by one particular user",
+				"operationId": "Admin findAdvertisementsByUserId",
+				"parameters": [
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "maximum number of results to return",
+						"required": false,
+						"type": "integer"
+					},
+					{
+						"name": "pageNumber",
+						"in": "query",
+						"description": "index of page, starts from 0 (zero)",
+						"required": false,
+						"type": "integer"
+					},
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "The id of the user of interest"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "array of advertisement objects",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Advertisements"
+							}
+						}
+					},
+					"400": {
+						"description": "response sent after getting an invalid request",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/getAdvice": {
+			"post": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "request to get advice on houses inside a circle of choice",
+				"operationId": "getAdviceOnHouses",
+				"parameters": [
+					{
+						"name": "search criteria",
+						"in": "body",
+						"description": "search preferences that needs to be stored",
+						"required": true,
+						"schema": {
+							"$ref": "#/definitions/Criteria"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response sent after new user creation",
+						"schema": {
+							"$ref": "#/definitions/Advertisement"
+						}
+					},
+					"400": {
+						"description": "response sent after new advertisement creation",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after new user creation",
 						"schema": {
 							"$ref": "#/definitions/Error"
 						}
@@ -855,6 +1014,261 @@
 				}
 			}
 		},
+		"Criteria": {
+			"type": "object",
+			"required": [
+				"center_lat",
+				"center_long",
+				"radius",
+				"sublet"
+			],
+			"properties": {
+				"center_lat": {
+					"type": "number",
+					"description": "lattitude of the center"
+				},
+				"center_long": {
+					"type": "number",
+					"description": "longitude of the center"
+				},
+				"radius": {
+					"type": "number",
+					"description": "radius of the search circle"
+				},
+				"sublet": {
+					"type": "boolean",
+					"description": "whether the user is lookig for sublet or not"
+				},
+				"rent": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "number",
+							"description": "value of the preference of the user"
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"size": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "number",
+							"description": "value of the preference of the user"
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"floor": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "number",
+							"description": "value of the preference of the user"
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"security_guards": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "boolean",
+							"description": "value of the preference of the user"
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"lift_escalator": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "boolean",
+							"description": "value of the preference of the user"
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"parking": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "boolean",
+							"description": "value of the preference of the user"
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"month_of_availability": {
+					"type": "object",
+					"properties": {
+						"value": {
+							"type": "string",
+							"description": "value of the preference of the user",
+							"enum": [
+								"January",
+								"February",
+								"March",
+								"April",
+								"May",
+								"June",
+								"July",
+								"August",
+								"September",
+								"October",
+								"November",
+								"December"
+							]
+						},
+						"priority": {
+							"$ref": "#/definitions/Priority"
+						}
+					}
+				},
+				"rooms": {
+					"type": "object",
+					"properties": {
+						"bedroom": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"bathroom": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"kitchen": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"drawing": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"living": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						}
+					}
+				},
+				"nearby": {
+					"type": "object",
+					"properties": {
+						"mosque": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"hospital": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"school": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"park": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						},
+						"departmental_store": {
+							"type": "object",
+							"properties": {
+								"value": {
+									"type": "number",
+									"description": "value of the preference of the user"
+								},
+								"priority": {
+									"$ref": "#/definitions/Priority"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
 		"Advertisements": {
 			"type": "object",
 			"properties": {
@@ -875,6 +1289,17 @@
 					"description": "A short, human readable message about the error."
 				}
 			}
+		},
+		"Priority": {
+			"type": "string",
+			"description": "priority of preferences",
+			"enum": [
+				"HIGHEST",
+				"HIGH",
+				"MEDIUM",
+				"LOW",
+				"LOWEST"
+			]
 		}
 	}
 }

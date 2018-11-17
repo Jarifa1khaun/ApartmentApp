@@ -390,11 +390,36 @@ paths:
           description: response sent after some unexpected error happened
           schema:
             $ref: "#/definitions/Error"
+  /advertisement/${id}:
+    get:
+      tags:
+        - Advertisement
+      description: returns a single advertisement
+      operationId: findAdvertisementById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The id of the advertisement of interest
+      responses:
+        200:
+          description: a single advertisement object
+          schema:
+            $ref: "#/definitions/Advertisement"
+        404: 
+          description: response sent after not finding what the user is looking for
+          schema:
+            $ref: "#/definitions/Error"
+        500: 
+          description: response sent after some unexpected error happened
+          schema:
+            $ref: "#/definitions/Error"
   /advertisement/getAdvertisementByUserId:
     get:
       tags:
         - Advertisement
-      description: Returns all advertisement from the system
+      description: Returns all advertisement created by current user
       operationId: findAdvertisementsByUserId
       parameters:
         - name: pageSize
@@ -422,23 +447,28 @@ paths:
           description: response sent after some unexpected error happened
           schema:
             $ref: "#/definitions/Error"
-  /advertisement/getAdvertisementByUserI/${sid}:
+  /advertisement/getAdvertisementByUserId/${id}:
     get:
       tags:
         - Advertisement
-      description: Returns all advertisement from the system
+      description: advertisement by one particular user
       operationId: Admin findAdvertisementsByUserId
       parameters:
-        - name: sid
-          in: path
+        - name: pageSize
+          in: query
           description: maximum number of results to return
           required: false
-          type: string
+          type: integer
         - name: pageNumber
           in: query
           description: index of page, starts from 0 (zero)
           required: false
           type: integer
+        - name: id
+          in: path
+          required: true
+          type: string
+          description: The id of the user of interest
       responses:
         200:
           description: array of advertisement objects
@@ -454,48 +484,33 @@ paths:
           description: response sent after some unexpected error happened
           schema:
             $ref: "#/definitions/Error"
-  /advertisement/getAdvertisementByUserId/${sid}:
-    get:
+  /getAdvice:
+    post:
       tags:
         - Advertisement
-      description: Returns all advertisement from the system
-      operationId: Admin findAdvertisementsByUserId
+      description: request to get advice on houses inside a circle of choice
+      operationId: getAdviceOnHouses
       parameters:
-        - name: sid
-          in: path
+        - name: search criteria
+          in: body
+          description: search preferences that needs to be stored
           required: true
-          type: string
-          description: The id of the Character to retrieve
+          schema:
+            $ref: "#/definitions/Criteria"
       responses:
         200:
-          description: A Character
+          description: response sent after new user creation
           schema:
-            $ref: "#/definitions/User"
-          examples:
-            application/json: |-
-              {
-                "name": "Knox Thunderbane",
-                "links": [
-                  {
-                    "rel": "self",
-                    "allow": [
-                      "GET", "PUT"
-                    ],
-                    "href": "/characters/1234"
-                  },
-                  {
-                    "rel": "location",
-                    "allow": [
-                      "GET", "PUT"
-                    ],
-                    "href": "/characters/1234/location"
-                  }
-                ]
-              }
-        default:
-          description: Unexpected Error
+            $ref: "#/definitions/Advertisement"
+        400:
+          description: response sent after new advertisement creation
           schema:
             $ref: "#/definitions/Error"
+        500: 
+          description: response sent after new user creation
+          schema:
+            $ref: "#/definitions/Error"
+  
 definitions:
   User:
     type: object
@@ -674,7 +689,181 @@ definitions:
               type: string
             value:
               type: string
-        
+  Criteria:
+    type: object
+    required:
+      - center_lat
+      - center_long
+      - radius
+      - sublet
+    properties:
+      center_lat:
+        type: number
+        description: lattitude of the center
+      center_long:
+        type: number
+        description: longitude of the center
+      radius:
+        type: number
+        description: radius of the search circle
+      sublet:
+        type: boolean
+        description: whether the user is lookig for sublet or not
+      rent:
+        type: object
+        properties:
+          value:
+            type: number
+            description: value of the preference of the user
+          priority:
+            $ref: "#/definitions/Priority"
+      size: 
+        type: object
+        properties:
+          value:
+            type: number
+            description: value of the preference of the user
+          priority:
+            $ref: "#/definitions/Priority"
+      floor:
+        type: object
+        properties:
+          value:
+            type: number
+            description: value of the preference of the user
+          priority:
+            $ref: "#/definitions/Priority"
+      security_guards:
+        type: object
+        properties:
+          value:
+            type: boolean
+            description: value of the preference of the user
+          priority:
+            $ref: "#/definitions/Priority"
+      lift_escalator:
+        type: object
+        properties:
+          value:
+            type: boolean
+            description: value of the preference of the user
+          priority:
+            $ref: "#/definitions/Priority"
+      parking:
+        type: object
+        properties:
+          value:
+            type: boolean
+            description: value of the preference of the user
+          priority:
+            $ref: "#/definitions/Priority"
+      month_of_availability:
+        type: object
+        properties:
+          value:
+            type: string
+            description: value of the preference of the user
+            enum:
+            - January
+            - February
+            - March 
+            - April
+            - May
+            - June
+            - July
+            - August
+            - September
+            - October
+            - November
+            - December
+          priority:
+            $ref: "#/definitions/Priority"
+      rooms:
+        type: object
+        properties:
+          bedroom: 
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          bathroom: 
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          kitchen:
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          drawing:
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          living: 
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+      nearby:
+        type: object
+        properties:
+          mosque: 
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          hospital: 
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          school:
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          park:
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
+          departmental_store: 
+            type: object
+            properties:
+              value:
+                type: number
+                description: value of the preference of the user
+              priority:
+                $ref: "#/definitions/Priority"
   Advertisements:
     type: object
     properties:
@@ -689,3 +878,12 @@ definitions:
       message:
         type: string
         description: A short, human readable message about the error.
+  Priority:
+    type: string
+    description: priority of preferences
+    enum:
+      - HIGHEST
+      - HIGH
+      - MEDIUM
+      - LOW
+      - LOWEST

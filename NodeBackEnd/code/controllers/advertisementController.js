@@ -180,10 +180,29 @@ async function findAdvertisementsByUserId(req, res) {
         userId = req.user._id;
     }
 
+    let query = {}
+    const pageNumber = parseInt(req.query.pageNumber);
+    const pageSize = parseInt(req.query.pageSize);
+
+    if (isNaN(pageNumber) || pageNumber < 0 || pageNumber === 0) {
+        return res.status(400).send({
+            message: "invalid page number, should start from 1."
+        });
+    }
+
+    if (isNaN(pageSize) || pageSize < 0 || pageSize === 0) {
+        return res.status(400).send({
+            message: "invalid page size, should be greater than 0."
+        });
+    }
+
+    query.limit = pageSize;
+    query.skip = pageSize * (pageNumber - 1);
+
     try {
         Advertisement.find({
             user: userId
-        }, function (err, advertisements) {
+        }, {}, query, function (err, advertisements) {
             if (err) {
                 res.status(500).send({
                     message: err
