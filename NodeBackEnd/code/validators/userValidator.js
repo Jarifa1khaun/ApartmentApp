@@ -16,7 +16,7 @@ function validateUserWithoutRequired(user) {
 
     const schema = {
         _id: Joi.string().alphanum(),
-        name: Joi.string().min(5).max(50).required(),
+        name: Joi.string().min(5).max(50),
         email: Joi.string().min(5).max(255).email(),
         password: Joi.string().min(5).max(255),
         isAdmin: Joi.boolean()

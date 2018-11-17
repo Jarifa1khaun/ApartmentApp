@@ -12,7 +12,9 @@ async function createAdvertisement(req, res) {
         error
     } = advertisementValidator.validateAdvertisement(req.body);
 
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send({
+        message: error.details[0].message
+    });
 
     let advertisement = new Advertisement(req.body);
     advertisement.user = req.user._id
@@ -20,94 +22,156 @@ async function createAdvertisement(req, res) {
         type: "Point",
         coordinates: [req.body.long, req.body.lat]
     };
-    await advertisement.save();
+
+    try {
+        await advertisement.save();
+    } catch (error) {
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
+
     res.status(200).send(advertisement);
     nearbyUpdate(advertisement);
 };
 
 async function updateAdvertisement(req, res) {
 
+    const {
+        error
+    } = advertisementValidator.validateAdvertisement(req.body);
+
+    if (error) return res.status(400).send({
+        message: error.details[0].message
+    });
+
     try {
-        const advertisement = await Advertisement.findById(req.body._id);
-        if (advertisement) {
-            if (req.user.isAdmin === true || advertisement.user === req.user._id) {
-                const status = await nearbyUpdate(advertisement);
-                if (status === 200) {
-                    return res.status(status).send("successfully updated.");
-                } else {
-                    return res.status(status).send("something wrong happened.");
-                }
+        const advertisementFromDb = await Advertisement.findById(req.body._id);
+        if (advertisementFromDb) {
+            if (req.user.isAdmin === true || advertisementFromDb.user === req.user._id) {
+
+                Advertisement.findOneAndUpdate({
+                    _id: req.body._id
+                }, req.body, {
+                    upsert: false
+                }, function (err, advertisement) {
+                    if (error) return res.status(500).send({
+                        message: error
+                    });
+                    return res.status(200).send({
+                        message: "successfully updated"
+                    });
+                });
+
+                nearbyUpdate(advertisementFromDb);
             } else {
-                return res.status(403).send('You do not have necessary permission to perform this operation.');
+                return res.status(403).send({
+                    message: 'You do not have necessary permission to perform this operation.'
+                });
             }
         } else {
-            return res.status(404).send('Item not found');
+            return res.status(404).send({
+                message: 'Item not found'
+            });
         }
     } catch (error) {
         console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened"
+        });
     }
 };
 
 async function deleteSingleAdvertisement(req, res) {
 
-    const advertisement = await Advertisement.findById(req.body._id);
-    if (advertisement) {
-        if (req.user.isAdmin === true || advertisement.user === req.user._id) {
-            await Advertisement.deleteOne({
-                _id: req.body._id
-            }, function (err) {
-                if (error) return res.status(400).send(error.details[0].message);
-            });
-        } else {
-            return res.status(403).send('You do not have necessary permission to perform this operation.');
-        }
-    } else {
-        return res.status(404).send('Item not found');
-    }
+    try {
+        const advertisement = await Advertisement.findById(req.body._id);
 
-    return res.status(200).send('advertisement deletion successful');
+        if (advertisement) {
+            if (req.user.isAdmin === true || advertisement.user === req.user._id) {
+                try {
+                    await Advertisement.deleteOne({
+                        _id: req.body._id
+                    }, function (err) {
+                        if (error) return res.status(400).send({
+                            message: error.details[0].message
+                        });
+                    });
+                } catch (error) {
+                    return res.status(500).send({
+                        message: "something wrong happened."
+                    });
+                }
+            } else {
+                return res.status(403).send({
+                    message: 'You do not have necessary permission to perform this operation.'
+                });
+            }
+        } else {
+            return res.status(404).send({
+                message: 'Item not found'
+            });
+        }
+
+        return res.status(200).send({
+            message: 'advertisement deletion successful'
+        });
+    } catch (error) {
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
 }
 
 async function getAllAdvertisement(req, res) {
 
     let query = {}
     const pageNumber = parseInt(req.query.pageNumber);
-    const pageSize = parseInt(req.query.pageSize);    
+    const pageSize = parseInt(req.query.pageSize);
 
-    if (pageNumber < 0 || pageNumber === 0) {
-        response = {
-            "error": true,
-            "message": "invalid page number, should start from 1."
-        };
-        return res.status(400).json(response);
+    if (isNaN(pageNumber) || pageNumber < 0 || pageNumber === 0) {
+        return res.status(400).send({
+            message: "invalid page number, should start from 1."
+        });
     }
 
-    if (pageSize < 0 || pageSize === 0) {
-        response = {
-            "error": true,
-            "message": "invalid page size, should be greater than 0."
-        };
-        return res.status(400).json(response);
+    if (isNaN(pageSize) || pageSize < 0 || pageSize === 0) {
+        return res.status(400).send({
+            message: "invalid page size, should be greater than 0."
+        });
     }
 
-    query.skip = pageSize * (pageNumber - 1);
     query.limit = pageSize;
+    query.skip = pageSize * (pageNumber - 1);
 
     Advertisement.find({}, {}, query, function (err, advertisements) {
         if (err) {
-            if (error) return res.status(500).send(error.details[0].message);
+            if (error) return res.status(500).send({
+                message: error.details[0].message
+            });
         } else {
-            res.send(advertisements);
+            res.status(200).send(advertisements);
         }
     });
 }
 
 async function findAdvertisementById(req, res) {
 
-    const advertisement = await Advertisement.findById(req.params.id);
-    res.send(advertisement);
-}
+    try {
+        const advertisement = await Advertisement.findById(req.params.id);
 
+        if (!advertisement) return res.status(404).send({
+            message: "advertisement not found."
+        });
+
+        return res.status(200).send(advertisement);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
+}
 
 async function findAdvertisementsByUserId(req, res) {
 
@@ -116,17 +180,25 @@ async function findAdvertisementsByUserId(req, res) {
         userId = req.user._id;
     }
 
-    Advertisement.find({
-        user: userId
-    }, function (err, advertisements) {
-        if (err) {
-            res.status(500).send(err);
-        } else {
-            res.send(advertisements);
-        }
-    });
+    try {
+        Advertisement.find({
+            user: userId
+        }, function (err, advertisements) {
+            if (err) {
+                res.status(500).send({
+                    message: err
+                });
+            } else {
+                res.status(200).send(advertisements);
+            }
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
 }
-
 
 async function getAdviceOnHouses(req, res) {
 
@@ -134,7 +206,9 @@ async function getAdviceOnHouses(req, res) {
         error
     } = advertisementValidator.validateSearchCriteria(req.body);
 
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).send({
+        message: error.details[0].message
+    });
 
     const lat = req.body.center_lat;
     const long = req.body.center_long;
@@ -165,7 +239,7 @@ async function getAdviceOnHouses(req, res) {
         ranks: arr
     };
 
-    res.status(200).send(returnObj);
+    return res.status(200).send(returnObj);
 }
 
 async function nearbyUpdate(advertisement) {
@@ -189,7 +263,6 @@ async function nearbyUpdate(advertisement) {
         }
     }
 }
-
 
 exports.createAdvertisement = createAdvertisement;
 exports.updateAdvertisement = updateAdvertisement;

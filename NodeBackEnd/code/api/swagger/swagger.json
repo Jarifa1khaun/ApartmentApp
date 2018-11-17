@@ -14,7 +14,7 @@
 		}
 	},
 	"host": "localhost:3000",
-	"basePath": "/",
+	"basePath": "/api",
 	"schemes": [
 		"http"
 	],
@@ -25,128 +25,854 @@
 		"application/json"
 	],
 	"paths": {
-		"/pets": {
+		"/users": {
 			"get": {
-				"description": "Returns all pets from the system that the user has access to\n",
-				"operationId": "findPets",
+				"tags": [
+					"Users"
+				],
+				"description": "Returns all user from the system if the user is authenticated and has admin privilege\n",
+				"operationId": "getAllUser",
 				"parameters": [
 					{
-						"name": "tags",
-						"in": "query",
-						"description": "tags to filter by",
-						"required": false,
-						"type": "array",
-						"collectionFormat": "csv",
-						"items": {
-							"type": "string"
-						}
-					},
-					{
-						"name": "limit",
+						"name": "pageSize",
 						"in": "query",
 						"description": "maximum number of results to return",
 						"required": false,
-						"type": "integer",
-						"format": "int32"
+						"type": "integer"
+					},
+					{
+						"name": "pageNumber",
+						"in": "query",
+						"description": "index of page, starts from 0 (zero)",
+						"required": false,
+						"type": "integer"
+					},
+					{
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
+						"required": true,
+						"type": "string"
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "pet response",
+						"description": "list of user objects",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/Users"
 						}
 					},
-					"default": {
-						"description": "unexpected error",
+					"400": {
+						"description": "response sent after pageSize or pageNumber is invalid",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"403": {
+						"description": "response sent after authorization failure",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"404": {
+						"description": "response sent after specified user not found",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
 						}
 					}
 				}
 			},
 			"post": {
-				"description": "Creates a new pet in the store.  Duplicates are allowed",
-				"operationId": "addPet",
+				"tags": [
+					"Users"
+				],
+				"description": "Creates a new user in the store. Duplicate email not allowed",
+				"operationId": "createUser",
 				"parameters": [
 					{
-						"name": "pet",
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "user",
 						"in": "body",
-						"description": "Pet to add to the store",
+						"description": "user information that needs to be stored",
 						"required": true,
 						"schema": {
-							"type": "string"
+							"type": "object",
+							"required": [
+								"name",
+								"email",
+								"password"
+							],
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
 						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "pet response",
+						"description": "response sent after new user creation",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/User"
+						},
+						"headers": {
+							"x-auth-token": {
+								"type": "string",
+								"description": "a JWT token generated for authentication of future requests"
+							}
 						}
 					},
-					"default": {
-						"description": "unexpected error",
+					"400": {
+						"description": "response sent after new user creation",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after new user creation",
+						"schema": {
+							"$ref": "#/definitions/Error"
 						}
 					}
 				}
-			}
-		},
-		"/pets/{id}": {
-			"get": {
-				"description": "Returns a user based on a single ID, if the user does not have access to the pet",
-				"operationId": "find pet by id",
+			},
+			"put": {
+				"tags": [
+					"Users"
+				],
+				"description": "Updates an user in the store.",
+				"operationId": "updateUser",
 				"parameters": [
 					{
-						"name": "id",
-						"in": "path",
-						"description": "ID of pet to fetch",
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
 						"required": true,
-						"type": "integer",
-						"format": "int64"
+						"type": "string"
+					},
+					{
+						"name": "user",
+						"in": "body",
+						"description": "user information that needs to be stored",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
+						}
 					}
 				],
 				"responses": {
 					"200": {
-						"description": "pet response",
+						"description": "response sent after new user creation",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/User"
 						}
 					},
-					"default": {
-						"description": "unexpected error",
+					"400": {
+						"description": "response sent after validation error occurred",
 						"schema": {
-							"type": "string"
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"403": {
+						"description": "response sent after authorization failure",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"404": {
+						"description": "response sent after specified user not found",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
 						}
 					}
 				}
 			},
 			"delete": {
-				"description": "deletes a single pet based on the ID supplied",
-				"operationId": "deletePet",
+				"tags": [
+					"Users"
+				],
+				"description": "deletes a user, admin privilege required",
+				"operationId": "deleteSingleUser",
 				"parameters": [
 					{
-						"name": "id",
-						"in": "path",
-						"description": "ID of pet to delete",
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
 						"required": true,
-						"type": "integer",
-						"format": "int64"
-					}
-				],
-				"responses": {
-					"204": {
-						"description": "pet deleted"
+						"type": "string"
 					},
-					"default": {
-						"description": "unexpected error",
+					{
+						"name": "_id",
+						"in": "body",
+						"description": "id of the user that admin wants to delete",
+						"required": true,
 						"schema": {
 							"type": "string"
 						}
 					}
+				],
+				"responses": {
+					"200": {
+						"description": "response sent after successful user deletion",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/me": {
+			"get": {
+				"tags": [
+					"Users"
+				],
+				"description": "Returns user info of current logged in user",
+				"operationId": "profileInfo",
+				"parameters": [
+					{
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "user details",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					},
+					"500": {
+						"description": "unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/users/{id}": {
+			"get": {
+				"tags": [
+					"Users"
+				],
+				"description": "Returns a user based on ID, admin privilege required",
+				"operationId": "findUserById",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID of user to fetch",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "user details",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					},
+					"500": {
+						"description": "unexpected error",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/auth/login": {
+			"post": {
+				"tags": [
+					"Authentication"
+				],
+				"description": "lets a user login to the system",
+				"operationId": "login",
+				"parameters": [
+					{
+						"name": "user",
+						"in": "body",
+						"description": "user information that needs for login",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"required": [
+								"email",
+								"password"
+							],
+							"properties": {
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response sent after successful login attempt",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"message": {
+									"type": "string"
+								}
+							}
+						},
+						"headers": {
+							"x-auth-token": {
+								"type": "string",
+								"description": "a JWT token generated for authentication of future requests"
+							}
+						}
+					},
+					"400": {
+						"description": "response sent after receiving invalid request",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		},
+		"/advertisement": {
+			"get": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "Returns all advertisement from the system",
+				"operationId": "getAllAdvertisement",
+				"parameters": [
+					{
+						"name": "pageSize",
+						"in": "query",
+						"description": "maximum number of results to return",
+						"required": false,
+						"type": "integer"
+					},
+					{
+						"name": "pageNumber",
+						"in": "query",
+						"description": "index of page, starts from 0 (zero)",
+						"required": false,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "array of advertisement objects",
+						"schema": {
+							"type": "array",
+							"items": {
+								"$ref": "#/definitions/Advertisements"
+							}
+						}
+					},
+					"400": {
+						"description": "response sent after getting an invalid request",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "Creates a new user in the store. Duplicate email not allowed",
+				"operationId": "creteAdvertisement",
+				"parameters": [
+					{
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "user",
+						"in": "body",
+						"description": "user information that needs to be stored",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"required": [
+								"name",
+								"email",
+								"password"
+							],
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response sent after new user creation",
+						"schema": {
+							"$ref": "#/definitions/User"
+						},
+						"headers": {
+							"x-auth-token": {
+								"type": "string",
+								"description": "a JWT token generated for authentication of future requests"
+							}
+						}
+					},
+					"400": {
+						"description": "response sent after new user creation",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after new user creation",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "Updates an user in the store.",
+				"operationId": "updateAd",
+				"parameters": [
+					{
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "user",
+						"in": "body",
+						"description": "user information that needs to be stored",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"email": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response sent after new user creation",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					},
+					"400": {
+						"description": "response sent after validation error occurred",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"403": {
+						"description": "response sent after authorization failure",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"404": {
+						"description": "response sent after specified user not found",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"Advertisement"
+				],
+				"description": "deletes a user, admin privilege required",
+				"operationId": "deleteAd",
+				"parameters": [
+					{
+						"name": "x-auth-token",
+						"in": "header",
+						"description": "JWT access token provided by server after authorization",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "_id",
+						"in": "body",
+						"description": "id of the user that admin wants to delete",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "response sent after successful user deletion",
+						"schema": {
+							"$ref": "#/definitions/User"
+						}
+					},
+					"500": {
+						"description": "response sent after some unexpected error happened",
+						"schema": {
+							"$ref": "#/definitions/Error"
+						}
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"User": {
+			"type": "object",
+			"required": [
+				"name",
+				"email",
+				"password"
+			],
+			"properties": {
+				"_id": {
+					"type": "string",
+					"description": "hash string generated by mongodb"
+				},
+				"name": {
+					"type": "string",
+					"description": "name of the user"
+				},
+				"email": {
+					"type": "string",
+					"format": "email",
+					"description": "email of the user"
+				},
+				"password": {
+					"type": "string",
+					"format": "password",
+					"description": "password of the user"
+				},
+				"isAdmin": {
+					"type": "boolean",
+					"description": "whether the user is admin or not"
+				}
+			}
+		},
+		"Users": {
+			"type": "object",
+			"properties": {
+				"users": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/User"
+					}
+				}
+			}
+		},
+		"Advertisement": {
+			"type": "object",
+			"required": [
+				"name",
+				"is_rented",
+				"contact_number",
+				"lat",
+				"long",
+				"rent",
+				"sublet",
+				"month_of_availability"
+			],
+			"properties": {
+				"_id": {
+					"type": "string",
+					"description": "hash string generated by mongodb"
+				},
+				"name": {
+					"type": "string",
+					"description": "name of the house",
+					"minLength": 5,
+					"maxLength": 100
+				},
+				"user": {
+					"type": "string",
+					"description": "_id of the user"
+				},
+				"created_on": {
+					"type": "number",
+					"description": "creation time in milisecond"
+				},
+				"invalid_after": {
+					"type": "number",
+					"description": "validity in milisecond, default validation period 31 days"
+				},
+				"is_rented": {
+					"type": "boolean",
+					"description": "whether the apartment is rented",
+					"default": false
+				},
+				"contact_number": {
+					"type": "string",
+					"minLength": 11,
+					"maxLength": 14
+				},
+				"alternative_contact": {
+					"type": "string",
+					"minLength": 11,
+					"maxLength": 14
+				},
+				"lat": {
+					"type": "number"
+				},
+				"long": {
+					"type": "number"
+				},
+				"address": {
+					"type": "string"
+				},
+				"thana": {
+					"type": "string"
+				},
+				"postode": {
+					"type": "string"
+				},
+				"zilla": {
+					"type": "string"
+				},
+				"rent": {
+					"type": "number"
+				},
+				"size": {
+					"type": "number"
+				},
+				"floor": {
+					"type": "number"
+				},
+				"security_guards": {
+					"type": "boolean"
+				},
+				"lift_escalator": {
+					"type": "boolean"
+				},
+				"parking": {
+					"type": "boolean"
+				},
+				"sublet": {
+					"type": "boolean"
+				},
+				"month_of_availability": {
+					"type": "string",
+					"enum": [
+						"January",
+						"February",
+						"March",
+						"April",
+						"May",
+						"June",
+						"July",
+						"August",
+						"September",
+						"October",
+						"November",
+						"December"
+					]
+				},
+				"rooms": {
+					"type": "object",
+					"properties": {
+						"bedroom": {
+							"type": "number"
+						},
+						"bathroom": {
+							"type": "number"
+						},
+						"kitchen": {
+							"type": "number"
+						},
+						"drawing": {
+							"type": "number"
+						},
+						"living": {
+							"type": "number"
+						}
+					}
+				},
+				"nearby": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string"
+							},
+							"name": {
+								"type": "string"
+							},
+							"place_id": {
+								"type": "string"
+							},
+							"type": {
+								"type": "string",
+								"enum": [
+									"mosque",
+									"hospital",
+									"school",
+									"park",
+									"department_store"
+								]
+							},
+							"distance": {
+								"type": "number"
+							},
+							"lat": {
+								"type": "number"
+							},
+							"long": {
+								"type": "number"
+							},
+							"vicinity": {
+								"type": "string"
+							},
+							"photos": {
+								"type": "array",
+								"items": {
+									"type": "object",
+									"properties": {
+										"height": {
+											"type": "number"
+										},
+										"width": {
+											"type": "number"
+										},
+										"html_attributions": {
+											"type": "array",
+											"items": {
+												"type": "string"
+											}
+										},
+										"photo_reference": {
+											"type": "string"
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"images": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"tag": {
+								"type": "string"
+							},
+							"value": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		},
+		"Advertisements": {
+			"type": "object",
+			"properties": {
+				"users": {
+					"type": "array",
+					"items": {
+						"$ref": "#/definitions/Advertisement"
+					}
+				}
+			}
+		},
+		"Error": {
+			"type": "object",
+			"readOnly": true,
+			"properties": {
+				"message": {
+					"type": "string",
+					"description": "A short, human readable message about the error."
 				}
 			}
 		}
