@@ -21,7 +21,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\": \"test1@test.com\",\n\t\"password\": \"123456789\"\n}"
+							"raw": "{\n\t\"email\": \"test6@test.com\",\n\t\"password\": \"123456789\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/auth/login",
@@ -46,7 +46,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyNDI5MTg2MSwiaWF0IjoxNTQyNDM3ODkxfQ.LMZEAMFkYKqA6VM6kNIKjE-4ED132oXtn5c37Wohteg",
 								"type": "text"
 							}
 						],
@@ -87,7 +87,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMjM2MzEwYjg4MTAwMTY1OTRmMTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxMzk4NDB9.O0zF57mWfb3fy8A3WlpFRA_7sKr7MO5BsB9DWhEnI8o",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyNDI5MTg2MSwiaWF0IjoxNTQyNDM3ODkxfQ.LMZEAMFkYKqA6VM6kNIKjE-4ED132oXtn5c37Wohteg",
 								"type": "text"
 							}
 						],
@@ -96,7 +96,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/users/5beb09e4e4af880016dc268e",
+							"raw": "localhost:3000/api/users/5bee8de8c229c50010ac3628",
 							"host": [
 								"localhost"
 							],
@@ -104,7 +104,7 @@
 							"path": [
 								"api",
 								"users",
-								"5beb09e4e4af880016dc268e"
+								"5bee8de8c229c50010ac3628"
 							]
 						}
 					},
@@ -117,7 +117,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyNjcyNDcwNiwiaWF0IjoxNTQyNDQwMzI0fQ.lSYuXp-p0O8MHNpOWataFHloXERQ3FQCtDnzxnUJj_k",
 								"disabled": false
 							}
 						],
@@ -154,7 +154,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"Test 2\", \n\t\"email\": \"test2@test.com\",\n\t\"password\": \"123456789\"\n}"
+							"raw": "{\n\t\"name\": \"Test 6\", \n\t\"email\": \"test6@test.com\",\n\t\"password\": \"123456789\",\n\t\"isAdmin\": true\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/users/",
@@ -185,13 +185,13 @@
 							},
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMjM2MzEwYjg4MTAwMTY1OTRmMTciLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxMzY2NzV9.mdbxqGJz3dZdj0tQ1MNq9a5yzHXCYBn4hOmYnJ0kx-0",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyMzc3NDAxNiwiaWF0IjoxNTQyNDM3Mzc0fQ.SUfNpPpe7HpWJ8ZARiBDRCh6BHkEPOlxC3VvvH5lGYA",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"_id\": \"5beb09e4e4af880016dc268e\",\n\t \"name\": \"edited 1\",\n    \"email\": \"test1@test.com\",\n\t\"isAdmin\": true\n}"
+							"raw": "{\n\t\"_id\": \"5bee8ddac229c50010ac3627\",\n\t \"name\": \"edited 1\",\n    \"email\": \"test6@test.com\",\n\t\"isAdmin\": true\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/users/",
@@ -216,7 +216,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMGJmOTNmYjVhMzAwMTYwOTg0ODEiLCJpYXQiOjE1NDIxMzA2ODF9.xMw2lXqrsord3NheKZduwi4dJkaqRxvhV2NTV1xyU0s",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyMzc3NDAxNiwiaWF0IjoxNTQyNDM3Mzc0fQ.SUfNpPpe7HpWJ8ZARiBDRCh6BHkEPOlxC3VvvH5lGYA",
 								"type": "text"
 							},
 							{
@@ -228,7 +228,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"_id\": \"5beb0a87e4af880016dc268f\"\n}"
+							"raw": "{\n\t\"_id\": \"5bee8ddac229c50010a627\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/users/",
@@ -270,7 +270,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"PM house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.765223, \n\t\"long\": 90.382972,\n\t\"rent\": 40000,\n\t\"sublet\": false,\n\t\"month_of_availability\": \"February\"\n}"
+							"raw": "{\n\t\"name\": \"gulshan house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.780896, \n\t\"long\": 90.421731,\n\t\"rent\": 80000,\n\t\"sublet\": false,\n\t\"month_of_availability\": \"February\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/advertisement/",
@@ -291,20 +291,13 @@
 					"name": "getAdvertisementList",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMDllNGU0YWY4ODAwMTZkYzI2OGUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNDY5MjB9.lWnNxyqIJR50l6qwdd3lxQaMD976o-W1QSXbnU31EfA",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/advertisement/?pageNumber=3&pageSize=5",
+							"raw": "localhost:3000/api/advertisement/?pageNumber=1&pageSize=5",
 							"host": [
 								"localhost"
 							],
@@ -317,7 +310,7 @@
 							"query": [
 								{
 									"key": "pageNumber",
-									"value": "3"
+									"value": "1"
 								},
 								{
 									"key": "pageSize",
@@ -332,19 +325,13 @@
 					"name": "getSingleAdvertisement",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViMDllNGU0YWY4ODAwMTZkYzI2OGUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNDY5MjB9.lWnNxyqIJR50l6qwdd3lxQaMD976o-W1QSXbnU31EfA",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/advertisement/5bed63acbb6768001032fc51",
+							"raw": "localhost:3000/api/advertisement/5beeb05b0b10ca0011712cb1",
 							"host": [
 								"localhost"
 							],
@@ -352,7 +339,7 @@
 							"path": [
 								"api",
 								"advertisement",
-								"5bed63acbb6768001032fc51"
+								"5beeb05b0b10ca0011712cb1"
 							]
 						}
 					},
@@ -440,7 +427,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/advertisement/",
+							"raw": "localhost:3000/api/advertisement/?pageNumber=1&pageSize=10",
 							"host": [
 								"localhost"
 							],
@@ -449,6 +436,16 @@
 								"api",
 								"advertisement",
 								""
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
 							]
 						}
 					},
@@ -461,7 +458,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIxNzI3OTR9.aa50RhXdfXOt04SRPkyKPaakuaRacf4Oi5FBSNLmOLk",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyNjcyNDcwNiwiaWF0IjoxNTQyNDQwMzI0fQ.lSYuXp-p0O8MHNpOWataFHloXERQ3FQCtDnzxnUJj_k",
 								"type": "text"
 							}
 						],
@@ -470,7 +467,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/advertisement/getAdvertisementByUserId/5bebb0164267e50010e53ec5",
+							"raw": "localhost:3000/api/advertisement/getAdvertisementByUserId/5bee8ddac229c50010ac3627?pageSize=10&pageNumber=1",
 							"host": [
 								"localhost"
 							],
@@ -479,7 +476,17 @@
 								"api",
 								"advertisement",
 								"getAdvertisementByUserId",
-								"5bebb0164267e50010e53ec5"
+								"5bee8ddac229c50010ac3627"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "10"
+								},
+								{
+									"key": "pageNumber",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -492,7 +499,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxZjQyNjdlNTAwMTBlNTNlYzYiLCJpYXQiOjE1NDIxODM3MjN9.ef7byvK9nw7EbB63bJ-2q9zYgp2DZ-OcJVbkRC0gbLw",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
 								"type": "text"
 							}
 						],
@@ -501,7 +508,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "localhost:3000/api/advertisement/getAdvertisementByUserId/",
+							"raw": "localhost:3000/api/advertisement/getAdvertisementByUserId/?pageSize=1&pageNumber=1",
 							"host": [
 								"localhost"
 							],
@@ -511,6 +518,16 @@
 								"advertisement",
 								"getAdvertisementByUserId",
 								""
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "1"
+								},
+								{
+									"key": "pageNumber",
+									"value": "1"
+								}
 							]
 						}
 					},
@@ -557,12 +574,6 @@
 					"request": {
 						"method": "POST",
 						"header": [
-							{
-								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmViYjAxNjQyNjdlNTAwMTBlNTNlYzUiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1NDIyNzM2NDB9.eGaVL-v8zmU4Rje35an3wae4FFQWoaolOo96vD4ea1I",
-								"type": "text",
-								"disabled": true
-							},
 							{
 								"key": "Content-Type",
 								"name": "Content-Type",
