@@ -117,7 +117,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmYjlmZDg0YjUzYTAwMTZmMzk2NGUiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjUyNjcyNDcwNiwiaWF0IjoxNTQyNDQwMzI0fQ.lSYuXp-p0O8MHNpOWataFHloXERQ3FQCtDnzxnUJj_k",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmZmI3MDRhZTg3ZjFkZDhkNDQwZTgiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjU0MDUyODQ5MCwiaWF0IjoxNTQyNDU0MTI4fQ.jU3krDeCPkkPmJCFLuuDtG0QAchU1ksxR84J9bHVtEE",
 								"disabled": false
 							}
 						],
@@ -258,7 +258,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVlOGRkYWMyMjljNTAwMTBhYzM2MjciLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjQ1NTY2ODc1NywiaWF0IjoxNTQyMzY5MjY4fQ.CsX-oFeTx6eNhizNfBPJjQm7156a9G0vqwmglgk21aM",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YmVmZmI3MDRhZTg3ZjFkZDhkNDQwZTgiLCJpc0FkbWluIjp0cnVlLCJ2YWxpZGl0eSI6MTU0MjU0MDUyODQ5MCwiaWF0IjoxNTQyNDU0MTI4fQ.jU3krDeCPkkPmJCFLuuDtG0QAchU1ksxR84J9bHVtEE",
 								"type": "text"
 							},
 							{
@@ -270,7 +270,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"gulshan house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.780896, \n\t\"long\": 90.421731,\n\t\"rent\": 80000,\n\t\"sublet\": false,\n\t\"month_of_availability\": \"February\"\n}"
+							"raw": "{\n\t\"name\": \"gulshan house\",\n\t\"is_rented\": false,\n\t\"contact_number\": \"01710312915\",\n\t\"lat\": 23.780896, \n\t\"long\": 90.421731,\n\t\"rent\": 80000,\n\t\"sublet\": false,\n\t\"size\": 1550,\n\t\"floor\": 5,\n\t\"security_guards\": false,\n\t\"lift_escalator\": false,\n\t\"rooms\": {\n\t\t\"bedroom\": 5,\n\t\t\"bathroom\": 2,\n\t\t\"kitchen\": 1,\n\t\t\"drawing\": 1,\n\t\t\"living\":5\n\t},\n\t\"month_of_availability\": \"February\"\n}"
 						},
 						"url": {
 							"raw": "localhost:3000/api/advertisement/",
