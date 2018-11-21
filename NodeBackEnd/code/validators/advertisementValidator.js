@@ -88,75 +88,75 @@ function validateSearchCriteria(criteria) {
         radius: Joi.number().integer().required(),
         sublet: Joi.boolean().required(),        
         rent: {
-            value: Joi.number().integer(),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.number().integer().required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },
         size: {
-            value: Joi.number().integer(),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.number().integer().required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },
         floor: {
-            value: Joi.number().integer().min(0),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.number().integer().min(0).required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },
         security_guards: {
-            value: Joi.boolean(),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.boolean().required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },
         lift_escalator: {
-            value: Joi.boolean(),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.boolean().required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },        
         parking: {
-            value: Joi.boolean(),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.boolean().required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },
         month_of_availability: {
-            value: Joi.string().valid('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
-            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+            value: Joi.string().valid('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December').required(),
+            priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
         },
         rooms: {
             bedroom: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             bathroom: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             kitchen: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             drawing: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             living: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             }
         },
         nearby: {
             mosque: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             hospital: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             school: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             park: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             },
             department_store: {
-                value: Joi.number().integer(),
-                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST')
+                value: Joi.number().integer().required(),
+                priority: Joi.string().valid('HIGHEST', 'HIGH', 'MEDIUM', 'LOW', 'LOWEST').required()
             }
         }
     };
