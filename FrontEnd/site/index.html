@@ -1,23 +1,341 @@
 <html>
-    <title>
-        Structure Test
-    </title>
-    <body>
 
-        <div>
-            <h1>Structure Test</h1>
-            <p>Click on the button below will instigate a get method call to node server and display the data.</p>
-            <button id="clickMe">Click Me</button>
+    <head>
+    <title>
+        ApartmentApp
+    </title>
+    <link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+
+<body>
+
+    <div>
+        <button onclick="document.getElementById('signin').style.display='block'" style="width:auto;">Login</button>
+
+        <div id="signin" class="modal">
+
+            <form class="modal-content animate" action="/action_page.php">
+                <!--<div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                </div>-->
+
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" class="modalText" required>
+                    <br />
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" class="modalText" required>
+                    <br />
+                    <button class="modalButton" type="submit">Login</button>
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('signin').style.display='none'" class="modalCancelBtn">Cancel</button>
+                    <span class="psw"><a href="#" onClick="$('#signin').hide(); $('#signup').show()">Signup instead ?</a></span>
+                </div>
+            </form>
         </div>
-        
-        <div id="output">
+
+        <div id="signup" class="modal">
+
+            <form class="modal-content animate" action="/action_page.php">
+                <!--<div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                    <img src="img_avatar2.png" alt="Avatar" class="avatar">
+                </div>-->
+
+                <div class="container">
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" class="modalText" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" class="modalText" required>
+
+                    <button class="modalButton" type="submit">Login</button>
+                    <!--<label>
+                        <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>-->
+                </div>
+
+                <div class="container" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('signup').style.display='none'" class="modalCancelBtn">Cancel</button>
+                    <!--<span class="psw">Forgot <a href="#">password?</a></span>-->
+                </div>
+            </form>
         </div>
-        
-        <script
-            src="https://code.jquery.com/jquery-3.3.1.min.js"
-            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-            crossorigin="anonymous">
-        </script>
-        <script src="js/action.js"></script>
-    </body>
+
+    </div>
+    <div class="form-group" style="align-content: center">
+
+        <!-- Map Region -->
+        <div id="landing_map" class="col-md-4" style="width: 500px;height: 400px"></div>
+        <br />
+        <label class="col-md-4 control-label" for="lat_label">Lattitude: </label>
+        <label class="col-md-4 control-label" id="lat" name="lat">Selected lattitude will take this place</label>
+        <br />
+        <label class="col-md-4 control-label" for="long_label">Longitude: </label>
+        <label class="col-md-4 control-label" id="long" name="long">Selected longitude will take this place</label>
+        <br />
+        <label class="col-md-4 control-label" for="radius_label">Radius: </label>
+        <input id="radius" name="radius" type="text" placeholder="radius" class="form-control input-md" required="true" value="" />
+        <label class="col-md-4 control-label" for="radius_after_label"> Meters</label>
+        <br />
+
+        <form action="">
+            <input type="radio" name="house_type" value="regular" checked="checked"> Regular
+            <input type="radio" name="house_type" value="sublet"> Sublet<br>
+        </form>
+        <button onclick="togglePreferencePanel()">Open Search Preference Panel</button>
+        <div id="searchPreferencePanel">
+            <label class="col-md-4 control-label" for="rent_label">Max Rent: </label>
+            <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="form-control input-md" required="" value="">
+            <label class="col-md-4 control-label" for="rent_preference_label">Priority : </label>
+            <select name="rent_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="size_label">Max Size: </label>
+            <input id="size" name="size" type="text" placeholder="Max acceptable size" class="form-control input-md" required="" value="">
+            <label class="col-md-4 control-label" for="size_preference_label">Priority : </label>
+            <select name="size_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="floor_label">Preferred Floor: </label>
+            <input id="floor" name="floor" type="text" placeholder="Preferred floor" class="form-control input-md" required="" value="">
+            <label class="col-md-4 control-label" for="floor_preference_label">Priority : </label>
+            <select name="floor_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="guards_label">Security Guards: </label>
+            <input type="radio" name="security_guards" value="needed"> Needed
+            <input type="radio" name="security_guards" value="not_needed"> Not-Needed
+            <label class="col-md-4 control-label" for="guards_preference_label">Priority : </label>
+            <select name="guards_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="lift_label">Lift: </label>
+            <input type="radio" name="lift_escalator" value="needed"> Needed
+            <input type="radio" name="lift_escalator" value="not_needed"> Not-Needed
+            <label class="col-md-4 control-label" for="lift_escalator_preference_label">Priority : </label>
+            <select name="lift_escalator_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="parking_label">Parking: </label>
+            <input type="radio" name="parking" value="needed"> Needed
+            <input type="radio" name="parking" value="not_needed"> Not-Needed
+            <label class="col-md-4 control-label" for="parking_preference_label">Priority : </label>
+            <select name="parking_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="month_label">Month of Availability : </label>
+            <select name="month_of_availability">
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>
+            <label class="col-md-4 control-label" for="availability_preference_label">Priority : </label>
+            <select name="availability_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="room_label">Preference for Rooms : </label>
+            <br />
+            <label class="col-md-4 control-label" for="bedroom_label">Preference for Bedroom(s) : </label>
+            <input id="bedroom" name="bedroom" type="text" placeholder="Number of Bedroom(s) " class="form-control input-md" required="" value="1">
+            <label class="col-md-4 control-label" for="bedroom_preference_label">Priority : </label>
+            <select name="bedroom_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="bathroom_label">Preference for Bathroom(s) : </label>
+            <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="form-control input-md" required="" value="1">
+            <label class="col-md-4 control-label" for="bathroom_preference_label">Priority : </label>
+            <select name="bathroom_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="kitchen_label">Preference for Kitchen(s) : </label>
+            <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="form-control input-md" required="" value="1">
+            <label class="col-md-4 control-label" for="kitchen_preference_label">Priority : </label>
+            <select name="kitchen_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="drawing_label">Preference for Drawing Room(s) : </label>
+            <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="form-control input-md" required="" value="1">
+            <label class="col-md-4 control-label" for="drawing_preference_label">Priority : </label>
+            <select name="drawing_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="living_label">Preference for Living Room(s) : </label>
+            <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="form-control input-md" required="" value="1">
+            <label class="col-md-4 control-label" for="living_preference_label">Priority : </label>
+            <select name="living_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+
+
+            <label class="col-md-4 control-label" for="nearby_label">Preference for Nearby Establishments : </label>
+            <br />
+            <label class="col-md-4 control-label" for="mosque_label">Min Distance for Mosque : </label>
+            <input id="mosque" name="mosque" type="text" placeholder="Min Distance for Mosque " class="form-control input-md">
+            <label class="col-md-4 control-label" for="mosque_preference_label">Priority : </label>
+            <select name="mosque_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="hospital_label">Min Distance for Hospital : </label>
+            <input id="hospital" name="hospital" type="text" placeholder="Min Distance for Hospital " class="form-control input-md">
+            <label class="col-md-4 control-label" for="hospital_preference_label">Priority : </label>
+            <select name="hospital_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="school_label">Min Distance for School : </label>
+            <input id="school" name="school" type="text" placeholder="Min Distance for School " class="form-control input-md">
+            <label class="col-md-4 control-label" for="school_preference_label">Priority : </label>
+            <select name="school_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="park_label">Min Distance for Park : </label>
+            <input id="park" name="park" type="text" placeholder="Min Distance for Park " class="form-control input-md">
+            <label class="col-md-4 control-label" for="park_preference_label">Priority : </label>
+            <select name="park_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+            <label class="col-md-4 control-label" for="department_store_label">Min Distance for Department Store : </label>
+            <input id="department_store" name="department_store" type="text" placeholder="Min Distance for Department Store " class="form-control input-md">
+            <label class="col-md-4 control-label" for="department_store_preference_label">Priority : </label>
+            <select name="department_store_preference">
+                <option value="HIGHEST">Highest</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+                <option value="LOWEST">Lowest</option>
+            </select>
+            <br />
+
+            <button onclick="getAdvice()">Get Suggestion</button>
+        </div>
+    </div>
+
+    <button onclick="changePage('user.html')">Redirect</button>
+
+
+
+    <!--
+<div class="form-group">
+Text input
+<label class="col-md-4 control-label" for="name">Name</label>
+<div class="col-md-4">
+<input id="name" name="name" type="text" placeholder="name of the house" class="form-control input-md" required="" value="Concord">
+</div>
+</div>
+
+<div>
+<h1>Structure Test</h1>
+<p>Click on the button below will instigate a get method call to node server and display the data.</p>
+<button id="clickMe">Click Me</button>
+</div>
+
+<div id="output">
+</div>
+-->
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNE_jdj3NJj4IUWwz4kCRUg3k0hjVzWc&callback=initMap"></script>
+    <script src="js/landing_map.js"></script>
+    <script src="js/index.js"></script>
+
+    <script>
+        $(document).on('pageload', function() {
+            console.log("pageload event fired!");
+        });
+    </script>
+</body>
+
 </html>
