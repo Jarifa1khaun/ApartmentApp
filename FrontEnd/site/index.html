@@ -40,7 +40,7 @@
 
         <div id="signup" class="modal log-status ">
 
-            <form class="modal-content animate">
+            <form id="signup-form" class="modal-content animate">
                 <!--<div class="imgcontainer">
                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     <img src="img_avatar2.png" alt="Avatar" class="avatar">
@@ -51,19 +51,18 @@
                     <label for="name"><b>Name</b></label>
                     <input type="text" placeholder="Enter your name" name="name" id="name" class="modalText" required>
 
-                    <label for="username"><b>Email/UserName</b></label>
+                    <label for="username"><b>Email / UserName</b></label>
                     <input type="text" placeholder="Enter your email" name="username" id="username" class="modalText" required>
 
                     <label for="password"><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" id="password" class="modalText" required>
 
-                    <span class="signup-alert-msg">Invalid Credentials</span>
+                    <span class="alert-msg">Invalid Inputs</span>
                     <button id="signup-button" class="modalButton" type="submit" onclick="signup(event)" disabled>SignUp</button>
                 </div>
 
                 <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('signup').style.display='none'" class="modalCancelBtn">Cancel</button>
-                    <!--<span class="psw">Forgot <a href="#">password?</a></span>-->
+                    <button type="button" onclick="clearSignUpInputs(event)" class="modalCancelBtn">Cancel</button>
                 </div>
             </form>
         </div>

@@ -72,6 +72,13 @@ function clearLogInInputs(event) {
     document.getElementById('signin').style.display = 'none';
 }
 
+function clearSignUpInputs(event) {
+    removeWrongEntryClass();
+    document.getElementById('signup-form').reset();
+    document.getElementById('signup').style.display = 'none';
+}
+
+
 function changePage(pageName) {
     window.location.replace(pageName);
 }
@@ -100,16 +107,23 @@ function login(event) {
         contentType: "application/json; charset=utf-8",
         dataType: "json"
     }).done(function (data, status, xhr) {
-        console.log(status);
-        // code here
+
+        if (xhr.status === 200) {
+            const authToken = xhr.getResponseHeader('x-auth-token');
+            if (authToken !== undefined) {
+                window.localStorage.setItem('x-auth-token', authToken);
+            }
+            changePage("user.html");
+        }
 
     }).fail(function (errMsg) {
 
-        var msgToDisplay = errMsg.status + " " + errMsg.statusText;
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
 
         $('.log-status').addClass('wrong-entry');
         $('.alert-msg').text(msgToDisplay).fadeIn(500);
-        setTimeout("$('.alert-msg').fadeOut(500);", 1000);
+        setTimeout("$('.alert-msg').fadeOut(500);", 2000);
 
         $(this).addClass("shake").delay(500).queue(function () {
 
@@ -131,8 +145,10 @@ function signup(event) {
 
     const methodType = 'POST';
     const postData = {
+        name: name,
         email: email,
-        password: password
+        password: password,
+        isAdmin: false
     };
 
     $.ajax({
@@ -142,23 +158,27 @@ function signup(event) {
         contentType: "application/json; charset=utf-8",
         dataType: "json"
     }).done(function (data, status, xhr) {
-        console.log(status);
-        // code here
-
+        if (xhr.status === 200) {
+            const authToken = xhr.getResponseHeader('x-auth-token');
+            if (authToken !== undefined) {
+                window.localStorage.setItem('x-auth-token', authToken);
+            }
+            changePage("user.html");
+        }
     }).fail(function (errMsg) {
 
-        var msgToDisplay = errMsg.status + " " + errMsg.statusText;
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
 
         $('.log-status').addClass('wrong-entry');
         $('.alert-msg').text(msgToDisplay).fadeIn(500);
-        setTimeout("$('.alert-msg').fadeOut(500);", 1000);
+        setTimeout("$('.alert-msg').fadeOut(500);", 2000);
 
         $(this).addClass("shake").delay(500).queue(function () {
 
             $(this).removeClass("shake");
             $(this).dequeue();
         });
-
     });
 }
 
