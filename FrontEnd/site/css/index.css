@@ -57,26 +57,54 @@ span.psw {
 
 /* The Modal (background) */
 .modal {
-    display: none; /* Hidden by default */
-    z-index: 1; /* Sit on top */
-    width: 500px; /* Full width */
-    height: 500ps; /* Full height */
+    display: none;
+    /* Hidden by default */
+    z-index: 1;
+    /* Sit on top */
+    width: 500px;
+    /* Full width */
+    height: 500ps;
+    /* Full height */
     position: absolute;
     left: 50%;
     top: 50%;
     margin-left: -250px;
     margin-top: -200px;
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0);
+    /* Fallback color */
+    background-color: rgba(0, 0, 0, 0.4);
+    /* Black w/ opacity */
 }
 
 /* Modal Content/Box */
 .modal-content {
     background-color: #fefefe;
-    margin: 0% 0% 0% 0%; /* 5% from the top, 15% from the bottom and centered */
+    margin: 0% 0% 0% 0%;
+    /* 5% from the top, 15% from the bottom and centered */
     border: 0px solid #888;
-    width: 100%; /* Could be more or less, depending on screen size */
+    width: 100%;
+    /* Could be more or less, depending on screen size */
+}
+
+.log-status.wrong-entry {
+    -webkit-animation: kf_shake 0.4s 1 linear;
+    -moz-animation: kf_shake 0.4s 1 linear;
+    -o-animation: kf_shake 0.4s 1 linear;
+}
+
+.log-status.wrong-entry .modalText,
+.wrong-entry .modalText + .fa {
+    border-color: #ed1c24;
+    color: #ed1c24;
+}
+
+.alert-msg {
+    display: none;
+    font-size: 12px;
+    color: #f00;
+    float: left;
 }
 
 /* The Close Button (x) */
@@ -102,22 +130,111 @@ span.psw {
 }
 
 @-webkit-keyframes animatezoom {
-    from {-webkit-transform: scale(0)}
-    to {-webkit-transform: scale(1)}
+    from {
+        -webkit-transform: scale(0)
+    }
+
+    to {
+        -webkit-transform: scale(1)
+    }
 }
 
 @keyframes animatezoom {
-    from {transform: scale(0)}
-    to {transform: scale(1)}
+    from {
+        transform: scale(0)
+    }
+
+    to {
+        transform: scale(1)
+    }
 }
 
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
     span.psw {
-       display: block;
-       float: none;
+        display: block;
+        float: none;
     }
+
     .cancelbtn {
-       width: 100%;
+        width: 100%;
+    }
+}
+
+@-webkit-keyframes kf_shake {
+    0% {
+        -webkit-transform: translate(30px);
+    }
+
+    20% {
+        -webkit-transform: translate(-30px);
+    }
+
+    40% {
+        -webkit-transform: translate(15px);
+    }
+
+    60% {
+        -webkit-transform: translate(-15px);
+    }
+
+    80% {
+        -webkit-transform: translate(8px);
+    }
+
+    100% {
+        -webkit-transform: translate(0px);
+    }
+}
+
+@-moz-keyframes kf_shake {
+    0% {
+        -moz-transform: translate(30px);
+    }
+
+    20% {
+        -moz-transform: translate(-30px);
+    }
+
+    40% {
+        -moz-transform: translate(15px);
+    }
+
+    60% {
+        -moz-transform: translate(-15px);
+    }
+
+    80% {
+        -moz-transform: translate(8px);
+    }
+
+    100% {
+        -moz-transform: translate(0px);
+    }
+}
+
+@-o-keyframes kf_shake {
+    0% {
+        -o-transform: translate(30px);
+    }
+
+    20% {
+        -o-transform: translate(-30px);
+    }
+
+    40% {
+        -o-transform: translate(15px);
+    }
+
+    60% {
+        -o-transform: translate(-15px);
+    }
+
+    80% {
+        -o-transform: translate(8px);
+    }
+
+    100% {
+        -o-origin-transform: translate(0px);
     }
 }

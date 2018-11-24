@@ -4,10 +4,11 @@ Signup modal -> done
 Ad details modal
 
 User page -> half done
+Update user modal
 
 Create ad page -> done
 Update ad page
-Update user modal
+
 
 
 index

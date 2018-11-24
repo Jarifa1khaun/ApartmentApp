@@ -1,6 +1,6 @@
 <html>
 
-    <head>
+<head>
     <title>
         ApartmentApp
     </title>
@@ -12,9 +12,9 @@
     <div>
         <button onclick="document.getElementById('signin').style.display='block'" style="width:auto;">Login</button>
 
-        <div id="signin" class="modal">
+        <div id="signin" class="modal log-status ">
 
-            <form class="modal-content animate" action="/action_page.php">
+            <form id="login-form" class="modal-content animate">
                 <!--<div class="imgcontainer">
                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     <img src="img_avatar2.png" alt="Avatar" class="avatar">
@@ -22,40 +22,43 @@
 
                 <div class="container">
                     <label for="uname"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" class="modalText" required>
+                    <input type="text" placeholder="Enter Username" id="uname" class="modalText " required>
                     <br />
                     <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" class="modalText" required>
+                    <input type="password" placeholder="Enter Password" id="psw" class="modalText " required>
                     <br />
-                    <button class="modalButton" type="submit">Login</button>
+                    <span class="alert-msg">Invalid Credentials</span>
+                    <button id="login-button" class="modalButton" type="submit" onclick="login(event)" disabled>Login</button>
                 </div>
 
                 <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="document.getElementById('signin').style.display='none'" class="modalCancelBtn">Cancel</button>
+                    <button type="button" onclick="clearLogInInputs(event)" class="modalCancelBtn">Cancel</button>
                     <span class="psw"><a href="#" onClick="$('#signin').hide(); $('#signup').show()">Signup instead ?</a></span>
                 </div>
             </form>
         </div>
 
-        <div id="signup" class="modal">
+        <div id="signup" class="modal log-status ">
 
-            <form class="modal-content animate" action="/action_page.php">
+            <form class="modal-content animate">
                 <!--<div class="imgcontainer">
                     <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
                     <img src="img_avatar2.png" alt="Avatar" class="avatar">
                 </div>-->
 
                 <div class="container">
-                    <label for="uname"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" name="uname" class="modalText" required>
 
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="psw" class="modalText" required>
+                    <label for="name"><b>Name</b></label>
+                    <input type="text" placeholder="Enter your name" name="name" id="name" class="modalText" required>
 
-                    <button class="modalButton" type="submit">Login</button>
-                    <!--<label>
-                        <input type="checkbox" checked="checked" name="remember"> Remember me
-                    </label>-->
+                    <label for="username"><b>Email/UserName</b></label>
+                    <input type="text" placeholder="Enter your email" name="username" id="username" class="modalText" required>
+
+                    <label for="password"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="password" id="password" class="modalText" required>
+
+                    <span class="signup-alert-msg">Invalid Credentials</span>
+                    <button id="signup-button" class="modalButton" type="submit" onclick="signup(event)" disabled>SignUp</button>
                 </div>
 
                 <div class="container" style="background-color:#f1f1f1">
@@ -87,7 +90,7 @@
             <input type="radio" name="house_type" value="sublet"> Sublet<br>
         </form>
         <button onclick="togglePreferencePanel()">Open Search Preference Panel</button>
-        <div id="searchPreferencePanel">
+        <div id="searchPreferencePanel" style="display: none">
             <label class="col-md-4 control-label" for="rent_label">Max Rent: </label>
             <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="form-control input-md" required="" value="">
             <label class="col-md-4 control-label" for="rent_preference_label">Priority : </label>
@@ -302,8 +305,9 @@
         </div>
     </div>
 
-    <button onclick="changePage('user.html')">Redirect</button>
+    <!--<button onclick="changePage('user.html')">Redirect</button>-->
 
+    <!--    <button onclick="getAdvice()">Test Import</button>-->
 
 
     <!--
