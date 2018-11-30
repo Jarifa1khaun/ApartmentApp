@@ -28,6 +28,7 @@ function validateAdvertisement(advertisement) {
         floor: Joi.number().integer().positive().required(),
         security_guards: Joi.boolean().required(),
         lift_escalator: Joi.boolean().required(),
+        parking: Joi.boolean().required(),
         month_of_availability: Joi.string().required().valid(validMonths),
         rooms: Joi.object().required().keys({
             bedroom: Joi.number().integer().required(),
@@ -68,6 +69,7 @@ function validateAdvertisementWithoutRequired(advertisement) {
         floor: Joi.number().integer().positive(),
         security_guards: Joi.boolean(),
         lift_escalator: Joi.boolean(),
+        parking: Joi.boolean(),
         month_of_availability: Joi.string().valid(validMonths),
         rooms: Joi.object().keys({
             bedroom: Joi.number().integer(),

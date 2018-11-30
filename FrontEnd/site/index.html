@@ -1,344 +1,550 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png">
+    <link rel="icon" type="image/png" href="img/favicon.png">
     <title>
-        ApartmentApp
+        Khoj - The Search
     </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="css/blk-design-system.css?v=1.0.0" rel="stylesheet" />
+
+    <!--    Custom CSS-->
     <link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
-<body>
-
-    <div>
-        <button onclick="document.getElementById('signin').style.display='block'" style="width:auto;">Login</button>
-
-        <div id="signin" class="modal log-status ">
-
-            <form id="login-form" class="modal-content animate">
-                <!--<div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="img_avatar2.png" alt="Avatar" class="avatar">
-                </div>-->
-
-                <div class="container">
-                    <label for="uname"><b>Username</b></label>
-                    <input type="text" placeholder="Enter Username" id="uname" class="modalText " required>
-                    <br />
-                    <label for="psw"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" id="psw" class="modalText " required>
-                    <br />
-                    <span class="alert-msg">Invalid Credentials</span>
-                    <button id="login-button" class="modalButton" type="submit" onclick="login(event)" disabled>Login</button>
+<body class="profile-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top bg-info " color-on-scroll="100">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" style="cursor: pointer;" onclick="changePage('index.html')" rel="tooltip" title="Search Your Appartment" data-placement="bottom">
+                    <span>Khoj - The Search</span>
+                </a>
+            </div>
+            <div class="navbar-collapse-header">
+                <div class="row">
+                    <div class="col-6 collapse-close text-right">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="tim-icons icon-simple-remove"></i>
+                        </button>
+                    </div>
                 </div>
-
-                <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="clearLogInInputs(event)" class="modalCancelBtn">Cancel</button>
-                    <span class="psw"><a href="#" onClick="$('#signin').hide(); $('#signup').show()">Signup instead ?</a></span>
-                </div>
-            </form>
+            </div>
+            <ul class="navbar-nav">
+                <li id='ad-btn' class="nav-item p-0">
+                    <div class="col-6 collapse-close text-right">
+                        <button class="btn btn-primary btn-success" data-toggle="modal" data-target="#loginModal">
+                            Create New Ad
+                        </button>
+                    </div>
+                </li>
+                <li id='profile-btn' class="nav-item p-0" style="display: none">
+                    <a class="nav-link" rel="tooltip" title="back to Profile" data-placement="bottom" style="cursor: pointer;" onclick="changePage('profile-page.html')">
+                        <i class="fas fa-user-circle"></i>
+                        <p class="d-lg-none d-xl-none">Logout</p>
+                    </a>
+                </li>
+                <li id='out-btn' class="nav-item p-0" style="display: none">
+                    <a class="nav-link" rel="tooltip" title="Logout" data-placement="bottom" style="cursor: pointer;" onclick="logout(event)">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p class="d-lg-none d-xl-none">Logout</p>
+                    </a>
+                </li>
+            </ul>
         </div>
-
-        <div id="signup" class="modal log-status ">
-
-            <form id="signup-form" class="modal-content animate">
-                <!--<div class="imgcontainer">
-                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-                    <img src="img_avatar2.png" alt="Avatar" class="avatar">
-                </div>-->
-
-                <div class="container">
-
-                    <label for="name"><b>Name</b></label>
-                    <input type="text" placeholder="Enter your name" name="name" id="name" class="modalText" required>
-
-                    <label for="username"><b>Email / UserName</b></label>
-                    <input type="text" placeholder="Enter your email" name="username" id="username" class="modalText" required>
-
-                    <label for="password"><b>Password</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" id="password" class="modalText" required>
-
-                    <span class="alert-msg">Invalid Inputs</span>
-                    <button id="signup-button" class="modalButton" type="submit" onclick="signup(event)" disabled>SignUp</button>
+    </nav>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <!-- End Navbar -->
+    <div class="wrapper">
+        <div class="section">
+            <!-- Form Modal -->
+            <div class="modal fade modal-black" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div id="signin" class="modal-content log-status ">
+                        <div class="modal-header justify-content-center">
+                            <button type="button" class="close" onclick="clearLogInInputs(event)" data-dismiss="modal" aria-hidden="true">
+                                <i class="tim-icons icon-simple-remove text-white"></i>
+                            </button>
+                            <div class="text-muted text-center ml-auto mr-auto">
+                                <h3 class="mb-0">Sign in</h3>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <form id="login-form" role="form">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="tim-icons icon-email-85"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" placeholder="Email/Username" type="text" id="uname">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="tim-icons icon-key-25"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" placeholder="Password" type="password" id="psw">
+                                    </div>
+                                </div>
+                                <span class="alert-msg"></span>
+                                <div class="text-center">
+                                    <button id="login-button" type="submit" onclick="login(event)" class="btn btn-primary my-4" disabled>Sign in</button>
+                                    <button type="button" onclick="clearLogInInputs(event)" class="btn btn-link btn-success" data-dismiss="modal" data-toggle="modal" data-target="#registrationModal">Sign
+                                        up instead?</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="container" style="background-color:#f1f1f1">
-                    <button type="button" onclick="clearSignUpInputs(event)" class="modalCancelBtn">Cancel</button>
+            </div>
+            <!--  End Modal -->
+            <!-- Form Modal -->
+            <div class="modal fade modal-black" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div id="signup" class="modal-content log-status ">
+                        <div class="modal-header justify-content-center">
+                            <button type="button" class="close" onclick="clearSignUpInputs(event)" data-dismiss="modal" aria-hidden="true">
+                                <i class="tim-icons icon-simple-remove text-white"></i>
+                            </button>
+                            <div class="text-muted text-center ml-auto mr-auto">
+                                <h3 class="mb-0">Sign up</h3>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <form id="signup-form" role="form">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="tim-icons icon-email-85"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" placeholder="Name" type="text" id="name">
+                                    </div>
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="tim-icons icon-email-85"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" placeholder="Email/Username" type="text" id="username">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="tim-icons icon-key-25"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" placeholder="Password" type="password" id="password">
+                                    </div>
+                                </div>
+                                <span class="alert-msg"></span>
+                                <div class="text-center">
+                                    <button id="signup-button" type="submit" onclick="signup(event)" class="btn btn-primary my-4" disabled>Sign up</button>
+                                    <button type="button" onclick="clearSignUpInputs(event)" class="btn btn-link btn-success" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Sign
+                                        in instead?</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+            <!--  End Modal -->
+            <div class="container align-items-center">
+                <div class="row justify-content-md-center">
+                    <!-- Map Region -->
+                    <div class="col-md-12 col-lg-6">
+                        <div id="landing_map" class="col-md-12" style="width: 100%;height: 400px"></div>
+
+                        <br />
+                        <br />
+                        <br />
+                        <br />
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-md-12 col-lg-8">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <div class="row justify-content-md-center">
+                                    <label class="col-sm-3 control-label" for="lat_label"><strong>Lattitude:
+                                        </strong></label>
+                                    <label class="col-sm-5 control-label" style="padding-left: 80px;" id="lat" name="lat">Place for selected lattitude </label>
+                                </div>
+                                <div class="row justify-content-md-center">
+                                    <label class="col-sm-3 control-label" for="long_label"><strong>Longitude:
+                                        </strong></label>
+                                    <label class="col-sm-5 control-label" style="padding-left: 80px;" id="long" name="long">Place for selected lattitude </label>
+                                </div>
+                                <div class="row justify-content-md-center">
+                                    <label class="col-sm-3 control-label" for="radius"><strong>Radius (in meters):
+                                        </strong></label>
+                                    <input id="radius" name="radius" type="text" placeholder="radius" class="col-sm-5 form-control input-md" required="true" value="" />
+                                </div>
+                                <br />
+                                <div class="row justify-content-md-center">
+                                    <div class="col-md-12 col-lg-8 text-center">
+                                        <label class="col-md-2 control-label" for="house_type"><strong>Type: </strong></label>
+                                        <label class="col-sm-3"><input type="radio" name="house_type" value="regular" checked="checked"> Regular</label>
+                                        <label class="col-sm-3"><input type="radio" name="house_type" value="sublet"> Sublet
+                                        </label>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row justify-content-md-center">
+                                    <button onclick="togglePreferencePanel()" type="button" class="btn btn-primary btn-success">Open
+                                        Search Preference Panel</button>
+                                </div>
+                                <br />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="row justify-content-md-center">
+                    <div class="col-md-12 col-lg-8 ">
+                        <form class="form-horizontal">
+
+                            <div id="searchPreferencePanel" style="display: none">
+                                <div class="row">
+                                    <label class="col-md-2 control-label" for="rent"><strong>Max Rent: </strong></label>
+                                    <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="col-md-4 form-control input-md" required="" value="">
+                                    <label class="col-md-2 control-label" for="rent_preference"><strong>Priority : </strong></label>
+                                    <select name="rent_preference" class="selectpicker col-md-4" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-2 control-label" for="size_label"><strong>Size:
+                                        </strong></label>
+                                    <input id="size" name="size" type="text" placeholder="Max acceptable size" class="col-md-4 form-control input-md" required="" value="">
+                                    <label class="col-md-2 control-label" for="size_preference"><strong>Priority : </strong></label>
+                                    <select name="size_preference" class="selectpicker col-md-4" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-2 control-label" for="floor_label"><strong>Preferred Floor:
+                                        </strong></label>
+                                    <input id="floor" name="floor" type="text" placeholder="Preferred floor" class="col-md-4 form-control input-md" required="" value="">
+                                    <label class="col-md-2 control-label" for="floor_preference"><strong>Priority : </strong></label>
+                                    <select name="floor_preference" class="selectpicker col-md-4" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-2 control-label" for="guards_label"><strong>Security Guards:
+                                        </strong></label>
+                                    <label class="col-md-2"><input type="radio" name="security_guards" value="needed"> Needed
+                                    </label>
+                                    <label class="col-md-2"><input type="radio" name="security_guards" value="not_needed"> Not-Needed
+                                    </label>
+                                    <label class="col-md-2 control-label" for="guards_preference"><strong>Priority :
+                                        </strong></label>
+                                    <select name="guards_preference" class="selectpicker col-md-4" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-2 control-label" for="lift_label"><strong>Lift:
+                                        </strong></label>
+                                    <label class="col-md-2"><input type="radio" name="lift_escalator" value="needed"> Needed
+                                    </label>
+                                    <label class="col-md-2"><input type="radio" name="lift_escalator" value="not_needed"> Not-Needed
+                                    </label>
+                                    <label class="col-md-2 control-label" for="lift_escalator_preference"><strong>Priority
+                                            : </strong></label>
+                                    <select name="lift_escalator_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-2 control-label" for="parking_label"><strong>Parking:
+                                        </strong></label>
+                                    <label class="col-md-2"><input type="radio" name="parking" value="needed"> Needed
+                                    </label>
+                                    <label class="col-md-2"><input type="radio" name="parking" value="not_needed"> Not-Needed
+                                    </label>
+                                    <label class="col-md-2 control-label" for="parking_preference"><strong>Priority :
+                                        </strong></label>
+                                    <select name="parking_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="month_of_availability"><strong>Month of
+                                            Availability : </strong></label>
+                                    <select name="month_of_availability" class="col-md-2 selectpicker" style="height: 32px;">
+                                        <option value="January">January</option>
+                                        <option value="February">February</option>
+                                        <option value="March">March</option>
+                                        <option value="April">April</option>
+                                        <option value="May">May</option>
+                                        <option value="June">June</option>
+                                        <option value="July">July</option>
+                                        <option value="August">August</option>
+                                        <option value="September">September</option>
+                                        <option value="October">October</option>
+                                        <option value="November">November</option>
+                                        <option value="December">December</option>
+                                    </select>
+                                    <label class="col-md-2 control-label" for="availability_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="availability_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-12 control-label" for="room_label">
+                                        <h3><strong>Preference for Rooms : </strong></h3>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="bedroom"><strong>Preference for Bedroom(s)
+                                            : </strong></label>
+                                    <input id="bedroom" name="bedroom" type="text" placeholder="Number of Bedroom(s) " class="col-md-2 form-control input-md" required="" value="1">
+                                    <label class="col-md-2 control-label" for="bedroom_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="bedroom_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="bathroom_label"><strong>Preference for
+                                            Bathroom(s) : </strong></label>
+                                    <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-md-2 form-control input-md" required="" value="1">
+                                    <label class="col-md-2 control-label" for="bathroom_preference"><strong>Priority
+                                            : </strong></label>
+                                    <select name="bathroom_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="kitchen_label"><strong>Preference for
+                                            Kitchen(s) : </strong></label>
+                                    <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="col-md-2 form-control input-md" required="" value="1">
+                                    <label class="col-md-2 control-label" for="kitchen_preference"><strong>Priority :
+                                        </strong></label>
+                                    <select name="kitchen_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="drawing_label"><strong>for Drawing Room(s)
+                                            : </strong></label>
+                                    <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="col-md-2 form-control input-md" required="" value="1">
+                                    <label class="col-md-2 control-label" for="drawing_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="drawing_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="living_label"><strong>for Living Room(s)
+                                            : </strong></label>
+                                    <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="col-md-2 form-control input-md" required="" value="1">
+                                    <label class="col-md-2 control-label" for="living_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="living_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-12 control-label" for="nearby_label">
+                                        <h3><strong> Preference for Nearby Establishments : </strong></h3>
+                                    </label>
+                                </div>
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="mosque_label">Min Distance for Mosque
+                                        : </label>
+                                    <input id="mosque" name="mosque" type="text" placeholder="Min Distance for Mosque " class="col-md-2 form-control input-md">
+                                    <label class="col-md-2 control-label" for="mosque_preference_label">Priority : </label>
+                                    <select name="mosque_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="hospital_label"><strong>Distance for Hospital
+                                            : </strong></label>
+                                    <input id="hospital" name="hospital" type="text" placeholder="Min Distance for Hospital " class="col-md-2 form-control input-md">
+                                    <label class="col-md-2 control-label" for="hospital_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="hospital_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="school_label"><strong>Distance for School
+                                            : </strong></label>
+                                    <input id="school" name="school" type="text" placeholder="Min Distance for School " class="col-md-2 form-control input-md">
+                                    <label class="col-md-2 control-label" for="school_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="school_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="park_label"><strong>Min Distance for Park
+                                            : </strong></label>
+                                    <input id="park" name="park" type="text" placeholder="Min Distance for Park " class="col-md-2 form-control input-md">
+                                    <label class="col-md-2 control-label" for="park_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="park_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row">
+                                    <label class="col-md-4 control-label" for="department_store_label"><strong>Min Distance
+                                            for Department Store : </strong></label>
+                                    <input id="department_store" name="department_store" type="text" placeholder="Min Distance for Department Store " class="col-md-2 form-control input-md">
+                                    <label class="col-md-2 control-label" for="department_store_preference_label"><strong>Priority
+                                            : </strong></label>
+                                    <select name="department_store_preference" class="col-md-4 selectpicker" style="height: 35px;">
+                                        <option value="HIGHEST">Highest</option>
+                                        <option value="HIGH">High</option>
+                                        <option value="MEDIUM">Medium</option>
+                                        <option value="LOW">Low</option>
+                                        <option value="LOWEST">Lowest</option>
+                                    </select>
+                                </div>
+                                <br />
+                                <div class="row justify-content-md-center">
+                                    <button type="button" class="btn btn-primary btn-success" onclick="getAdvice()">Get
+                                        Suggestion
+                                    </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
-    <div class="form-group" style="align-content: center">
 
-        <!-- Map Region -->
-        <div id="landing_map" class="col-md-4" style="width: 500px;height: 400px"></div>
-        <br />
-        <label class="col-md-4 control-label" for="lat_label">Lattitude: </label>
-        <label class="col-md-4 control-label" id="lat" name="lat">Selected lattitude will take this place</label>
-        <br />
-        <label class="col-md-4 control-label" for="long_label">Longitude: </label>
-        <label class="col-md-4 control-label" id="long" name="long">Selected longitude will take this place</label>
-        <br />
-        <label class="col-md-4 control-label" for="radius_label">Radius: </label>
-        <input id="radius" name="radius" type="text" placeholder="radius" class="form-control input-md" required="true" value="" />
-        <label class="col-md-4 control-label" for="radius_after_label"> Meters</label>
-        <br />
-
-        <form action="">
-            <input type="radio" name="house_type" value="regular" checked="checked"> Regular
-            <input type="radio" name="house_type" value="sublet"> Sublet<br>
-        </form>
-        <button onclick="togglePreferencePanel()">Open Search Preference Panel</button>
-        <div id="searchPreferencePanel" style="display: none">
-            <label class="col-md-4 control-label" for="rent_label">Max Rent: </label>
-            <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="form-control input-md" required="" value="">
-            <label class="col-md-4 control-label" for="rent_preference_label">Priority : </label>
-            <select name="rent_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="size_label">Max Size: </label>
-            <input id="size" name="size" type="text" placeholder="Max acceptable size" class="form-control input-md" required="" value="">
-            <label class="col-md-4 control-label" for="size_preference_label">Priority : </label>
-            <select name="size_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="floor_label">Preferred Floor: </label>
-            <input id="floor" name="floor" type="text" placeholder="Preferred floor" class="form-control input-md" required="" value="">
-            <label class="col-md-4 control-label" for="floor_preference_label">Priority : </label>
-            <select name="floor_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="guards_label">Security Guards: </label>
-            <input type="radio" name="security_guards" value="needed"> Needed
-            <input type="radio" name="security_guards" value="not_needed"> Not-Needed
-            <label class="col-md-4 control-label" for="guards_preference_label">Priority : </label>
-            <select name="guards_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="lift_label">Lift: </label>
-            <input type="radio" name="lift_escalator" value="needed"> Needed
-            <input type="radio" name="lift_escalator" value="not_needed"> Not-Needed
-            <label class="col-md-4 control-label" for="lift_escalator_preference_label">Priority : </label>
-            <select name="lift_escalator_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="parking_label">Parking: </label>
-            <input type="radio" name="parking" value="needed"> Needed
-            <input type="radio" name="parking" value="not_needed"> Not-Needed
-            <label class="col-md-4 control-label" for="parking_preference_label">Priority : </label>
-            <select name="parking_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="month_label">Month of Availability : </label>
-            <select name="month_of_availability">
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
-            </select>
-            <label class="col-md-4 control-label" for="availability_preference_label">Priority : </label>
-            <select name="availability_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="room_label">Preference for Rooms : </label>
-            <br />
-            <label class="col-md-4 control-label" for="bedroom_label">Preference for Bedroom(s) : </label>
-            <input id="bedroom" name="bedroom" type="text" placeholder="Number of Bedroom(s) " class="form-control input-md" required="" value="1">
-            <label class="col-md-4 control-label" for="bedroom_preference_label">Priority : </label>
-            <select name="bedroom_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="bathroom_label">Preference for Bathroom(s) : </label>
-            <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="form-control input-md" required="" value="1">
-            <label class="col-md-4 control-label" for="bathroom_preference_label">Priority : </label>
-            <select name="bathroom_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="kitchen_label">Preference for Kitchen(s) : </label>
-            <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="form-control input-md" required="" value="1">
-            <label class="col-md-4 control-label" for="kitchen_preference_label">Priority : </label>
-            <select name="kitchen_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="drawing_label">Preference for Drawing Room(s) : </label>
-            <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="form-control input-md" required="" value="1">
-            <label class="col-md-4 control-label" for="drawing_preference_label">Priority : </label>
-            <select name="drawing_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="living_label">Preference for Living Room(s) : </label>
-            <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="form-control input-md" required="" value="1">
-            <label class="col-md-4 control-label" for="living_preference_label">Priority : </label>
-            <select name="living_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-
-
-            <label class="col-md-4 control-label" for="nearby_label">Preference for Nearby Establishments : </label>
-            <br />
-            <label class="col-md-4 control-label" for="mosque_label">Min Distance for Mosque : </label>
-            <input id="mosque" name="mosque" type="text" placeholder="Min Distance for Mosque " class="form-control input-md">
-            <label class="col-md-4 control-label" for="mosque_preference_label">Priority : </label>
-            <select name="mosque_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="hospital_label">Min Distance for Hospital : </label>
-            <input id="hospital" name="hospital" type="text" placeholder="Min Distance for Hospital " class="form-control input-md">
-            <label class="col-md-4 control-label" for="hospital_preference_label">Priority : </label>
-            <select name="hospital_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="school_label">Min Distance for School : </label>
-            <input id="school" name="school" type="text" placeholder="Min Distance for School " class="form-control input-md">
-            <label class="col-md-4 control-label" for="school_preference_label">Priority : </label>
-            <select name="school_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="park_label">Min Distance for Park : </label>
-            <input id="park" name="park" type="text" placeholder="Min Distance for Park " class="form-control input-md">
-            <label class="col-md-4 control-label" for="park_preference_label">Priority : </label>
-            <select name="park_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-            <label class="col-md-4 control-label" for="department_store_label">Min Distance for Department Store : </label>
-            <input id="department_store" name="department_store" type="text" placeholder="Min Distance for Department Store " class="form-control input-md">
-            <label class="col-md-4 control-label" for="department_store_preference_label">Priority : </label>
-            <select name="department_store_preference">
-                <option value="HIGHEST">Highest</option>
-                <option value="HIGH">High</option>
-                <option value="MEDIUM">Medium</option>
-                <option value="LOW">Low</option>
-                <option value="LOWEST">Lowest</option>
-            </select>
-            <br />
-
-            <button onclick="getAdvice()">Get Suggestion</button>
-        </div>
-    </div>
-
-    <!--<button onclick="changePage('user.html')">Redirect</button>-->
-
-    <!--    <button onclick="getAdvice()">Test Import</button>-->
-
-
-    <!--
-<div class="form-group">
-Text input
-<label class="col-md-4 control-label" for="name">Name</label>
-<div class="col-md-4">
-<input id="name" name="name" type="text" placeholder="name of the house" class="form-control input-md" required="" value="Concord">
-</div>
-</div>
-
-<div>
-<h1>Structure Test</h1>
-<p>Click on the button below will instigate a get method call to node server and display the data.</p>
-<button id="clickMe">Click Me</button>
-</div>
-
-<div id="output">
-</div>
--->
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
-    </script>
+    <!--   Core JS Files   -->
+    <script src="js/core/jquery.min.js" type="text/javascript"></script>
+    <script src="js/core/popper.min.js" type="text/javascript"></script>
+    <script src="js/core/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+    <script src="js/plugins/bootstrap-switch.js"></script>
+    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script src="js/plugins/nouislider.min.js" type="text/javascript"></script>
+    <!-- Chart JS -->
+    <script src="js/plugins/chartjs.min.js"></script>
+    <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
+    <script src="js/plugins/moment.min.js"></script>
+    <script src="js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <!-- Black Dashboard DEMO methods, don't include it in your project! -->
+    <!--    <script src="demo/demo.js"></script>-->
+    <!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
+    <script src="js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+    <!-- Custom JS -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNE_jdj3NJj4IUWwz4kCRUg3k0hjVzWc&callback=initMap"></script>
     <script src="js/landing_map.js"></script>
     <script src="js/index.js"></script>
-
-    <script>
-        $(document).on('pageload', function() {
-            console.log("pageload event fired!");
-        });
-    </script>
 </body>
 
 </html>

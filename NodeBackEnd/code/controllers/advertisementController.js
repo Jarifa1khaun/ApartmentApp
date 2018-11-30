@@ -85,15 +85,15 @@ async function updateAdvertisement(req, res) {
 async function deleteSingleAdvertisement(req, res) {
 
     try {
-        const advertisement = await Advertisement.findById(req.body._id);
+        const advertisement = await Advertisement.findById(req.params.id);
 
         if (advertisement) {
             if (req.user.isAdmin === true || advertisement.user === req.user._id) {
                 try {
                     await Advertisement.deleteOne({
-                        _id: req.body._id
+                        _id: req.params.id
                     }, function (err) {
-                        if (error) return res.status(400).send({
+                        if (err) return res.status(400).send({
                             message: error.details[0].message
                         });
                     });
@@ -144,13 +144,37 @@ async function getAllAdvertisement(req, res) {
     query.limit = pageSize;
     query.skip = pageSize * (pageNumber - 1);
 
+    let count = 0;
+
+    try {
+        Advertisement.count({}, function (err, cnt) {
+            if (err) {
+                res.status(500).send({
+                    message: err
+                });
+            } else {
+                count = cnt;
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
+
     Advertisement.find({}, {}, query, function (err, advertisements) {
         if (err) {
             if (error) return res.status(500).send({
                 message: error.details[0].message
             });
         } else {
-            res.status(200).send(advertisements);
+            let response = {
+                advertisementList: advertisements,
+                totalCount: count
+            };
+            res.status(200).send(response);
         }
     });
 }
@@ -199,6 +223,28 @@ async function findAdvertisementsByUserId(req, res) {
     query.limit = pageSize;
     query.skip = pageSize * (pageNumber - 1);
 
+    let count = 0;
+
+    try {
+        Advertisement.count({
+            user: userId
+        }, function (err, cnt) {
+            if (err) {
+                res.status(500).send({
+                    message: err
+                });
+            } else {
+                count = cnt;
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
+
     try {
         Advertisement.find({
             user: userId
@@ -208,7 +254,11 @@ async function findAdvertisementsByUserId(req, res) {
                     message: err
                 });
             } else {
-                res.status(200).send(advertisements);
+                let response = {
+                    advertisementList: advertisements,
+                    totalCount: count
+                };
+                res.status(200).send(response);
             }
         });
     } catch (error) {
@@ -248,14 +298,18 @@ async function getAdviceOnHouses(req, res) {
 
     const sortedAds = await algorithm.getSortedArray(req.body, advertisements);
 
+    
     let arr = [];
     for (i in sortedAds) {
         arr.push(sortedAds[i].rank);
     }
 
+    let count = arr.length;
+
     let returnObj = {
         data: sortedAds,
-        ranks: arr
+        ranks: arr,
+        totalCount: count
     };
 
     return res.status(200).send(returnObj);

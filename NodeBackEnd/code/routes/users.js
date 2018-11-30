@@ -11,7 +11,7 @@ router.get('/me', auth, userController.profileInfo);
 router.get('/', [auth, admin], userController.getAllUser);
 router.post('/', userController.createUser);
 router.put('/', auth, userController.updateUser);
-router.delete('/', [auth, admin], userController.deleteSingleUser);
+router.delete('/:id', [auth, admin], userController.deleteSingleUser);
 
 router.get('/:id', [auth, admin], userController.findUserById);
 

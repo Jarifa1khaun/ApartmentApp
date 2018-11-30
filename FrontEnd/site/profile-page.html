@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/apple-icon.png">
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <title>
+        Khoj - The Search
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="css/blk-design-system.css?v=1.0.0" rel="stylesheet" />
+
+    <!--    Custom CSS-->
+    <link href="css/user.css" rel="stylesheet" />
+</head>
+
+
+<body class="profile-page">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top  bg-info " color-on-scroll="100">
+        <div class="container">
+            <div class="navbar-translate">
+                <a class="navbar-brand" onclick="changePage('index.html')" style="cursor: pointer;" rel="tooltip" title="Search Your Appartment" data-placement="bottom">
+                    <span>Khoj - The Search</span>
+                </a>
+            </div>
+            <div class="navbar-collapse-header">
+                <div class="row justify-content-md-center">
+                    <div class="col-6 collapse-close text-right">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navigation" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="tim-icons icon-simple-remove"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="navbar-nav">
+                <li class="nav-item p-0">
+                    <a class="nav-link" rel="tooltip" title="Create new Advertisement" style="cursor: pointer;" data-placement="bottom" onclick="changePage('create-ad.html')">
+                        <i class="fa fa-plus"></i>
+                        <p class="d-lg-none d-xl-none">Create Ad</p>
+                    </a>
+                </li>
+                <li class="nav-item p-0">
+                    <a class="nav-link" rel="tooltip" title="Logout" data-placement="bottom" style="cursor: pointer;" onclick="logout(event)">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <p class="d-lg-none d-xl-none">Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End Navbar -->
+    <div class="wrapper">
+        <div class="section">
+            <div class="container" style="padding-top: 80px;">
+                <div class="row">
+
+                    <div class="col-lg-5 col-md-6">
+
+                        <div class="card card-deck card-plain" style="border: 2px solid white; border-radius: 5px;">
+
+                            <div class="card-header">
+                                <i class="fas fa-user fa-9x" style="padding-bottom: 20px;"></i>
+                            </div>
+                            <div class="vl"></div>
+                            <div style="padding-top: 10px;">
+                                <h3><strong>Name: Test Name</strong></h3>
+                                <label>
+                                    <h4>email: email@server.com</h4>
+                                </label>
+                                <br />
+                                <label>
+                                    <h4>Admin Status: Admin </h4>
+                                </label>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="user-list-panel" class="wrapper" style="padding-top: 80px;">
+            <div class="section">
+
+                <div class="container align-items-center">
+                    <label style="padding-left: 50px;"><strong>
+                            <h3>User List</h3>
+                        </strong></label>
+
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>Name</th>
+                                        <th>Email-id</th>
+                                        <th>Since</th>
+                                        <th class="text-right">admin status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Alex Mike</td>
+                                        <td>test2@test.com</td>
+                                        <td>date</td>
+                                        <td class="text-right">Yes</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" data-toggle="modal" data-target="#usrInfoModal" class="btn btn-info btn-simple btn-icon btn-sm">
+                                                <i class="tim-icons icon-single-02"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" data-toggle="modal" data-target="#userEditModal" class="btn btn-success btn-simple btn-icon btn-sm">
+                                                <i class="tim-icons icon-settings-gear-63"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-simple btn-icon btn-sm">
+                                                <i class="tim-icons icon-simple-remove"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wrapper">
+            <div class="section">
+
+                <div class="container align-items-center">
+
+                    <label style="padding-left: 50px;"><strong>
+                            <h3>Advertisement List</h3>
+                        </strong></label>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">#</th>
+                                        <th>House Name</th>
+                                        <th>validity</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center">1</td>
+                                        <td>Nizamat</td>
+                                        <td>Yes</td>
+                                        <td class="td-actions text-right">
+                                            <button type="button" rel="tooltip" data-toggle="modal" data-target="#adInfoModal" class="btn btn-info btn-simple btn-icon btn-sm">
+                                                <i class="tim-icons icon-single-02"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" onclick="changePage('edit_ad.html')" style="cursor: pointer;" class="btn btn-success btn-simple btn-icon btn-sm">
+                                                <i class="tim-icons icon-settings-gear-63"></i>
+                                            </button>
+                                            <button type="button" rel="tooltip" data-toggle="modal" data-target="#deleteModal" class="btn btn-danger btn-simple btn-icon btn-sm">
+                                                <i class="tim-icons icon-simple-remove"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    user modals-->
+
+    <!-- delete confirmation Modal -->
+    <div class="modal fade modal-black" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-top: 150px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="tim-icons icon-simple-remove"></i>
+                    </button>
+                    <h4 class="title">Confirmation</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure to delete this item ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Confirm</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- user update form Modal -->
+    <div class="modal fade modal-black" id="userEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-top: 80px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        <i class="tim-icons icon-simple-remove text-white"></i>
+                    </button>
+                    <div class="text-muted text-center ml-auto mr-auto">
+                        <h3 class="mb-0">Edit User</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="far fa-address-book"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="email">
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-email-85"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Email" type="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-key-25"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password">
+                            </div>
+                        </div>
+                        <div class="form-check mt-3">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" checked>
+                                <span class="form-check-sign"></span>
+                                Admin
+                            </label>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-default my-4">Update User</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--    user details modal-->
+    <div class="modal fade modal-black" id="usrInfoModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-top: 150px;">
+        <div class="modal-dialog" style="background-color: #171941; ">
+            <div class="col-lg-10 col-md-12 ml-auto mr-auto">
+                <div class="card card-coin card-plain">
+                    <div class="card-header">
+                        <img src="./img/mike.jpg" class="img-center img-fluid rounded-circle">
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-md-12 text-center">
+                                <label>
+                                    <h3><strong>Test Name</strong></h3>
+                                </label>
+                            </div>
+                            <div class="col-lg-8 col-md-12 text-center"><label>
+                                    <h4>email: email@server.com</h4>
+                                </label></div>
+                            <div class="col-lg-8 col-md-12 text-center"><label>
+                                    <h4>Admin Status: Admin </h4>
+                                </label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+
+    <!--  advertisement modals-->
+
+    <!--    user details modal-->
+    <div class="modal fade modal-black" id="adInfoModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-top: 150px;">
+        <div class="modal-dialog" style="background-color: #171941; ">
+            <div class="col-lg-10 col-md-12 ml-auto mr-auto">
+                <div class="card card-coin card-plain">
+                    <div class="card-header">
+                        <img src="./img/mike.jpg" class="img-center img-fluid rounded-circle">
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-md-12 text-center">
+                                <label>
+                                    <h3><strong>Test Name</strong></h3>
+                                </label>
+                            </div>
+                            <div class="col-lg-8 col-md-12 text-center"><label>
+                                    <h4>email: email@server.com</h4>
+                                </label></div>
+                            <div class="col-lg-8 col-md-12 text-center"><label>
+                                    <h4>Admin Status: Admin </h4>
+                                </label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+
+    <!--   Core JS Files   -->
+    <script src="js/core/jquery.min.js" type="text/javascript"></script>
+    <script src="js/core/popper.min.js" type="text/javascript"></script>
+    <script src="js/core/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!--  Plugin for Switches, full documentation here: http://www.jque.re/plugins/version3/bootstrap.switch/ -->
+    <script src="js/plugins/bootstrap-switch.js"></script>
+    <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+    <script src="js/plugins/nouislider.min.js" type="text/javascript"></script>
+    <!-- Chart JS -->
+    <script src="js/plugins/chartjs.min.js"></script>
+    <!--  Plugin for the DatePicker, full documentation here: https://github.com/uxsolutions/bootstrap-datepicker -->
+    <script src="js/plugins/moment.min.js"></script>
+    <script src="js/plugins/bootstrap-datetimepicker.js" type="text/javascript"></script>
+    <!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
+    <script src="js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+    <!-- Custom JS -->
+    <script src="js/user.js"></script>
+</body>
+
+</html>

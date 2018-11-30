@@ -1,5 +1,6 @@
 var BASE_URL = "http://localhost:3000/api/";
 
+configureNavBar();
 
 $('.modalText').keypress(removeWrongEntryClass);
 $("#signin :input").keyup(enableDisableLoginButton);
@@ -69,13 +70,13 @@ function removeWrongEntryClass() {
 function clearLogInInputs(event) {
     removeWrongEntryClass();
     document.getElementById('login-form').reset();
-    document.getElementById('signin').style.display = 'none';
+    document.getElementById('login-button').disabled = true;
 }
 
 function clearSignUpInputs(event) {
     removeWrongEntryClass();
     document.getElementById('signup-form').reset();
-    document.getElementById('signup').style.display = 'none';
+    document.getElementById('signup-button').disabled = true;
 }
 
 
@@ -113,7 +114,7 @@ function login(event) {
             if (authToken !== undefined) {
                 window.localStorage.setItem('x-auth-token', authToken);
             }
-            changePage("user.html");
+            changePage("profile-page.html");
         }
 
     }).fail(function (errMsg) {
@@ -122,9 +123,10 @@ function login(event) {
         var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
 
         $('.log-status').addClass('wrong-entry');
-        $('.alert-msg').text(msgToDisplay).fadeIn(500);
-        setTimeout("$('.alert-msg').fadeOut(500);", 2000);
 
+        $('.alert-msg').text(msgToDisplay).fadeIn(500);
+        setTimeout("$('.alert-msg').fadeOut(500);", 3000);
+        setTimeout(removeWrongEntryClass, 1000);
         $(this).addClass("shake").delay(500).queue(function () {
 
             $(this).removeClass("shake");
@@ -163,7 +165,7 @@ function signup(event) {
             if (authToken !== undefined) {
                 window.localStorage.setItem('x-auth-token', authToken);
             }
-            changePage("user.html");
+            changePage("profile-page.html");
         }
     }).fail(function (errMsg) {
 
@@ -172,8 +174,8 @@ function signup(event) {
 
         $('.log-status').addClass('wrong-entry');
         $('.alert-msg').text(msgToDisplay).fadeIn(500);
-        setTimeout("$('.alert-msg').fadeOut(500);", 2000);
-
+        setTimeout("$('.alert-msg').fadeOut(500);", 3000);
+        setTimeout(removeWrongEntryClass, 1000);
         $(this).addClass("shake").delay(500).queue(function () {
 
             $(this).removeClass("shake");
@@ -182,6 +184,30 @@ function signup(event) {
     });
 }
 
+function changePage(pageName) {
+    window.location.replace(pageName);
+}
+
+function logout(event) {
+    event.preventDefault();
+    window.localStorage.removeItem('x-auth-token')
+    changePage("index.html");
+}
+
+function configureNavBar() {
+
+    var apiKey = window.localStorage.getItem('x-auth-token');
+
+    if (apiKey !== null) {
+
+        var outButton = document.getElementById("out-btn");
+        var profileButton = document.getElementById("profile-btn");
+        var adButton = document.getElementById("ad-btn");
+        outButton.style.display = "block";
+        profileButton.style.display = "block";
+        adButton.style.display = "none";
+    }
+}
 
 function getAdvice() {
 

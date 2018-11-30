@@ -9,7 +9,7 @@ const advertisementController = require('../controllers/advertisementController'
 router.get('/', advertisementController.getAllAdvertisement);
 router.post('/', auth, advertisementController.createAdvertisement);
 router.put('/', auth, advertisementController.updateAdvertisement);
-router.delete('/', auth, advertisementController.deleteSingleAdvertisement);
+router.delete('/:id', auth, advertisementController.deleteSingleAdvertisement);
 
 router.get('/getAdvertisementByUserId/:id', [auth, admin], advertisementController.findAdvertisementsByUserId);
 router.get('/getAdvertisementByUserId', auth, advertisementController.findAdvertisementsByUserId);

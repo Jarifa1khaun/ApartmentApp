@@ -28,8 +28,8 @@ function initMap() {
         clearCirle();
         addMarker(event.latLng);
         lastClickedOnMap = event.latLng;
-        document.getElementById('lat').innerHTML = event.latLng.lat();
-        document.getElementById('long').innerHTML = event.latLng.lng();
+        $('#lat').text(event.latLng.lat()).trigger('latChanged');
+        $('#long').text(event.latLng.lng()).trigger('longChanged');
         map.setCenter(event.latLng);
     });
 }
@@ -74,11 +74,6 @@ function setMapOnAll(map) {
     }
 }
 
-// Removes the markers from the map, but keeps them in the array.
-function clearMarkers() {
-    setMapOnAll(null);
-
-}
 
 // Shows any markers currently in the array.
 function showMarkers() {
@@ -89,6 +84,12 @@ function showMarkers() {
 function deleteMarkers() {
     clearMarkers();
     markers = [];
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setMapOnAll(null);
+
 }
 
 function clearCirle() {

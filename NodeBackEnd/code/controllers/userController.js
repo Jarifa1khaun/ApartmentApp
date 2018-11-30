@@ -96,9 +96,9 @@ async function updateUser(req, res) {
 async function deleteSingleUser(req, res) {
     try {
         User.deleteOne({
-            _id: req.body._id
+            _id: req.params.id
         }, function (err) {
-            if (error) return res.status(500).send({
+            if (err) return res.status(500).send({
                 message: error.details[0].message
             });
         });
@@ -133,13 +133,39 @@ async function getAllUser(req, res) {
     query.limit = pageSize;
     query.skip = pageSize * (pageNumber - 1);
 
+    let count = 0;
+
+    try {
+        User.count({}, function (err, cnt) {
+            if (err) {
+                res.status(500).send({
+                    message: err
+                });
+            } else {
+                count = cnt;
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
+
+
     User.find({}, {}, query, function (err, users) {
         if (err) {
             if (error) return res.status(500).send({
                 message: error.details[0].message
             });
         } else {
-            res.status(200).send(_.map(users, _.partialRight(_.pick, ['_id', 'name', 'email', 'isAdmin'])));
+            const userList = _.map(users, _.partialRight(_.pick, ['_id', 'name', 'email', 'isAdmin']));
+            let response = {
+                userList: userList, 
+                totalCount: count
+            };
+            res.status(200).send(response);
         }
     });
 }
