@@ -102,7 +102,7 @@ function login(event) {
     };
 
     $.ajax({
-        type: "POST",
+        type: method,
         url: loginURL,
         data: JSON.stringify(postData),
         contentType: "application/json; charset=utf-8",
