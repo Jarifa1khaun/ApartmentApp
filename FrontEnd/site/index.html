@@ -174,7 +174,7 @@
             <div class="container align-items-center">
                 <div class="row justify-content-md-center">
                     <!-- Map Region -->
-                    <div class="col-md-12 col-lg-6">
+                    <div class="col-md-12 col-lg-8">
                         <div id="landing_map" class="col-md-12" style="width: 100%;height: 400px"></div>
 
                         <br />
@@ -184,18 +184,18 @@
                     </div>
                 </div>
                 <div class="row justify-content-md-center">
-                    <div class="col-md-12 col-lg-8">
+                    <div class="col-md-12 col-lg-10">
                         <form class="form-horizontal">
                             <div class="form-group">
                                 <div class="row justify-content-md-center">
                                     <label class="col-sm-3 control-label" for="lat_label"><strong>Lattitude:
                                         </strong></label>
-                                    <label class="col-sm-5 control-label" style="padding-left: 80px;" id="lat" name="lat">Place for selected lattitude </label>
+                                    <label class="col-sm-5 control-label" style="padding-left: 10px;" id="lat" name="lat">Place for selected lattitude </label>
                                 </div>
                                 <div class="row justify-content-md-center">
                                     <label class="col-sm-3 control-label" for="long_label"><strong>Longitude:
                                         </strong></label>
-                                    <label class="col-sm-5 control-label" style="padding-left: 80px;" id="long" name="long">Place for selected lattitude </label>
+                                    <label class="col-sm-5 control-label" style="padding-left: 10px;" id="long" name="long">Place for selected lattitude </label>
                                 </div>
                                 <div class="row justify-content-md-center">
                                     <label class="col-sm-3 control-label" for="radius"><strong>Radius (in meters):
@@ -222,14 +222,14 @@
                     </div>
                 </div>
                 <div class="row justify-content-md-center">
-                    <div class="col-md-12 col-lg-8 ">
+                    <div class="col-md-12 col-lg-10 ">
                         <form class="form-horizontal">
 
                             <div id="searchPreferencePanel" style="display: none">
                                 <div class="row">
-                                    <label class="col-md-2 control-label" for="rent"><strong>Max Rent: </strong></label>
+                                    <label class="col-md-2 control-label" for="rent" style="padding-top: 6px;"><strong>Max Rent: </strong></label>
                                     <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="col-md-4 form-control input-md" required="" value="">
-                                    <label class="col-md-2 control-label" for="rent_preference"><strong>Priority : </strong></label>
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="rent_preference"><strong>Priority : </strong></label>
                                     <select name="rent_preference" class="selectpicker col-md-4" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
                                         <option value="HIGH">High</option>
@@ -241,10 +241,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-2 control-label" for="size_label"><strong>Size:
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="size_label"><strong>Size:
                                         </strong></label>
-                                    <input id="size" name="size" type="text" placeholder="Max acceptable size" class="col-md-4 form-control input-md" required="" value="">
-                                    <label class="col-md-2 control-label" for="size_preference"><strong>Priority : </strong></label>
+                                    <input id="size" name="size" type="text"  placeholder="Max acceptable size" class="col-md-4 form-control input-md" required="" value="">
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="size_preference"><strong>Priority : </strong></label>
                                     <select name="size_preference" class="selectpicker col-md-4" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
                                         <option value="HIGH">High</option>
@@ -258,7 +258,7 @@
                                     <label class="col-md-2 control-label" for="floor_label"><strong>Preferred Floor:
                                         </strong></label>
                                     <input id="floor" name="floor" type="text" placeholder="Preferred floor" class="col-md-4 form-control input-md" required="" value="">
-                                    <label class="col-md-2 control-label" for="floor_preference"><strong>Priority : </strong></label>
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="floor_preference"><strong>Priority : </strong></label>
                                     <select name="floor_preference" class="selectpicker col-md-4" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
                                         <option value="HIGH">High</option>
@@ -271,11 +271,11 @@
                                 <div class="row">
                                     <label class="col-md-2 control-label" for="guards_label"><strong>Security Guards:
                                         </strong></label>
-                                    <label class="col-md-2"><input type="radio" name="security_guards" value="needed"> Needed
+                                    <label class="col-md-2" style="padding-top: 10px;" ><input type="radio" name="security_guards" value="needed"> Needed
                                     </label>
-                                    <label class="col-md-2"><input type="radio" name="security_guards" value="not_needed"> Not-Needed
+                                    <label class="col-md-2" style="padding-top: 10px;" ><input type="radio" name="security_guards" value="not_needed"> Not-Needed
                                     </label>
-                                    <label class="col-md-2 control-label" for="guards_preference"><strong>Priority :
+                                    <label class="col-md-2 control-label" style="padding-top: 8px;" for="guards_preference"><strong>Priority :
                                         </strong></label>
                                     <select name="guards_preference" class="selectpicker col-md-4" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -287,13 +287,13 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-2 control-label" for="lift_label"><strong>Lift:
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="lift_label"><strong>Lift:
                                         </strong></label>
-                                    <label class="col-md-2"><input type="radio" name="lift_escalator" value="needed"> Needed
+                                    <label class="col-md-2" style="padding-top: 6px;" ><input type="radio" name="lift_escalator" value="needed"> Needed
                                     </label>
-                                    <label class="col-md-2"><input type="radio" name="lift_escalator" value="not_needed"> Not-Needed
+                                    <label class="col-md-2" style="padding-top: 6px;" ><input type="radio" name="lift_escalator" value="not_needed"> Not-Needed
                                     </label>
-                                    <label class="col-md-2 control-label" for="lift_escalator_preference"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="lift_escalator_preference"><strong>Priority
                                             : </strong></label>
                                     <select name="lift_escalator_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -307,11 +307,11 @@
                                 <div class="row">
                                     <label class="col-md-2 control-label" for="parking_label"><strong>Parking:
                                         </strong></label>
-                                    <label class="col-md-2"><input type="radio" name="parking" value="needed"> Needed
+                                    <label class="col-md-2" style="padding-top: 6px;"><input type="radio" name="parking" value="needed"> Needed
                                     </label>
-                                    <label class="col-md-2"><input type="radio" name="parking" value="not_needed"> Not-Needed
+                                    <label class="col-md-2" style="padding-top: 6px;"><input type="radio" name="parking" value="not_needed"> Not-Needed
                                     </label>
-                                    <label class="col-md-2 control-label" for="parking_preference"><strong>Priority :
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="parking_preference"><strong>Priority :
                                         </strong></label>
                                     <select name="parking_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -323,7 +323,7 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="month_of_availability"><strong>Month of
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="month_of_availability"><strong>Month of
                                             Availability : </strong></label>
                                     <select name="month_of_availability" class="col-md-2 selectpicker" style="height: 32px;">
                                         <option value="January">January</option>
@@ -339,7 +339,7 @@
                                         <option value="November">November</option>
                                         <option value="December">December</option>
                                     </select>
-                                    <label class="col-md-2 control-label" for="availability_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="availability_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="availability_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -356,11 +356,9 @@
                                     </label>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="bedroom"><strong>Preference for Bedroom(s)
-                                            : </strong></label>
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="bedroom"><strong>Preference for Bedroom(s): </strong></label>
                                     <input id="bedroom" name="bedroom" type="text" placeholder="Number of Bedroom(s) " class="col-md-2 form-control input-md" required="" value="1">
-                                    <label class="col-md-2 control-label" for="bedroom_preference_label"><strong>Priority
-                                            : </strong></label>
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="bedroom_preference_label"><strong>Priority: </strong></label>
                                     <select name="bedroom_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
                                         <option value="HIGH">High</option>
@@ -371,11 +369,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="bathroom_label"><strong>Preference for
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="bathroom_label"><strong>Preference for
                                             Bathroom(s) : </strong></label>
-                                    <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-md-2 form-control input-md" required="" value="1">
-                                    <label class="col-md-2 control-label" for="bathroom_preference"><strong>Priority
-                                            : </strong></label>
+                                    <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-md-2 form-control input-md" required value="1">
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="bathroom_preference"><strong>Priority: </strong></label>
                                     <select name="bathroom_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
                                         <option value="HIGH">High</option>
@@ -386,10 +383,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="kitchen_label"><strong>Preference for
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="kitchen_label"><strong>Preference for
                                             Kitchen(s) : </strong></label>
                                     <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="col-md-2 form-control input-md" required="" value="1">
-                                    <label class="col-md-2 control-label" for="kitchen_preference"><strong>Priority :
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="kitchen_preference"><strong>Priority :
                                         </strong></label>
                                     <select name="kitchen_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -401,10 +398,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="drawing_label"><strong>for Drawing Room(s)
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="drawing_label"><strong>for Drawing Room(s)
                                             : </strong></label>
                                     <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="col-md-2 form-control input-md" required="" value="1">
-                                    <label class="col-md-2 control-label" for="drawing_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="drawing_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="drawing_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -416,10 +413,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="living_label"><strong>for Living Room(s)
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="living_label"><strong>for Living Room(s)
                                             : </strong></label>
                                     <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="col-md-2 form-control input-md" required="" value="1">
-                                    <label class="col-md-2 control-label" for="living_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="living_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="living_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -436,10 +433,10 @@
                                     </label>
                                 </div>
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="mosque_label">Min Distance for Mosque
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="mosque_label">Min Distance for Mosque
                                         : </label>
                                     <input id="mosque" name="mosque" type="text" placeholder="Min Distance for Mosque " class="col-md-2 form-control input-md">
-                                    <label class="col-md-2 control-label" for="mosque_preference_label">Priority : </label>
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="mosque_preference_label"><strong>Priority : </strong></label>
                                     <select name="mosque_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
                                         <option value="HIGH">High</option>
@@ -450,10 +447,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="hospital_label"><strong>Distance for Hospital
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="hospital_label"><strong>Distance for Hospital
                                             : </strong></label>
                                     <input id="hospital" name="hospital" type="text" placeholder="Min Distance for Hospital " class="col-md-2 form-control input-md">
-                                    <label class="col-md-2 control-label" for="hospital_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="hospital_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="hospital_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -465,10 +462,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="school_label"><strong>Distance for School
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="school_label"><strong>Distance for School
                                             : </strong></label>
                                     <input id="school" name="school" type="text" placeholder="Min Distance for School " class="col-md-2 form-control input-md">
-                                    <label class="col-md-2 control-label" for="school_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="school_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="school_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -480,10 +477,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="park_label"><strong>Min Distance for Park
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="park_label"><strong>Min Distance for Park
                                             : </strong></label>
                                     <input id="park" name="park" type="text" placeholder="Min Distance for Park " class="col-md-2 form-control input-md">
-                                    <label class="col-md-2 control-label" for="park_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="park_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="park_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>
@@ -495,10 +492,10 @@
                                 </div>
                                 <br />
                                 <div class="row">
-                                    <label class="col-md-4 control-label" for="department_store_label"><strong>Min Distance
+                                    <label class="col-md-4 control-label" style="padding-top: 6px;" for="department_store_label"><strong>Min Distance
                                             for Department Store : </strong></label>
                                     <input id="department_store" name="department_store" type="text" placeholder="Min Distance for Department Store " class="col-md-2 form-control input-md">
-                                    <label class="col-md-2 control-label" for="department_store_preference_label"><strong>Priority
+                                    <label class="col-md-2 control-label" style="padding-top: 6px;" for="department_store_preference_label"><strong>Priority
                                             : </strong></label>
                                     <select name="department_store_preference" class="col-md-4 selectpicker" style="height: 35px;">
                                         <option value="HIGHEST">Highest</option>

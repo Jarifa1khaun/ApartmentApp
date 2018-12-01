@@ -34,7 +34,7 @@ function getProfileInfo() {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                configurepage(data);
+                configurePage(data);
             }
         }).fail(function (errMsg) {
 
@@ -43,8 +43,10 @@ function getProfileInfo() {
     }
 }
 
-function configurepage(data) {
+function configurePage(data) {
 
+    var pageNumber = 1;
+    var pageSize = 5;
     var isAdmin = false;
 
     if (data !== null) {
@@ -55,17 +57,17 @@ function configurepage(data) {
             var x = document.getElementById("user-list-panel");
             x.style.display = "none";
         } else {
-            getUserList();
+            getUserList(pageNumber, pageSize);
         }
 
         updateNameCard(data);
-
-        getAdvertisementList();
+        getAdvertisementList(pageNumber, pageSize);
+    } else {
+        // error banner here
     }
 }
 
 function updateNameCard(data) {
-
 
     let adminStatus = 'Not Admin';
     if (data.isAdmin === true) {
@@ -77,9 +79,9 @@ function updateNameCard(data) {
     $('#card-admin').html('<h4>Admin Status: ' + adminStatus + '</h4>');
 }
 
-function getUserList() {
+function getUserList(pageNumber, pageSize) {
 
-    var userListURL = BASE_URL + 'users/?pageNumber=1&pageSize=100';
+    var userListURL = BASE_URL + `users/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
     if (apiKey !== null) {
 
@@ -96,19 +98,18 @@ function getUserList() {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                populateUserList(data);
+                populateUserList(data, pageNumber);
             }
         }).fail(function (errMsg) {
-
             console.log(errMsg);
         });
     }
 }
 
 
-function getAdvertisementList() {
+function getAdvertisementList(pageNumber, pageSize) {
 
-    var advertisementListURL = BASE_URL + 'advertisement/?pageNumber=1&pageSize=100';
+    var advertisementListURL = BASE_URL + `advertisement/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
     if (apiKey !== null) {
 
@@ -125,7 +126,7 @@ function getAdvertisementList() {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                populateAdList(data);
+                populateAdList(data, pageNumber);
             }
         }).fail(function (errMsg) {
 
@@ -134,7 +135,7 @@ function getAdvertisementList() {
     }
 }
 
-function populateUserList(data) {
+function populateUserList(data, pageNumber) {
 
     const userList = data.userList;
     const totalCount = data.totalCount;
@@ -162,8 +163,13 @@ function populateUserList(data) {
         tr.appendChild(emailTd);
 
 
+        let adminStatus = 'Not Admin';
+        if (item.isAdmin === true) {
+            adminStatus = 'Admin';
+        }
+
         var adminTd = document.createElement('TD')
-        adminTd.appendChild(document.createTextNode(item.isAdmin));
+        adminTd.appendChild(document.createTextNode(adminStatus));
         adminTd.setAttribute('class', 'text-right');
         tr.appendChild(adminTd);
 
@@ -172,8 +178,14 @@ function populateUserList(data) {
         btnTd.setAttribute('class', 'td-actions text-right');
 
         var profileBtn = document.createElement("BUTTON");
-        profileBtn.setAttribute('data-toggle', 'modal');
 
+        // data for modal
+        profileBtn.setAttribute('data-name', item.name);
+        profileBtn.setAttribute('data-email', item.email);
+        profileBtn.setAttribute('data-admin', item.isAdmin);
+        // end data
+
+        profileBtn.setAttribute('data-toggle', 'modal');
         profileBtn.setAttribute('data-target', '#usrInfoModal');
         profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
@@ -184,10 +196,28 @@ function populateUserList(data) {
         profileBtn.setAttribute('style', 'padding-right: 10px;');
         btnTd.appendChild(profileBtn);
 
+        var adbtn = document.createElement("BUTTON");
+
+        var pageName = 'user-ad.html?id=' + item._id;
+        adbtn.setAttribute('onclick', `changePage('${pageName}')`);
+        adbtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
+
+        var adBtnIcon = document.createElement("I");
+        adBtnIcon.setAttribute('class', 'fab fa-adversal');
+
+        adbtn.appendChild(adBtnIcon);
+        adbtn.setAttribute('style', 'padding-right: 10px;');
+        btnTd.appendChild(adbtn);
 
         var editBtn = document.createElement("BUTTON");
-        editBtn.setAttribute('data-toggle', 'modal');
 
+        // data for modal
+        editBtn.setAttribute('data-name', item.name);
+        editBtn.setAttribute('data-email', item.email);
+        editBtn.setAttribute('data-admin', item.isAdmin);
+        // end data
+
+        editBtn.setAttribute('data-toggle', 'modal');
         editBtn.setAttribute('data-target', '#userEditModal');
         editBtn.setAttribute('class', 'btn btn-success btn-simple btn-icon btn-sm');
 
@@ -197,12 +227,12 @@ function populateUserList(data) {
         editBtn.appendChild(editIcon);
         btnTd.appendChild(editBtn);
 
-
         var deleteBtn = document.createElement("BUTTON");
-        deleteBtn.setAttribute('data-toggle', 'modal');
 
-        deleteBtn.setAttribute('data-target', '#deleteModal');
+        deleteBtn.setAttribute('data-toggle', 'modal');
+        deleteBtn.setAttribute('data-target', '#usrDeleteModal');
         deleteBtn.setAttribute('class', 'btn btn-danger btn-simple btn-icon btn-sm');
+        deleteBtn.setAttribute('data-id', item._id);
 
         var delIcon = document.createElement("I");
         delIcon.setAttribute('class', 'tim-icons icon-simple-remove');
@@ -215,86 +245,258 @@ function populateUserList(data) {
         tableBody.appendChild(tr);
 
     }
-    table.appendChild(tableBody);
 
+    var oldTbody = table.tBodies[0];
+    if (oldTbody !== undefined) {
+
+        oldTbody.parentNode.replaceChild(tableBody, oldTbody);
+    } else {
+
+        table.appendChild(tableBody);
+    }
+
+    adjustUserListPaginationPannel(pageNumber, totalCount);
 }
 
-function populateAdList(data) {
+function populateAdList(data, pageNumber) {
+
 
     const adList = data.advertisementList;
     const totalCount = data.totalCount;
 
+    if (adList.length === 0) {
+        var noDataLabel = document.getElementById("no-data-text");
+        noDataLabel.style.display = "block";
+    } else {
 
-    var table = document.getElementById("ad-table");
-    var tableBody = document.createElement('TBODY');
+        var adTableDiv = document.getElementById("ad-table-div");
+        adTableDiv.style.display = "block";
 
-    for (i = 0; i < adList.length; i++) {
+        var table = document.getElementById("ad-table");
+        var tableBody = document.createElement('TBODY');
 
-        var item = adList[i];
+        for (i = 0; i < adList.length; i++) {
 
-        var tr = document.createElement('TR');
+            var item = adList[i];
 
-        var serialTd = document.createElement('TD')
-        serialTd.appendChild(document.createTextNode(i + 1));
-        serialTd.setAttribute('class', 'text-center');
-        tr.appendChild(serialTd);
+            var tr = document.createElement('TR');
 
-        var nameTd = document.createElement('TD')
-        nameTd.appendChild(document.createTextNode(item.name));
-        tr.appendChild(nameTd);
+            var serialTd = document.createElement('TD')
+            serialTd.appendChild(document.createTextNode(i + 1));
+            serialTd.setAttribute('class', 'text-center');
+            tr.appendChild(serialTd);
 
-
-        var validityTd = document.createElement('TD')
-        validityTd.appendChild(document.createTextNode(item.invalid_after));
-        tr.appendChild(validityTd);
-
-
-        var btnTd = document.createElement('TD')
-        btnTd.setAttribute('class', 'td-actions text-right');
-
-        var profileBtn = document.createElement("BUTTON");
-        profileBtn.setAttribute('data-toggle', 'modal');
-
-        profileBtn.setAttribute('data-target', '#usrInfoModal');
-        profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
-
-        var btnIcon = document.createElement("I");
-        btnIcon.setAttribute('class', 'tim-icons icon-single-02');
-
-        profileBtn.appendChild(btnIcon);
-        profileBtn.setAttribute('style', 'padding-right: 10px;');
-        btnTd.appendChild(profileBtn);
+            var nameTd = document.createElement('TD')
+            nameTd.appendChild(document.createTextNode(item.name));
+            tr.appendChild(nameTd);
 
 
-        var editBtn = document.createElement("BUTTON");
-        editBtn.setAttribute('data-toggle', 'modal');
-
-        editBtn.setAttribute('data-target', '#userEditModal');
-        editBtn.setAttribute('class', 'btn btn-success btn-simple btn-icon btn-sm');
-
-        var editIcon = document.createElement("I");
-        editIcon.setAttribute('class', 'tim-icons icon-settings-gear-63');
-
-        editBtn.appendChild(editIcon);
-        btnTd.appendChild(editBtn);
+            var validityTd = document.createElement('TD')
+            validityTd.appendChild(document.createTextNode(item.invalid_after));
+            tr.appendChild(validityTd);
 
 
-        var deleteBtn = document.createElement("BUTTON");
-        deleteBtn.setAttribute('data-toggle', 'modal');
+            var btnTd = document.createElement('TD')
+            btnTd.setAttribute('class', 'td-actions text-right');
 
-        deleteBtn.setAttribute('data-target', '#deleteModal');
-        deleteBtn.setAttribute('class', 'btn btn-danger btn-simple btn-icon btn-sm');
+            var profileBtn = document.createElement("BUTTON");
+            profileBtn.setAttribute('data-toggle', 'modal');
 
-        var delIcon = document.createElement("I");
-        delIcon.setAttribute('class', 'tim-icons icon-simple-remove');
+            profileBtn.setAttribute('data-target', '#usrInfoModal');
+            profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
-        deleteBtn.appendChild(delIcon);
-        btnTd.appendChild(deleteBtn);
+            var btnIcon = document.createElement("I");
+            btnIcon.setAttribute('class', 'tim-icons icon-single-02');
 
-        tr.appendChild(btnTd);
+            profileBtn.appendChild(btnIcon);
+            profileBtn.setAttribute('style', 'padding-right: 10px;');
+            btnTd.appendChild(profileBtn);
 
-        tableBody.appendChild(tr);
 
+            var editBtn = document.createElement("BUTTON");
+
+            var pageName = 'edit-ad.html?id=' + item._id;
+            editBtn.setAttribute('onclick', `changePage('${pageName}')`);
+
+            editBtn.setAttribute('class', 'btn btn-success btn-simple btn-icon btn-sm');
+
+            var editIcon = document.createElement("I");
+            editIcon.setAttribute('class', 'tim-icons icon-settings-gear-63');
+
+            editBtn.appendChild(editIcon);
+            btnTd.appendChild(editBtn);
+
+
+            var deleteBtn = document.createElement("BUTTON");
+
+            deleteBtn.setAttribute('data-toggle', 'modal');
+            deleteBtn.setAttribute('data-target', '#adDeleteModal');
+            deleteBtn.setAttribute('class', 'btn btn-danger btn-simple btn-icon btn-sm');
+            deleteBtn.setAttribute('data-id', item._id);
+
+            var delIcon = document.createElement("I");
+            delIcon.setAttribute('class', 'tim-icons icon-simple-remove');
+
+            deleteBtn.appendChild(delIcon);
+            btnTd.appendChild(deleteBtn);
+
+            tr.appendChild(btnTd);
+
+            tableBody.appendChild(tr);
+
+        }
+        var oldTbody = table.tBodies[0];
+        if (oldTbody !== undefined) {
+
+            oldTbody.parentNode.replaceChild(tableBody, oldTbody);
+        } else {
+
+            table.appendChild(tableBody);
+        }
+        adjustAdListPaginationPannel(pageNumber, totalCount);
     }
-    table.appendChild(tableBody);
+
+}
+
+
+function deleteUser(id) {
+    console.log('user delete: ' + id);
+    setTimeout(function () {
+        location.reload();
+    }, 500);
+}
+
+function deleteAd(id) {
+    console.log('ad delete: ' + id);
+    setTimeout(function () {
+        location.reload();
+    }, 500);
+}
+
+$('#usrDeleteModal').on('show.bs.modal', function (event) {
+
+    var idToDelete = $(event.relatedTarget).data('id');
+
+    $(this).find("#usr-del-confirm-btn").click(function () {
+
+        deleteUser(idToDelete);
+        $('#usrDeleteModal').remove();
+    });
+});
+
+$('#adDeleteModal').on('show.bs.modal', function (event) {
+
+    var idToDelete = $(event.relatedTarget).data('id');
+
+    $(this).find("#ad-del-confirm-btn").click(function () {
+
+        deleteAd(idToDelete);
+        $('#usrDeleteModal').remove();
+    });
+});
+
+
+$('#usrInfoModal').on('show.bs.modal', function (event) {
+
+
+    var name = $(event.relatedTarget).data('name');
+    var email = $(event.relatedTarget).data('email');
+    var admin = $(event.relatedTarget).data('admin');
+
+    let adminStatus = 'Not Admin';
+    if (admin === true) {
+        adminStatus = 'Admin';
+    }
+
+    $('#click-card-name').html('<h3>Name: ' + name + '</h3>');
+    $('#click-card-email').html('<h4>Email: ' + email + '</h4>');
+    $('#click-card-admin').html('<h4>Status: ' + adminStatus + '</h4>');
+});
+
+
+
+$('#userEditModal').on('show.bs.modal', function (event) {
+
+
+    var name = $(event.relatedTarget).data('name');
+    var email = $(event.relatedTarget).data('email');
+    var admin = $(event.relatedTarget).data('admin');
+
+    console.log(email);
+
+    let adminStatus = false;
+    if (admin === true) {
+        adminStatus = true;
+    }
+
+    $('#usr-edit-name').val(name);
+    $('#usr-edit-email').val(email);
+    $('#usr-edit-password').val('');
+    $('#usr-edit-admin').prop('checked', adminStatus);
+});
+
+
+function clearUsrDeleteModal(event) {
+    $(event.relatedTarget).data('id') = null;
+}
+
+function adjustUserListPaginationPannel(pageNumber, totalCount) {
+
+    var pageSize = 5;
+    var maxVisible = 5;
+    var totalPageCount = Math.floor(totalCount / pageSize) + 1;
+
+    if (totalPageCount < maxVisible) {
+        maxVisible = totalPageCount;
+    }
+
+    $('.usr-pagination').bootpag({
+        total: totalPageCount,
+        page: pageNumber,
+        maxVisible: maxVisible,
+        leaps: true,
+        firstLastUse: true,
+        first: '←',
+        last: '→',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'next',
+        prevClass: 'prev',
+        lastClass: 'last',
+        firstClass: 'first'
+    }).on("page", function (event, num) {
+        getUserList(num, pageSize);
+    });
+}
+
+
+function adjustAdListPaginationPannel(pageNumber, totalCount) {
+
+    var pageSize = 5;
+    var maxVisible = 5;
+    var totalPageCount = Math.floor(totalCount / pageSize) + 1;
+
+    if (totalPageCount < maxVisible) {
+        maxVisible = totalPageCount;
+    }
+
+    $('.ad-pagination').bootpag({
+        total: totalPageCount,
+        page: pageNumber,
+        maxVisible: maxVisible,
+        leaps: true,
+        firstLastUse: true,
+        first: '←',
+        last: '→',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'next',
+        prevClass: 'prev',
+        lastClass: 'last',
+        firstClass: 'first'
+    }).on("page", function (event, num) {
+        getAdvertisementList(num, pageSize);
+    });
 }

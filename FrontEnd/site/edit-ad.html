@@ -42,7 +42,7 @@
             </div>
             <ul class="navbar-nav">
                 <li class="nav-item p-0">
-                    <a class="nav-link" rel="tooltip" title="back to Profile" data-placement="bottom" style="cursor: pointer;"onclick="changePage('profile-page.html')">
+                    <a class="nav-link" rel="tooltip" title="back to Profile" data-placement="bottom" style="cursor: pointer;" onclick="changePage('profile-page.html')">
                         <i class="fas fa-user-circle"></i>
                         <p class="d-lg-none d-xl-none">Logout</p>
                     </a>
@@ -100,7 +100,7 @@
                     <div class="col-md-12 col-lg-8 ">
                         <form id="ad-create" class="form-horizontal">
 
-                            <div id="searchPreferencePanel" style="display: none">
+                            <div id="searchPreferencePanel">
                                 <div class="row justify-content-md-center">
                                     <label class="col-md-3 control-label" style="padding-top: 10px;" for="rent"><strong>Rent</strong></label>
                                     <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="col-md-5 form-control input-md" required>
@@ -116,23 +116,29 @@
                                     <input id="floor" name="floor" type="text" placeholder="Preferred floor" class="col-md-5 form-control input-md" required>
                                 </div>
                                 <br />
+
                                 <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" for="guards_label"><strong>Security Guards</strong></label>
-                                    <label class="col-sm-2"><input type="radio" name="security_guards" value="true" required> Yes
+                                    <label class="form-check-label">
+                                        <input id='security' class="form-check-input" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                        Security
                                     </label>
-                                    <label class="col-sm-2"><input type="radio" name="security_guards" value="false" required> No </label>
                                 </div>
                                 <br />
                                 <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" for="lift_label"><strong>Lift</strong></label>
-                                    <label class="col-sm-2"><input type="radio" name="lift_escalator" value="true" required> Yes </label>
-                                    <label class="col-sm-2"><input type="radio" name="lift_escalator" value="false" required>No</label>
+                                    <label class="form-check-label"  style="padding-left: 40px;">
+                                        <input id='lift' class="form-check-input" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                        Lift / Escalator
+                                    </label>
                                 </div>
                                 <br />
                                 <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" for="parking_label"><strong>Parking</strong></label>
-                                    <label class="col-sm-2"><input type="radio" name="parking" value="true" required> Yes </label>
-                                    <label class="col-sm-2"><input type="radio" name="parking" value="false" required> No </label>
+                                    <label class="form-check-label">
+                                        <input id='parking' class="form-check-input" type="checkbox">
+                                        <span class="form-check-sign"></span>
+                                        Parking
+                                    </label>
                                 </div>
                                 <br />
                                 <div class="row justify-content-md-center">
@@ -181,7 +187,7 @@
                                 </div>
                                 <br />
                                 <div class="row justify-content-md-center">
-                                    <button type="button" id="createAdBtn" class="btn btn-primary btn-success" onclick="createAd(event)" disabled>Create Advertisement</button>
+                                    <button type="button" id="createAdBtn" class="btn btn-primary btn-success" onclick="createAd(event)">Update Advertisement</button>
                                 </div>
 
                             </div>
@@ -213,7 +219,7 @@
     <!-- Custom JS -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNE_jdj3NJj4IUWwz4kCRUg3k0hjVzWc&callback=initMap"></script>
     <script src="js/landing_map.js"></script>
-    <script src="js/ad_create.js"></script>
+    <script src="js/edit_ad.js"></script>
 </body>
 
 </html>
