@@ -1,6 +1,7 @@
 var BASE_URL = "http://localhost:3000/api/";
 
 var apiKey = window.localStorage.getItem('x-auth-token');
+notificationCheck();
 getProfileInfo();
 
 function changePage(pageName) {
@@ -98,7 +99,7 @@ function getUserList(pageNumber, pageSize) {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                populateUserList(data, pageNumber);
+                populateUserList(data, pageNumber, pageSize);
             }
         }).fail(function (errMsg) {
             console.log(errMsg);
@@ -126,7 +127,7 @@ function getAdvertisementList(pageNumber, pageSize) {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                populateAdList(data, pageNumber);
+                populateAdList(data, pageNumber, pageSize);
             }
         }).fail(function (errMsg) {
 
@@ -135,7 +136,9 @@ function getAdvertisementList(pageNumber, pageSize) {
     }
 }
 
-function populateUserList(data, pageNumber) {
+function populateUserList(data, pageNumber, pageSize) {
+
+    var offset = (pageNumber - 1) * pageSize;
 
     const userList = data.userList;
     const totalCount = data.totalCount;
@@ -150,7 +153,7 @@ function populateUserList(data, pageNumber) {
         var tr = document.createElement('TR');
 
         var serialTd = document.createElement('TD')
-        serialTd.appendChild(document.createTextNode(i + 1));
+        serialTd.appendChild(document.createTextNode(offset + i + 1));
         serialTd.setAttribute('class', 'text-center');
         tr.appendChild(serialTd);
 
@@ -258,8 +261,9 @@ function populateUserList(data, pageNumber) {
     adjustUserListPaginationPannel(pageNumber, totalCount);
 }
 
-function populateAdList(data, pageNumber) {
+function populateAdList(data, pageNumber, pageSize) {
 
+    var offset = (pageNumber - 1) * pageSize;
 
     const adList = data.advertisementList;
     const totalCount = data.totalCount;
@@ -282,7 +286,7 @@ function populateAdList(data, pageNumber) {
             var tr = document.createElement('TR');
 
             var serialTd = document.createElement('TD')
-            serialTd.appendChild(document.createTextNode(i + 1));
+            serialTd.appendChild(document.createTextNode(offset + i + 1));
             serialTd.setAttribute('class', 'text-center');
             tr.appendChild(serialTd);
 
@@ -444,10 +448,13 @@ function adjustUserListPaginationPannel(pageNumber, totalCount) {
 
     var pageSize = 5;
     var maxVisible = 5;
-    var totalPageCount = Math.floor(totalCount / pageSize) + 1;
+    var totalPageCount = 0;
+    var fraction = totalCount / pageSize;
 
-    if (totalPageCount < maxVisible) {
-        maxVisible = totalPageCount;
+    if (Number.isInteger(fraction) === true) {
+        totalPageCount = fraction;
+    } else {
+        totalPageCount = Math.floor(fraction) + 1;
     }
 
     $('.usr-pagination').bootpag({
@@ -475,7 +482,15 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
 
     var pageSize = 5;
     var maxVisible = 5;
-    var totalPageCount = Math.floor(totalCount / pageSize) + 1;
+    var totalPageCount = 0;
+    var fraction = totalCount / pageSize;
+
+    if (Number.isInteger(fraction) === true) {
+        totalPageCount = fraction;
+    } else {
+        totalPageCount = Math.floor(fraction) + 1;
+    }
+
 
     if (totalPageCount < maxVisible) {
         maxVisible = totalPageCount;
@@ -499,4 +514,20 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
     }).on("page", function (event, num) {
         getAdvertisementList(num, pageSize);
     });
+}
+
+
+function notificationCheck() {
+
+    let params = (new URL(document.location)).searchParams;
+    let adCreationVal = params.get("adCreation");
+    let adUpdateVal = params.get("adUpdate");
+
+    if (adCreationVal === "successful") {
+        $.notify("Advertisement created successfully.", "success");
+    }
+
+    if (adUpdateVal === "successful") {
+        $.notify("Advertisement updated successfully.", "success");
+    }
 }

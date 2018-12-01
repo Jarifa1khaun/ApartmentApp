@@ -39,7 +39,7 @@ async function updateAdvertisement(req, res) {
 
     const {
         error
-    } = advertisementValidator.validateAdvertisement(req.body);
+    } = advertisementValidator.validateAdvertisementWithoutRequired(req.body);
 
     if (error) return res.status(400).send({
         message: error.details[0].message

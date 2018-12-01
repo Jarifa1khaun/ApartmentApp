@@ -7,3 +7,18 @@
     border: 2px solid white;
     border-radius: 5px;
 }
+
+.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transform: translate3d(0, -100%, 0);
+    transition: 0.2s all ease-in-out;
+}
+
+.active {
+    transform: translate3d(0, 0, 0) !important;
+    transition: 0s all ease-in-out;
+}

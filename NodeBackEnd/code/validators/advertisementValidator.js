@@ -51,13 +51,14 @@ function validateAdvertisementWithoutRequired(advertisement) {
     });
 
     const schema = {
+        _id: Joi.string().required(),
         name: Joi.string().min(5).max(100),
         created_on: Joi.date().timestamp(),
         invalid_after: Joi.date().timestamp(),
         is_rented: Joi.boolean(),
         sublet: Joi.boolean(),
-        contact_number: Joi.string().min(11).max(14),
-        alternative_contact: Joi.string().min(11).max(14),
+        contact_number: Joi.string().max(14),
+        alternative_contact: Joi.string().max(14),
         lat: Joi.number(),
         long: Joi.number(),
         address: Joi.string(),

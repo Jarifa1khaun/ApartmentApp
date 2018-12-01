@@ -1,5 +1,7 @@
 var BASE_URL = "http://localhost:3000/api/";
 
+var apiKey = window.localStorage.getItem('x-auth-token');
+
 $("#ad-create :input").keyup(enableDisableSubmitButton);
 $("#ad-create :input").keydown(enableDisableSubmitButton);
 $('#month').on('change', enableDisableSubmitButton);
@@ -48,102 +50,121 @@ function enableDisableSubmitButton() {
 
 function createAd(event) {
 
-    console.log('here');
     event.preventDefault();
 
-    const createAdURL = BASE_URL + "advertisement/";
+    if (apiKey !== undefined) {
+        var createAdURL = BASE_URL + "advertisement/";
 
-    var name = $('#house_name').val();
-    var invalid_after = $('#invalid_after').val();
-    var contact_number = $('#contact_number').val();
-    var alternative_contact = $('#alternative_contact_number').val();
-    var lat = $('#lat').val();
-    var long = $('#long').val();
-    var address = $('#address').val();
-    var thana = $('#thana').val();
-    var postCode = $('#postcode').val();
-    var zilla = $('#zilla').val();
-    var rent = $('#rent').val();
-    var size = $('#size').val();
-    var floor = $('#floor').val();
-    var month_of_availability = $('#month_of_availability').val();
+        var name = $('#house_name').val();
+        var invalid_after = $('#invalid_after').val();
+        var contact_number = $('#contact_number').val();
+        var alternative_contact = $('#alternative_contact').val();
+        var lat = document.getElementById('lat').textContent;
+        var long = document.getElementById('long').textContent;
 
-    var sublet = $('input[name=sublet]:checked').val();
-    var parking = $('input[name=parking]:checked').val();
-    var is_rented = $('input[name=is_rented]:checked').val();
-    var security_guards = $('input[name=security_guards]:checked').val();
-    var lift_escalator = $('input[name=lift_escalator]:checked').val();
+        var address = $('#address').val();
+        var thana = $('#thana').val();
+        var postCode = $('#post-code').val();
+        var zilla = $('#zilla').val();
 
-    var bedroom = $('#bedroom').val();
-    var bathroom = $('#bathroom').val();
-    var kitchen = $('#kitchen').val();
-    var drawing = $('#drawing').val();
-    var living = $('#living').val();
+        var rent = $('#rent').val();
+        var size = $('#size').val();
+        var floor = $('#floor').val();
+        var month_of_availability = $('#month').val();
+
+        var sublet = $('input[id=sublet]:checked').val();
+        var parking = $('input[id=parking]:checked').val();
+        var security_guards = $('input[id=security]:checked').val();
+        var lift_escalator = $('input[id=lift]:checked').val();
+
+        var bedroom = $('#bedroom').val();
+        var bathroom = $('#bathroom').val();
+        var kitchen = $('#kitchen').val();
+        var drawing = $('#drawing').val();
+        var living = $('#living').val();
 
 
+        var timeStamp = new Date(new Date().getTime() + 86399000).getTime();
 
-
-    const methodType = 'POST';
-    const postData = {
-        name: name,
-        invalid_after: invalid_after,
-        is_rented: is_rented,
-        sublet: sublet,
-        contact_number: contact_number,
-        alternative_contact: alternative_contact,
-        lat: lat,
-        long: long,
-        address: address,
-        thana: thana,
-        postCode: postCode,
-        zilla: zilla,
-        rent: rent,
-        size: size,
-        floor: floor,
-        security_guards: security_guards,
-        lift_escalator: lift_escalator,
-        parking: parking,
-        month_of_availability: month_of_availability,
-        rooms: {
-            bedroom: bedroom,
-            bathroom: bathroom,
-            kitchen: kitchen,
-            drawing: drawing,
-            living: living,
+        if (security_guards === undefined) {
+            security_guards = false;
+        } else {
+            security_guards = true;
         }
-    };
 
-    console.log(JSON.stringify(postData));
+        if (sublet === undefined) {
+            sublet = false;
+        } else {
+            sublet = true;
+        }
 
-    //    $.ajax({
-    //        type: methodType,
-    //        url: signupURL,
-    //        data: JSON.stringify(postData),
-    //        contentType: "application/json; charset=utf-8",
-    //        dataType: "json"
-    //    }).done(function (data, status, xhr) {
-    //        if (xhr.status === 200) {
-    //            const authToken = xhr.getResponseHeader('x-auth-token');
-    //            if (authToken !== undefined) {
-    //                window.localStorage.setItem('x-auth-token', authToken);
-    //            }
-    //            changePage("user.html");
-    //        }
-    //    }).fail(function (errMsg) {
-    //
-    //        var msg = JSON.parse(errMsg.responseText);
-    //        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
-    //
-    //        $('.log-status').addClass('wrong-entry');
-    //        $('.alert-msg').text(msgToDisplay).fadeIn(500);
-    //        setTimeout("$('.alert-msg').fadeOut(500);", 2000);
-    //
-    //        $(this).addClass("shake").delay(500).queue(function () {
-    //
-    //            $(this).removeClass("shake");
-    //            $(this).dequeue();
-    //        });
-    //    });
+        if (parking === undefined) {
+            parking = false;
+        } else {
+            parking = true;
+        }
+
+        if (lift_escalator === undefined) {
+            lift_escalator = false;
+        } else {
+            lift_escalator = true;
+        }
+
+
+        var methodType = 'POST';
+        var postData = {
+            name: name,
+            invalid_after: timeStamp,
+            is_rented: false,
+            sublet: sublet,
+            contact_number: contact_number,
+            alternative_contact: alternative_contact,
+            lat: lat,
+            long: long,
+            address: address,
+            thana: thana,
+            postCode: postCode,
+            zilla: zilla,
+            rent: rent,
+            size: size,
+            floor: floor,
+            security_guards: security_guards,
+            lift_escalator: lift_escalator,
+            parking: parking,
+            sublet: sublet,
+            month_of_availability: month_of_availability,
+            rooms: {
+                bedroom: bedroom,
+                bathroom: bathroom,
+                kitchen: kitchen,
+                drawing: drawing,
+                living: living,
+            }
+        };
+
+        $.ajax({
+            type: methodType,
+            url: createAdURL,
+            data: JSON.stringify(postData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                'x-auth-token': apiKey
+            },
+        }).done(function (data, status, xhr) {
+            if (xhr.status === 200) {
+                console.log('a new house has been created with id: ' + data._id);
+                changePage("profile-page.html?adCreation=successful");
+            }
+        }).fail(function (errMsg) {
+
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
+        });
+    } else {
+        showNotification("You need to login first.", "error");
+    }
 }
 
 function changePage(pageName) {
@@ -154,4 +175,29 @@ function logout(event) {
     event.preventDefault();
     window.localStorage.removeItem('x-auth-token')
     changePage("index.html");
+}
+
+$(function () {
+    $('#invalid_after').datetimepicker({
+        format: 'L',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+});
+
+
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
 }

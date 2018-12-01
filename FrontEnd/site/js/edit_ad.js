@@ -3,104 +3,133 @@ var BASE_URL = "http://localhost:3000/api/";
 var apiKey = window.localStorage.getItem('x-auth-token');
 getAdInfo();
 
-function createAd(event) {
+function updateAd(event) {
 
-    console.log('here');
     event.preventDefault();
 
-    const createAdURL = BASE_URL + "advertisement/";
+    if (apiKey !== undefined) {
 
-    var name = $('#house_name').val();
-    var invalid_after = $('#invalid_after').val();
-    var contact_number = $('#contact_number').val();
-    var alternative_contact = $('#alternative_contact_number').val();
-    var lat = $('#lat').val();
-    var long = $('#long').val();
-    var address = $('#address').val();
-    var thana = $('#thana').val();
-    var postCode = $('#postcode').val();
-    var zilla = $('#zilla').val();
-    var rent = $('#rent').val();
-    var size = $('#size').val();
-    var floor = $('#floor').val();
-    var month_of_availability = $('#month_of_availability').val();
+        var updateAdURL = BASE_URL + "advertisement/";
 
-    var sublet = $('input[name=sublet]:checked').val();
-    var parking = $('input[name=parking]:checked').val();
-    var is_rented = $('input[name=is_rented]:checked').val();
-    var security_guards = $('input[name=security_guards]:checked').val();
-    var lift_escalator = $('input[name=lift_escalator]:checked').val();
+        var id = $('#id').val();
+        var name = $('#house_name').val();
+        var invalid_after = $('#invalid_after').val();
+        var contact_number = $('#contact_number').val();
+        var alternative_contact = $('#alternative_contact').val();
+        var lat = document.getElementById('lat').textContent;
+        var long = document.getElementById('long').textContent;
 
-    var bedroom = $('#bedroom').val();
-    var bathroom = $('#bathroom').val();
-    var kitchen = $('#kitchen').val();
-    var drawing = $('#drawing').val();
-    var living = $('#living').val();
+        var address = $('#address').val();
+        var thana = $('#thana').val();
+        var postCode = $('#post-code').val();
+        var zilla = $('#zilla').val();
+
+        var isrented = $('#isrented').val();
+        var rent = $('#rent').val();
+        var size = $('#size').val();
+        var floor = $('#floor').val();
+        var month_of_availability = $('#month').val();
+
+        var sublet = $('input[id=sublet]:checked').val();
+        var parking = $('input[id=parking]:checked').val();
+        var security_guards = $('input[id=security]:checked').val();
+        var lift_escalator = $('input[id=lift]:checked').val();
+
+        var bedroom = $('#bedroom').val();
+        var bathroom = $('#bathroom').val();
+        var kitchen = $('#kitchen').val();
+        var drawing = $('#drawing').val();
+        var living = $('#living').val();
 
 
+        var timeStamp = new Date(new Date().getTime() + 86399000).getTime();
 
 
-    const methodType = 'POST';
-    const postData = {
-        name: name,
-        invalid_after: invalid_after,
-        is_rented: is_rented,
-        sublet: sublet,
-        contact_number: contact_number,
-        alternative_contact: alternative_contact,
-        lat: lat,
-        long: long,
-        address: address,
-        thana: thana,
-        postCode: postCode,
-        zilla: zilla,
-        rent: rent,
-        size: size,
-        floor: floor,
-        security_guards: security_guards,
-        lift_escalator: lift_escalator,
-        parking: parking,
-        month_of_availability: month_of_availability,
-        rooms: {
-            bedroom: bedroom,
-            bathroom: bathroom,
-            kitchen: kitchen,
-            drawing: drawing,
-            living: living,
+        if (security_guards === undefined) {
+            security_guards = false;
+        } else {
+            security_guards = true;
         }
-    };
 
-    console.log(JSON.stringify(postData));
+        if (sublet === undefined) {
+            sublet = false;
+        } else {
+            sublet = true;
+        }
 
-    //    $.ajax({
-    //        type: methodType,
-    //        url: signupURL,
-    //        data: JSON.stringify(postData),
-    //        contentType: "application/json; charset=utf-8",
-    //        dataType: "json"
-    //    }).done(function (data, status, xhr) {
-    //        if (xhr.status === 200) {
-    //            const authToken = xhr.getResponseHeader('x-auth-token');
-    //            if (authToken !== undefined) {
-    //                window.localStorage.setItem('x-auth-token', authToken);
-    //            }
-    //            changePage("user.html");
-    //        }
-    //    }).fail(function (errMsg) {
-    //
-    //        var msg = JSON.parse(errMsg.responseText);
-    //        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
-    //
-    //        $('.log-status').addClass('wrong-entry');
-    //        $('.alert-msg').text(msgToDisplay).fadeIn(500);
-    //        setTimeout("$('.alert-msg').fadeOut(500);", 2000);
-    //
-    //        $(this).addClass("shake").delay(500).queue(function () {
-    //
-    //            $(this).removeClass("shake");
-    //            $(this).dequeue();
-    //        });
-    //    });
+        if (parking === undefined) {
+            parking = false;
+        } else {
+            parking = true;
+        }
+
+        if (lift_escalator === undefined) {
+            lift_escalator = false;
+        } else {
+            lift_escalator = true;
+        }
+
+        if (isrented === undefined) {
+            isrented = false;
+        } else {
+            isrented = true;
+        }
+
+        var methodType = 'PUT';
+        var postData = {
+            _id: id,
+            name: name,
+            invalid_after: timeStamp,
+            is_rented: isrented,
+            sublet: sublet,
+            contact_number: contact_number,
+            alternative_contact: alternative_contact,
+            lat: lat,
+            long: long,
+            address: address,
+            thana: thana,
+            postCode: postCode,
+            zilla: zilla,
+            rent: rent,
+            size: size,
+            floor: floor,
+            security_guards: security_guards,
+            lift_escalator: lift_escalator,
+            parking: parking,
+            sublet: sublet,
+            month_of_availability: month_of_availability,
+            rooms: {
+                bedroom: bedroom,
+                bathroom: bathroom,
+                kitchen: kitchen,
+                drawing: drawing,
+                living: living,
+            }
+        };
+
+        $.ajax({
+            type: methodType,
+            url: updateAdURL,
+            data: JSON.stringify(postData),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                'x-auth-token': apiKey
+            },
+        }).done(function (data, status, xhr) {
+            if (xhr.status === 200) {
+                console.log('house updated with id: ' + data._id);
+                changePage("profile-page.html?adUpdate=successful");
+            }
+        }).fail(function (errMsg) {
+
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
+        });
+    } else {
+        showNotification("You need to login first.", "error");
+    }
 }
 
 function changePage(pageName) {
@@ -141,6 +170,7 @@ function getAdInfo() {
         }).fail(function (errMsg) {
 
             console.log(errMsg);
+            // nofify here
         });
     }
 }
@@ -151,8 +181,7 @@ function configurepage(data) {
     var security = false;
     var lift = false;
     var parking = false;
-
-    var inputMonth = data.month_of_availability;
+    var sublet = false;
 
     if (data.security_guards === true) {
         security = true;
@@ -163,17 +192,33 @@ function configurepage(data) {
     if (data.parking === true) {
         parking = true;
     }
+    if (data.sublet === true) {
+        sublet = true;
+    }
 
+    $('#id').val(data._id);
+    $('#house_name').val(data.name);
+    $('#contact_number').val(data.contact_number);
+    $('#alternative_contact').val(data.alternative_contact);
     $('#lat').text(data.lat);
     $('#long').text(data.long);
+
+    $('#address').val(data.address);
+    $('#thana').val(data.thana);
+    $('#post-code').val(data.postCode);
+    $('#zilla').val(data.zilla);
+
+
+    $('#isrented').val(data.is_rented);
     $('#rent').val(data.rent);
     $('#size').val(data.size);
     $('#floor').val(data.floor);
+    $('#month').val(data.month_of_availability);
 
-    $('#security').prop('checked', security);
-    $('#life').prop('checked', lift);
+    $('#sublet').prop('checked', sublet);
     $('#parking').prop('checked', parking);
-    $('#month').val(inputMonth);
+    $('#security').prop('checked', security);
+    $('#lift').prop('checked', lift);
 
     var rooms = data.rooms;
 
@@ -184,4 +229,29 @@ function configurepage(data) {
         $('#drawing').val(rooms.drawing);
         $('#living').val(rooms.living);
     }
+}
+
+$(function () {
+    $('#invalid_after').datetimepicker({
+        format: 'L',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: 'fa fa-chevron-left',
+            next: 'fa fa-chevron-right',
+            today: 'fa fa-screenshot',
+            clear: 'fa fa-trash',
+            close: 'fa fa-remove'
+        }
+    });
+});
+
+
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
 }

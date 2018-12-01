@@ -84,12 +84,12 @@
                                 <div class="row justify-content-md-center">
                                     <label class="col-sm-3 control-label" for="lat_label"><strong>Lattitude:
                                         </strong></label>
-                                    <label class="col-sm-4 control-label" style="padding-left: 50px;" id="lat" name="lat">Place for selected lattitude </label>
+                                    <label class="col-sm-4 control-label" style="padding-left: 0px;" id="lat" name="lat">Place for selected lattitude </label>
                                 </div>
                                 <div class="row justify-content-md-center">
                                     <label class="col-sm-3 control-label" for="long_label"><strong>Longitude:
                                         </strong></label>
-                                    <label class="col-sm-4 control-label" style="padding-left: 50px;" id="long" name="long">Place for selected lattitude </label>
+                                    <label class="col-sm-4 control-label" style="padding-left: 0px;" id="long" name="long">Place for selected lattitude </label>
                                 </div>
                                 <br />
                             </div>
@@ -100,96 +100,160 @@
                     <div class="col-md-12 col-lg-8 ">
                         <form id="ad-create" class="form-horizontal">
 
-                            <div id="searchPreferencePanel">
-                                <div class="row justify-content-md-center">
-                                    <label class="col-md-3 control-label" style="padding-top: 10px;" for="rent"><strong>Rent</strong></label>
-                                    <input id="rent" name="rent" type="text" placeholder="Max acceptable rent" class="col-md-5 form-control input-md" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-md-3 control-label" style="padding-top: 10px;" for="size_label"><strong>Size in square feet</strong></label>
-                                    <input id="size" name="size" type="text" placeholder="Max acceptable size" class="col-md-5 form-control input-md" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-md-3 control-label" style="padding-top: 10px;" for="floor_label"><strong>Floor</strong></label>
-                                    <input id="floor" name="floor" type="text" placeholder="Preferred floor" class="col-md-5 form-control input-md" required>
-                                </div>
-                                <br />
+                            <input id="id" name="id_of_house" type="text" hidden>
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 6px;" for="house_name"><strong>House Name</strong></label>
+                                <input id="house_name" name="house_name" type="text" placeholder="Name of your house" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 6px;" for="invalid_after"><strong>Invalid After</strong></label>
+                                <input id='invalid_after' placeholder="Valid until" type="text" class="col-md-5 form-control datepicker" />
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="contact_number "><strong>Contact Number</strong></label>
+                                <input id="contact_number" name="contact_number" type="text" placeholder="Primary Contact Number" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="alternative_contact"><strong>Alternative Contact</strong></label>
+                                <input id="alternative_contact" name="alternative_contact" type="text" placeholder="Alternative Contact Number" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
 
-                                <div class="row justify-content-md-center">
-                                    <label class="form-check-label">
-                                        <input id='security' class="form-check-input" type="checkbox">
-                                        <span class="form-check-sign"></span>
-                                        Security
-                                    </label>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="form-check-label"  style="padding-left: 40px;">
-                                        <input id='lift' class="form-check-input" type="checkbox">
-                                        <span class="form-check-sign"></span>
-                                        Lift / Escalator
-                                    </label>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="form-check-label">
-                                        <input id='parking' class="form-check-input" type="checkbox">
-                                        <span class="form-check-sign"></span>
-                                        Parking
-                                    </label>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" style="padding-top: 3px;" for="month_of_availability"><strong>Month of Availability </strong></label>
-                                    <select name="month_of_availability" id='month' class="col-md-4 selectpicker" style="height: 25px;" required>
-                                        <option value=""></option>
-                                        <option value="January">January</option>
-                                        <option value="February">February</option>
-                                        <option value="March">March</option>
-                                        <option value="April">April</option>
-                                        <option value="May">May</option>
-                                        <option value="June">June</option>
-                                        <option value="July">July</option>
-                                        <option value="August">August</option>
-                                        <option value="September">September</option>
-                                        <option value="October">October</option>
-                                        <option value="November">November</option>
-                                        <option value="December">December</option>
-                                    </select>
-                                </div>
-                                <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="address"><strong>Address</strong></label>
+                                <input id="address" name="address" type="text" placeholder="Address" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
 
-                                <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" style="padding-top: 10px;" for="bedroom"><strong>Number of bedroom(s) </strong></label>
-                                    <input id="bedroom" name="bedroom" type="text" placeholder="Number of Bedroom(s) " class="col-sm-4 form-control" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" style="padding-top: 10px;" for="bathroom_label"><strong>Number of bathroom(s) </strong></label>
-                                    <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-sm-4 form-control input-md" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-md-4 control-label" style="padding-top: 10px;" for="kitchen_label"><strong>Number of kitchen(s) </strong></label>
-                                    <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="col-sm-4 form-control input-md" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" style="padding-top: 10px;" for="drawing_label"><strong>Number of drawing-room(s) </strong></label>
-                                    <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="col-sm-4 form-control input-md" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <label class="col-sm-4 control-label" style="padding-top: 10px;" for="living_label"><strong>Number of living-room(s) </strong></label>
-                                    <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="col-sm-4 form-control input-md" required>
-                                </div>
-                                <br />
-                                <div class="row justify-content-md-center">
-                                    <button type="button" id="createAdBtn" class="btn btn-primary btn-success" onclick="createAd(event)">Update Advertisement</button>
-                                </div>
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="thana"><strong>Thana</strong></label>
+                                <input id="thana" name="thana" type="text" placeholder="Thana" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
 
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="post-code"><strong>Post Code</strong></label>
+                                <input id="post-code" name="post-code" type="text" placeholder="Post Code" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="zilla"><strong>Zilla</strong></label>
+                                <input id="zilla" name="zilla" type="text" placeholder="zilla" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="rent"><strong>Rent</strong></label>
+                                <input id="rent" name="rent" type="text" placeholder="Max rent" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="size_label"><strong>Size in square feet</strong></label>
+                                <input id="size" name="size" type="text" placeholder="Size" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-3 control-label" style="padding-top: 10px;" for="floor_label"><strong>Floor</strong></label>
+                                <input id="floor" name="floor" type="text" placeholder="Floor" class="col-md-5 form-control input-md" required>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="form-check-label">
+                                    <input id='isrented' class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    Rented
+                                </label>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="form-check-label">
+                                    <input id='sublet' class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    Sub-Let
+                                </label>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="form-check-label">
+                                    <input id='security' class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    Security
+                                </label>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="form-check-label" style="padding-left: 40px;">
+                                    <input id='lift' class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    Lift / Escalator
+                                </label>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="form-check-label">
+                                    <input id='parking' class="form-check-input" type="checkbox">
+                                    <span class="form-check-sign"></span>
+                                    Parking
+                                </label>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-sm-4 control-label" style="padding-top: 3px;" for="month_of_availability"><strong>Month of Availability </strong></label>
+                                <select name="month_of_availability" id='month' class="col-md-4 selectpicker" style="height: 25px;" required>
+                                    <option value=""></option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
+                                </select>
+                            </div>
+                            <br />
+
+                            <div class="row justify-content-md-center">
+                                <label class="col-sm-4 control-label" style="padding-top: 10px;" for="bedroom"><strong>Number of bedroom(s) </strong></label>
+                                <input id="bedroom" name="bedroom" type="text" placeholder="Number of Bedroom(s) " class="col-sm-4 form-control" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-sm-4 control-label" style="padding-top: 10px;" for="bathroom_label"><strong>Number of bathroom(s) </strong></label>
+                                <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-sm-4 form-control input-md" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-md-4 control-label" style="padding-top: 10px;" for="kitchen_label"><strong>Number of kitchen(s) </strong></label>
+                                <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="col-sm-4 form-control input-md" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-sm-4 control-label" style="padding-top: 10px;" for="drawing_label"><strong>Number of drawing-room(s) </strong></label>
+                                <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="col-sm-4 form-control input-md" required>
+                            </div>
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <label class="col-sm-4 control-label" style="padding-top: 10px;" for="living_label"><strong>Number of living-room(s) </strong></label>
+                                <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="col-sm-4 form-control input-md" required>
+                            </div>
+
+                            <br />
+                            <div class="row justify-content-md-center">
+                                <button type="button" id="updateAdBtn" class="btn btn-primary btn-success" onclick="updateAd(event)">Update Advertisement</button>
                             </div>
                         </form>
                     </div>
@@ -216,6 +280,9 @@
     <!--    <script src="demo/demo.js"></script>-->
     <!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
     <script src="js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
+    <!-- notification library-->
+    <script type="text/javascript" src="js/lib/notify.js"></script>
+
     <!-- Custom JS -->
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNE_jdj3NJj4IUWwz4kCRUg3k0hjVzWc&callback=initMap"></script>
     <script src="js/landing_map.js"></script>

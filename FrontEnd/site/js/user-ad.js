@@ -88,7 +88,7 @@ function getAdvertisementList(id, pageNumber, pageSize) {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                populateAdList(data, pageNumber);
+                populateAdList(data, pageNumber, pageSize);
             }
         }).fail(function (errMsg) {
 
@@ -97,7 +97,9 @@ function getAdvertisementList(id, pageNumber, pageSize) {
     }
 }
 
-function populateAdList(data, pageNumber) {
+function populateAdList(data, pageNumber, pageSize) {
+
+    var offset = (pageNumber - 1) * pageSize;
 
     const adList = data.advertisementList;
     const totalCount = data.totalCount;
@@ -117,70 +119,70 @@ function populateAdList(data, pageNumber) {
 
             var item = adList[i];
 
-        var tr = document.createElement('TR');
+            var tr = document.createElement('TR');
 
-        var serialTd = document.createElement('TD')
-        serialTd.appendChild(document.createTextNode(i + 1));
-        serialTd.setAttribute('class', 'text-center');
-        tr.appendChild(serialTd);
+            var serialTd = document.createElement('TD')
+            serialTd.appendChild(document.createTextNode(offset + i + 1));
+            serialTd.setAttribute('class', 'text-center');
+            tr.appendChild(serialTd);
 
-        var nameTd = document.createElement('TD')
-        nameTd.appendChild(document.createTextNode(item.name));
-        tr.appendChild(nameTd);
-
-
-        var validityTd = document.createElement('TD')
-        validityTd.appendChild(document.createTextNode(item.invalid_after));
-        tr.appendChild(validityTd);
+            var nameTd = document.createElement('TD')
+            nameTd.appendChild(document.createTextNode(item.name));
+            tr.appendChild(nameTd);
 
 
-        var btnTd = document.createElement('TD')
-        btnTd.setAttribute('class', 'td-actions text-right');
-
-        var profileBtn = document.createElement("BUTTON");
-        profileBtn.setAttribute('data-toggle', 'modal');
-
-        profileBtn.setAttribute('data-target', '#usrInfoModal');
-        profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
-
-        var btnIcon = document.createElement("I");
-        btnIcon.setAttribute('class', 'tim-icons icon-single-02');
-
-        profileBtn.appendChild(btnIcon);
-        profileBtn.setAttribute('style', 'padding-right: 10px;');
-        btnTd.appendChild(profileBtn);
+            var validityTd = document.createElement('TD')
+            validityTd.appendChild(document.createTextNode(item.invalid_after));
+            tr.appendChild(validityTd);
 
 
-        var editBtn = document.createElement("BUTTON");
+            var btnTd = document.createElement('TD')
+            btnTd.setAttribute('class', 'td-actions text-right');
 
-        var pageName = 'edit-ad.html?id=' + item._id;
-        editBtn.setAttribute('onclick', `changePage('${pageName}')`);
+            var profileBtn = document.createElement("BUTTON");
+            profileBtn.setAttribute('data-toggle', 'modal');
 
-        editBtn.setAttribute('class', 'btn btn-success btn-simple btn-icon btn-sm');
+            profileBtn.setAttribute('data-target', '#usrInfoModal');
+            profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
-        var editIcon = document.createElement("I");
-        editIcon.setAttribute('class', 'tim-icons icon-settings-gear-63');
+            var btnIcon = document.createElement("I");
+            btnIcon.setAttribute('class', 'tim-icons icon-single-02');
 
-        editBtn.appendChild(editIcon);
-        btnTd.appendChild(editBtn);
+            profileBtn.appendChild(btnIcon);
+            profileBtn.setAttribute('style', 'padding-right: 10px;');
+            btnTd.appendChild(profileBtn);
 
 
-        var deleteBtn = document.createElement("BUTTON");
+            var editBtn = document.createElement("BUTTON");
 
-        deleteBtn.setAttribute('data-toggle', 'modal');
-        deleteBtn.setAttribute('data-target', '#adDeleteModal');
-        deleteBtn.setAttribute('class', 'btn btn-danger btn-simple btn-icon btn-sm');
-        deleteBtn.setAttribute('data-id', item._id);
+            var pageName = 'edit-ad.html?id=' + item._id;
+            editBtn.setAttribute('onclick', `changePage('${pageName}')`);
 
-        var delIcon = document.createElement("I");
-        delIcon.setAttribute('class', 'tim-icons icon-simple-remove');
+            editBtn.setAttribute('class', 'btn btn-success btn-simple btn-icon btn-sm');
 
-        deleteBtn.appendChild(delIcon);
-        btnTd.appendChild(deleteBtn);
+            var editIcon = document.createElement("I");
+            editIcon.setAttribute('class', 'tim-icons icon-settings-gear-63');
 
-        tr.appendChild(btnTd);
+            editBtn.appendChild(editIcon);
+            btnTd.appendChild(editBtn);
 
-        tableBody.appendChild(tr);
+
+            var deleteBtn = document.createElement("BUTTON");
+
+            deleteBtn.setAttribute('data-toggle', 'modal');
+            deleteBtn.setAttribute('data-target', '#adDeleteModal');
+            deleteBtn.setAttribute('class', 'btn btn-danger btn-simple btn-icon btn-sm');
+            deleteBtn.setAttribute('data-id', item._id);
+
+            var delIcon = document.createElement("I");
+            delIcon.setAttribute('class', 'tim-icons icon-simple-remove');
+
+            deleteBtn.appendChild(delIcon);
+            btnTd.appendChild(deleteBtn);
+
+            tr.appendChild(btnTd);
+
+            tableBody.appendChild(tr);
 
         }
 
@@ -221,10 +223,13 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
 
     var pageSize = 5;
     var maxVisible = 5;
-    var totalPageCount = Math.floor(totalCount / pageSize) + 1;
+    var totalPageCount = 0;
+    var fraction = totalCount / pageSize;
 
-    if (totalPageCount < maxVisible) {
-        maxVisible = totalPageCount;
+    if (Number.isInteger(fraction) === true) {
+        totalPageCount = fraction;
+    } else {
+        totalPageCount = Math.floor(fraction) + 1;
     }
 
     $('.ad-pagination').bootpag({
