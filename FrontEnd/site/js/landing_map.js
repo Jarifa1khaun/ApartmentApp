@@ -7,11 +7,15 @@ var circle;
 var lastClickedOnMap;
 
 function initMap() {
+
+    var center_lat = 23.737431;
+    var center_long = 90.395547;
+
     map = new google.maps.Map(document.getElementById('landing_map'), {
         zoom: 14,
         center: {
-            lat: 23.7507085,
-            lng: 90.4137663
+            lat: center_lat,
+            lng: center_long
         },
         mapTypeId: 'terrain',
         draggableCursor: 'default',
@@ -34,7 +38,60 @@ function initMap() {
     });
 }
 
+
+function mapInitializationForEdit() {
+
+    setTimeout(function () {
+
+        var center_lat = 23.737431;
+        var center_long = 90.395547;
+
+        var lat = document.getElementById('lat').textContent;
+        var long = document.getElementById('long').textContent;
+
+        var parsed_lat = Number.parseFloat(lat);
+        var parsed_long = Number.parseFloat(long);
+
+        if (parsed_lat !== undefined && parsed_long !== undefined && typeof parsed_lat === 'number' && typeof parsed_long === 'number') {
+            center_lat = parsed_lat;
+            center_long = parsed_long;
+        }
+
+
+        map = new google.maps.Map(document.getElementById('landing_map'), {
+            zoom: 14,
+            center: {
+                lat: center_lat,
+                lng: center_long
+            },
+            mapTypeId: 'terrain',
+            draggableCursor: 'default',
+            gestureHandling: 'greedy',
+            streetViewControl: false,
+            zoomControl: false,
+            mapTypeControl: false,
+            scaleControl: true,
+        });
+
+        addMarker(new google.maps.LatLng(center_lat, center_long));
+        showMarkers();
+
+        // This event listener will call addMarker() when the map is clicked.
+        map.addListener('click', function (event) {
+            deleteMarkers();
+            clearCirle();
+            addMarker(event.latLng);
+            lastClickedOnMap = event.latLng;
+            $('#lat').text(event.latLng.lat()).trigger('latChanged');
+            $('#long').text(event.latLng.lng()).trigger('longChanged');
+            map.setCenter(event.latLng);
+        });
+
+    }, 1000);
+}
+
 function drawCircle(location, radius) {
+
     circle = new google.maps.Circle({
         strokeColor: '#FF0000',
         strokeOpacity: 0.8,

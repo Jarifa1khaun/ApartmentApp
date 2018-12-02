@@ -215,6 +215,7 @@ function populateUserList(data, pageNumber, pageSize) {
         var editBtn = document.createElement("BUTTON");
 
         // data for modal
+        editBtn.setAttribute('data-id', item._id);
         editBtn.setAttribute('data-name', item.name);
         editBtn.setAttribute('data-email', item.email);
         editBtn.setAttribute('data-admin', item.isAdmin);
@@ -362,21 +363,6 @@ function populateAdList(data, pageNumber, pageSize) {
 
 }
 
-
-function deleteUser(id) {
-    console.log('user delete: ' + id);
-    setTimeout(function () {
-        location.reload();
-    }, 500);
-}
-
-function deleteAd(id) {
-    console.log('ad delete: ' + id);
-    setTimeout(function () {
-        location.reload();
-    }, 500);
-}
-
 $('#usrDeleteModal').on('show.bs.modal', function (event) {
 
     var idToDelete = $(event.relatedTarget).data('id');
@@ -421,7 +407,7 @@ $('#usrInfoModal').on('show.bs.modal', function (event) {
 
 $('#userEditModal').on('show.bs.modal', function (event) {
 
-
+    var id = $(event.relatedTarget).data('id');
     var name = $(event.relatedTarget).data('name');
     var email = $(event.relatedTarget).data('email');
     var admin = $(event.relatedTarget).data('admin');
@@ -433,6 +419,7 @@ $('#userEditModal').on('show.bs.modal', function (event) {
         adminStatus = true;
     }
 
+    $('#usr-edit-id').val(id);
     $('#usr-edit-name').val(name);
     $('#usr-edit-email').val(email);
     $('#usr-edit-password').val('');
@@ -522,6 +509,9 @@ function notificationCheck() {
     let params = (new URL(document.location)).searchParams;
     let adCreationVal = params.get("adCreation");
     let adUpdateVal = params.get("adUpdate");
+    let userUpdateVal = params.get("userUpdate");
+    let userDeleteVal = params.get("userDelete");
+    let adDeleteVal = params.get("adDelete");
 
     if (adCreationVal === "successful") {
         $.notify("Advertisement created successfully.", "success");
@@ -530,4 +520,134 @@ function notificationCheck() {
     if (adUpdateVal === "successful") {
         $.notify("Advertisement updated successfully.", "success");
     }
+
+    if (userUpdateVal === "successful") {
+        $.notify("User updated successfully.", "success");
+    }
+
+    if (userDeleteVal === "successful") {
+        $.notify("User deleted successfully.", "success");
+    }
+
+    if (adDeleteVal === "successful") {
+        $.notify("Advertisement deleted successfully.", "success");
+    }
+}
+
+
+function updateUser(event) {
+
+    event.preventDefault();
+
+    const updateUserURL = BASE_URL + "users/";
+    const methodType = 'PUT';
+
+    var isAdmin = false;
+    var id = $('#usr-edit-id').val();
+    var name = $('#usr-edit-name').val();
+    var email = $('#usr-edit-email').val();
+    var password = $('#usr-edit-password').val();
+    var adminship = $('input[id=usr-edit-admin]:checked').val();
+
+    if (adminship !== undefined && adminship === 'on') {
+        isAdmin = true;
+    }
+
+    const uncleanedPostData = {
+        _id: id,
+        name: name,
+        email: email,
+        password: password,
+        isAdmin: isAdmin
+    };
+
+    const postData = removeEmptyPropsFromObject(uncleanedPostData);
+
+    $.ajax({
+        type: methodType,
+        url: updateUserURL,
+        data: JSON.stringify(postData),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            'x-auth-token': apiKey
+        },
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            changePage("profile-page.html?userUpdate=successful");
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        $.notify(msgToDisplay, "error");
+
+    });
+}
+
+function removeEmptyPropsFromObject(obj) {
+
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined ||
+            (typeof obj[propName] === 'string' && obj[propName].length === 0)) {
+
+            delete obj[propName];
+        }
+    }
+
+    return obj;
+}
+
+
+function deleteUser(id) {
+
+    const deleteUserURL = BASE_URL + `users/${id}`;
+    const methodType = 'DELETE';
+
+    $.ajax({
+        type: methodType,
+        url: deleteUserURL,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            'x-auth-token': apiKey
+        },
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            changePage("profile-page.html?userDelete=successful");
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        $.notify(msgToDisplay, "error");
+    });
+}
+
+function deleteAd(id) {
+
+    const deleteUserURL = BASE_URL + `advertisement/${id}`;
+    const methodType = 'DELETE';
+
+    $.ajax({
+        type: methodType,
+        url: deleteUserURL,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            'x-auth-token': apiKey
+        },
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            changePage("profile-page.html?adDelete=successful");
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        $.notify(msgToDisplay, "error");
+    });
 }

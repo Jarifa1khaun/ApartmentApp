@@ -50,11 +50,19 @@ async function updateAdvertisement(req, res) {
         if (advertisementFromDb) {
             if (req.user.isAdmin === true || advertisementFromDb.user === req.user._id) {
 
-                Advertisement.findOneAndUpdate({
-                    _id: req.body._id
-                }, req.body, {
-                    upsert: false
-                }, function (err, advertisement) {
+                let advertisement = new Advertisement(req.body);
+                delete advertisement._id;
+                advertisement.user = req.user._id
+                advertisement.location = {
+                    type: "Point",
+                    coordinates: [req.body.long, req.body.lat]
+                };
+                
+                console.log('address: ' + advertisement.address);
+                Advertisement.update({
+                    _id: advertisementFromDb._id
+                }, advertisement, function (err, advertisement) {
+
                     if (error) return res.status(500).send({
                         message: error
                     });
@@ -63,7 +71,7 @@ async function updateAdvertisement(req, res) {
                     });
                 });
 
-                nearbyUpdate(advertisementFromDb);
+                nearbyUpdate(advertisement);
             } else {
                 return res.status(403).send({
                     message: 'You do not have necessary permission to perform this operation.'
@@ -298,7 +306,7 @@ async function getAdviceOnHouses(req, res) {
 
     const sortedAds = await algorithm.getSortedArray(req.body, advertisements);
 
-    
+
     let arr = [];
     for (i in sortedAds) {
         arr.push(sortedAds[i].rank);

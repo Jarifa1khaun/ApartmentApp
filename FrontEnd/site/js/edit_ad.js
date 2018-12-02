@@ -76,7 +76,7 @@ function updateAd(event) {
         }
 
         var methodType = 'PUT';
-        var postData = {
+        var uncleanedPostData = {
             _id: id,
             name: name,
             invalid_after: timeStamp,
@@ -107,6 +107,10 @@ function updateAd(event) {
             }
         };
 
+        const postData = removeEmptyPropsFromObject(uncleanedPostData);
+
+        console.log(JSON.stringify(postData));
+
         $.ajax({
             type: methodType,
             url: updateAdURL,
@@ -118,7 +122,6 @@ function updateAd(event) {
             },
         }).done(function (data, status, xhr) {
             if (xhr.status === 200) {
-                console.log('house updated with id: ' + data._id);
                 changePage("profile-page.html?adUpdate=successful");
             }
         }).fail(function (errMsg) {
@@ -254,4 +257,18 @@ function showNotification(message, type) {
     $.notify(message, type, {
         autoHideDelay: 8000
     });
+}
+
+
+function removeEmptyPropsFromObject(obj) {
+
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined ||
+            (typeof obj[propName] === 'string' && obj[propName].length === 0)) {
+
+            delete obj[propName];
+        }
+    }
+
+    return obj;
 }

@@ -68,7 +68,8 @@ async function updateUser(req, res) {
         });
 
         user = _.pick(req.body, ['name', 'email', 'isAdmin']);
-        if (req.body.password) {
+        console.log(req.body.password);
+        if (req.body.password !== undefined && typeof req.body.password === 'string' && req.body.password.length !== 0) {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(user.password, salt);
         }
@@ -95,20 +96,30 @@ async function updateUser(req, res) {
 
 async function deleteSingleUser(req, res) {
     try {
-        User.deleteOne({
-            _id: req.params.id
-        }, function (err) {
+
+        const user = await User.findById(req.params.id);
+
+        if (!user) return res.status(404).send({
+            message: "user not found"
+        });
+
+        user.remove().then(function (product) {
+
+            return res.status(200).send({
+                message: 'user deletion successful'
+            });
+
+        }).catch(function (err) {
             if (err) return res.status(500).send({
                 message: error.details[0].message
             });
-        });
-
-        return res.status(200).send({
-            message: 'user deletion successful'
-        });
+        })
+        
     } catch (error) {
         console.log(error);
-        return res.status(500).send({message: "something wrong happened"});
+        return res.status(500).send({
+            message: "something wrong happened"
+        });
     }
 }
 
@@ -162,7 +173,7 @@ async function getAllUser(req, res) {
         } else {
             const userList = _.map(users, _.partialRight(_.pick, ['_id', 'name', 'email', 'isAdmin']));
             let response = {
-                userList: userList, 
+                userList: userList,
                 totalCount: count
             };
             res.status(200).send(response);
@@ -174,8 +185,10 @@ async function findUserById(req, res) {
 
     try {
         const user = await User.findById(req.params.id);
-        
-        if (!user) return res.status(404).send({message: "user not found"});
+
+        if (!user) return res.status(404).send({
+            message: "user not found"
+        });
 
         return res.status(200).send(_.pick(user, ['name', 'email', 'isAdmin']));
     } catch (error) {
