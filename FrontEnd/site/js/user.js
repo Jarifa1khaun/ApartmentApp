@@ -4,18 +4,6 @@ var apiKey = window.localStorage.getItem('x-auth-token');
 notificationCheck();
 getProfileInfo();
 
-function changePage(pageName) {
-    window.location.replace(pageName);
-}
-
-function logout(event) {
-    event.preventDefault();
-    window.localStorage.removeItem('x-auth-token')
-    changePage("index.html");
-}
-
-
-
 function getProfileInfo() {
 
     var profileInfoURL = BASE_URL + "users/me";
@@ -102,35 +90,6 @@ function getUserList(pageNumber, pageSize) {
                 populateUserList(data, pageNumber, pageSize);
             }
         }).fail(function (errMsg) {
-            console.log(errMsg);
-        });
-    }
-}
-
-
-function getAdvertisementList(pageNumber, pageSize) {
-
-    var advertisementListURL = BASE_URL + `advertisement/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-
-    if (apiKey !== null) {
-
-        var methodType = "GET";
-
-        $.ajax({
-            type: methodType,
-            url: advertisementListURL,
-            contentType: "application/json; charset=utf-8",
-            headers: {
-                'x-auth-token': apiKey
-            },
-            dataType: "json"
-        }).done(function (data, status, xhr) {
-
-            if (xhr.status === 200) {
-                populateAdList(data, pageNumber, pageSize);
-            }
-        }).fail(function (errMsg) {
-
             console.log(errMsg);
         });
     }
@@ -262,6 +221,67 @@ function populateUserList(data, pageNumber, pageSize) {
     adjustUserListPaginationPannel(pageNumber, totalCount);
 }
 
+function adjustUserListPaginationPannel(pageNumber, totalCount) {
+
+    var pageSize = 5;
+    var maxVisible = 5;
+    var totalPageCount = 0;
+    var fraction = totalCount / pageSize;
+
+    if (Number.isInteger(fraction) === true) {
+        totalPageCount = fraction;
+    } else {
+        totalPageCount = Math.floor(fraction) + 1;
+    }
+
+    $('.usr-pagination').bootpag({
+        total: totalPageCount,
+        page: pageNumber,
+        maxVisible: maxVisible,
+        leaps: true,
+        firstLastUse: true,
+        first: '←',
+        last: '→',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'next',
+        prevClass: 'prev',
+        lastClass: 'last',
+        firstClass: 'first'
+    }).on("page", function (event, num) {
+        getUserList(num, pageSize);
+    });
+}
+
+function getAdvertisementList(pageNumber, pageSize) {
+
+    var advertisementListURL = BASE_URL + `advertisement/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+    if (apiKey !== null) {
+
+        var methodType = "GET";
+
+        $.ajax({
+            type: methodType,
+            url: advertisementListURL,
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'x-auth-token': apiKey
+            },
+            dataType: "json"
+        }).done(function (data, status, xhr) {
+
+            if (xhr.status === 200) {
+                populateAdList(data, pageNumber, pageSize);
+            }
+        }).fail(function (errMsg) {
+
+            console.log(errMsg);
+        });
+    }
+}
+
 function populateAdList(data, pageNumber, pageSize) {
 
     var offset = (pageNumber - 1) * pageSize;
@@ -295,6 +315,14 @@ function populateAdList(data, pageNumber, pageSize) {
             nameTd.appendChild(document.createTextNode(item.name));
             tr.appendChild(nameTd);
 
+            var userName = '';
+            if (item.user !== null) {
+                var userName = item.user.name;
+            }
+
+            var userTd = document.createElement('TD')
+            userTd.appendChild(document.createTextNode(userName));
+            tr.appendChild(userTd);
 
             var validityTd = document.createElement('TD')
             validityTd.appendChild(document.createTextNode(item.invalid_after));
@@ -363,108 +391,6 @@ function populateAdList(data, pageNumber, pageSize) {
 
 }
 
-$('#usrDeleteModal').on('show.bs.modal', function (event) {
-
-    var idToDelete = $(event.relatedTarget).data('id');
-
-    $(this).find("#usr-del-confirm-btn").click(function () {
-
-        deleteUser(idToDelete);
-        $('#usrDeleteModal').remove();
-    });
-});
-
-$('#adDeleteModal').on('show.bs.modal', function (event) {
-
-    var idToDelete = $(event.relatedTarget).data('id');
-
-    $(this).find("#ad-del-confirm-btn").click(function () {
-
-        deleteAd(idToDelete);
-        $('#usrDeleteModal').remove();
-    });
-});
-
-
-$('#usrInfoModal').on('show.bs.modal', function (event) {
-
-
-    var name = $(event.relatedTarget).data('name');
-    var email = $(event.relatedTarget).data('email');
-    var admin = $(event.relatedTarget).data('admin');
-
-    let adminStatus = 'Not Admin';
-    if (admin === true) {
-        adminStatus = 'Admin';
-    }
-
-    $('#click-card-name').html('<h3>Name: ' + name + '</h3>');
-    $('#click-card-email').html('<h4>Email: ' + email + '</h4>');
-    $('#click-card-admin').html('<h4>Status: ' + adminStatus + '</h4>');
-});
-
-
-
-$('#userEditModal').on('show.bs.modal', function (event) {
-
-    var id = $(event.relatedTarget).data('id');
-    var name = $(event.relatedTarget).data('name');
-    var email = $(event.relatedTarget).data('email');
-    var admin = $(event.relatedTarget).data('admin');
-
-    console.log(email);
-
-    let adminStatus = false;
-    if (admin === true) {
-        adminStatus = true;
-    }
-
-    $('#usr-edit-id').val(id);
-    $('#usr-edit-name').val(name);
-    $('#usr-edit-email').val(email);
-    $('#usr-edit-password').val('');
-    $('#usr-edit-admin').prop('checked', adminStatus);
-});
-
-
-function clearUsrDeleteModal(event) {
-    $(event.relatedTarget).data('id') = null;
-}
-
-function adjustUserListPaginationPannel(pageNumber, totalCount) {
-
-    var pageSize = 5;
-    var maxVisible = 5;
-    var totalPageCount = 0;
-    var fraction = totalCount / pageSize;
-
-    if (Number.isInteger(fraction) === true) {
-        totalPageCount = fraction;
-    } else {
-        totalPageCount = Math.floor(fraction) + 1;
-    }
-
-    $('.usr-pagination').bootpag({
-        total: totalPageCount,
-        page: pageNumber,
-        maxVisible: maxVisible,
-        leaps: true,
-        firstLastUse: true,
-        first: '←',
-        last: '→',
-        wrapClass: 'pagination',
-        activeClass: 'active',
-        disabledClass: 'disabled',
-        nextClass: 'next',
-        prevClass: 'prev',
-        lastClass: 'last',
-        firstClass: 'first'
-    }).on("page", function (event, num) {
-        getUserList(num, pageSize);
-    });
-}
-
-
 function adjustAdListPaginationPannel(pageNumber, totalCount) {
 
     var pageSize = 5;
@@ -503,37 +429,43 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
     });
 }
 
+$('#usrInfoModal').on('show.bs.modal', function (event) {
 
-function notificationCheck() {
 
-    let params = (new URL(document.location)).searchParams;
-    let adCreationVal = params.get("adCreation");
-    let adUpdateVal = params.get("adUpdate");
-    let userUpdateVal = params.get("userUpdate");
-    let userDeleteVal = params.get("userDelete");
-    let adDeleteVal = params.get("adDelete");
+    var name = $(event.relatedTarget).data('name');
+    var email = $(event.relatedTarget).data('email');
+    var admin = $(event.relatedTarget).data('admin');
 
-    if (adCreationVal === "successful") {
-        $.notify("Advertisement created successfully.", "success");
+    let adminStatus = 'Not Admin';
+    if (admin === true) {
+        adminStatus = 'Admin';
     }
 
-    if (adUpdateVal === "successful") {
-        $.notify("Advertisement updated successfully.", "success");
+    $('#click-card-name').html('<h3>Name: ' + name + '</h3>');
+    $('#click-card-email').html('<h4>Email: ' + email + '</h4>');
+    $('#click-card-admin').html('<h4>Status: ' + adminStatus + '</h4>');
+});
+
+$('#userEditModal').on('show.bs.modal', function (event) {
+
+    var id = $(event.relatedTarget).data('id');
+    var name = $(event.relatedTarget).data('name');
+    var email = $(event.relatedTarget).data('email');
+    var admin = $(event.relatedTarget).data('admin');
+
+    console.log(email);
+
+    let adminStatus = false;
+    if (admin === true) {
+        adminStatus = true;
     }
 
-    if (userUpdateVal === "successful") {
-        $.notify("User updated successfully.", "success");
-    }
-
-    if (userDeleteVal === "successful") {
-        $.notify("User deleted successfully.", "success");
-    }
-
-    if (adDeleteVal === "successful") {
-        $.notify("Advertisement deleted successfully.", "success");
-    }
-}
-
+    $('#usr-edit-id').val(id);
+    $('#usr-edit-name').val(name);
+    $('#usr-edit-email').val(email);
+    $('#usr-edit-password').val('');
+    $('#usr-edit-admin').prop('checked', adminStatus);
+});
 
 function updateUser(event) {
 
@@ -586,19 +518,16 @@ function updateUser(event) {
     });
 }
 
-function removeEmptyPropsFromObject(obj) {
+$('#usrDeleteModal').on('show.bs.modal', function (event) {
 
-    for (var propName in obj) {
-        if (obj[propName] === null || obj[propName] === undefined ||
-            (typeof obj[propName] === 'string' && obj[propName].length === 0)) {
+    var idToDelete = $(event.relatedTarget).data('id');
 
-            delete obj[propName];
-        }
-    }
+    $(this).find("#usr-del-confirm-btn").click(function () {
 
-    return obj;
-}
-
+        deleteUser(idToDelete);
+        $('#usrDeleteModal').remove();
+    });
+});
 
 function deleteUser(id) {
 
@@ -626,6 +555,21 @@ function deleteUser(id) {
     });
 }
 
+function clearUsrDeleteModal(event) {
+    $(event.relatedTarget).data('id') = null;
+}
+
+$('#adDeleteModal').on('show.bs.modal', function (event) {
+
+    var idToDelete = $(event.relatedTarget).data('id');
+
+    $(this).find("#ad-del-confirm-btn").click(function () {
+
+        deleteAd(idToDelete);
+        $('#usrDeleteModal').remove();
+    });
+});
+
 function deleteAd(id) {
 
     const deleteUserURL = BASE_URL + `advertisement/${id}`;
@@ -650,4 +594,57 @@ function deleteAd(id) {
         var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
         $.notify(msgToDisplay, "error");
     });
+}
+
+function changePage(pageName) {
+    window.location.replace(pageName);
+}
+
+function logout(event) {
+    event.preventDefault();
+    window.localStorage.removeItem('x-auth-token')
+    changePage("index.html");
+}
+
+function removeEmptyPropsFromObject(obj) {
+
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined ||
+            (typeof obj[propName] === 'string' && obj[propName].length === 0)) {
+
+            delete obj[propName];
+        }
+    }
+
+    return obj;
+}
+
+function notificationCheck() {
+
+    let params = (new URL(document.location)).searchParams;
+    let adCreationVal = params.get("adCreation");
+    let adUpdateVal = params.get("adUpdate");
+    let userUpdateVal = params.get("userUpdate");
+    let userDeleteVal = params.get("userDelete");
+    let adDeleteVal = params.get("adDelete");
+
+    if (adCreationVal === "successful") {
+        $.notify("Advertisement created successfully.", "success");
+    }
+
+    if (adUpdateVal === "successful") {
+        $.notify("Advertisement updated successfully.", "success");
+    }
+
+    if (userUpdateVal === "successful") {
+        $.notify("User updated successfully.", "success");
+    }
+
+    if (userDeleteVal === "successful") {
+        $.notify("User deleted successfully.", "success");
+    }
+
+    if (adDeleteVal === "successful") {
+        $.notify("Advertisement deleted successfully.", "success");
+    }
 }

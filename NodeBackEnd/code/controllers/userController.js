@@ -106,7 +106,7 @@ async function deleteSingleUser(req, res) {
         user.remove().then(function (product) {
 
             return res.status(200).send({
-                message: 'user deletion successful'
+                message: 'user deletion successful.'
             });
 
         }).catch(function (err) {

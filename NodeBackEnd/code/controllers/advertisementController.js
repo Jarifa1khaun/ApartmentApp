@@ -57,7 +57,7 @@ async function updateAdvertisement(req, res) {
                     type: "Point",
                     coordinates: [req.body.long, req.body.lat]
                 };
-                
+
                 console.log('address: ' + advertisement.address);
                 Advertisement.update({
                     _id: advertisementFromDb._id
@@ -155,15 +155,35 @@ async function getAllAdvertisement(req, res) {
     let count = 0;
 
     try {
-        Advertisement.count({}, function (err, cnt) {
-            if (err) {
+
+        Advertisement.count({})
+            .then(function (cnt) {
+                count = cnt;
+            })
+            .catch(function (err) {
                 res.status(500).send({
                     message: err
                 });
-            } else {
-                count = cnt;
-            }
-        });
+            });
+
+        Advertisement.find({}, {}, query)
+            .populate('user', ['_id', 'name'])
+            .then(function (advertisements) {
+
+                let response = {
+                    advertisementList: advertisements,
+                    totalCount: count
+                };
+                res.status(200).send(response);
+
+            })
+            .catch(function (error) {
+
+                if (error) return res.status(500).send({
+                    message: error.details[0].message
+                });
+
+            });
 
     } catch (error) {
         console.log(error);
@@ -171,20 +191,6 @@ async function getAllAdvertisement(req, res) {
             message: "something wrong happened."
         });
     }
-
-    Advertisement.find({}, {}, query, function (err, advertisements) {
-        if (err) {
-            if (error) return res.status(500).send({
-                message: error.details[0].message
-            });
-        } else {
-            let response = {
-                advertisementList: advertisements,
-                totalCount: count
-            };
-            res.status(200).send(response);
-        }
-    });
 }
 
 async function findAdvertisementById(req, res) {
@@ -195,6 +201,9 @@ async function findAdvertisementById(req, res) {
         if (!advertisement) return res.status(404).send({
             message: "advertisement not found."
         });
+
+
+        console.log(advertisement.user.name);
 
         return res.status(200).send(advertisement);
     } catch (error) {
@@ -234,18 +243,16 @@ async function findAdvertisementsByUserId(req, res) {
     let count = 0;
 
     try {
+
         Advertisement.count({
             user: userId
-        }, function (err, cnt) {
-            if (err) {
-                res.status(500).send({
-                    message: err
-                });
-            } else {
-                count = cnt;
-            }
+        }).then(function (cnt) {
+            count = cnt;
+        }).catch(function (err) {
+            res.status(500).send({
+                message: err
+            });
         });
-
     } catch (error) {
         console.log(error);
         return res.status(500).send({
@@ -254,21 +261,21 @@ async function findAdvertisementsByUserId(req, res) {
     }
 
     try {
+
         Advertisement.find({
-            user: userId
-        }, {}, query, function (err, advertisements) {
-            if (err) {
-                res.status(500).send({
-                    message: err
-                });
-            } else {
+                user: userId
+            }, {}, query)
+            .then(function (advertisements) {
                 let response = {
                     advertisementList: advertisements,
                     totalCount: count
                 };
                 res.status(200).send(response);
-            }
-        });
+            }).catch(function (err) {
+                res.status(500).send({
+                    message: err
+                });
+            });
     } catch (error) {
         console.log(error);
         return res.status(500).send({
