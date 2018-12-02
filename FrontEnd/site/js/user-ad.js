@@ -1,17 +1,8 @@
 var BASE_URL = "http://localhost:3000/api/";
 
 var apiKey = window.localStorage.getItem('x-auth-token');
+
 getProfileInfo();
-
-function changePage(pageName) {
-    window.location.replace(pageName);
-}
-
-function logout(event) {
-    event.preventDefault();
-    window.localStorage.removeItem('x-auth-token')
-    changePage("index.html");
-}
 
 function getProfileInfo() {
 
@@ -200,31 +191,21 @@ function populateAdList(data, pageNumber, pageSize) {
 
 }
 
-
-function deleteAd(id) {
-    console.log('ad delete: ' + id);
-    setTimeout(function () {
-        location.reload();
-    }, 500);
-}
-
-$('#adDeleteModal').on('show.bs.modal', function (event) {
-
-    var idToDelete = $(event.relatedTarget).data('id');
-
-    $(this).find("#ad-del-confirm-btn").click(function () {
-
-        deleteAd(idToDelete);
-        $('#usrDeleteModal').remove();
-    });
-});
-
 function adjustAdListPaginationPannel(pageNumber, totalCount) {
 
     var pageSize = 5;
     var maxVisible = 5;
     var totalPageCount = 0;
     var fraction = totalCount / pageSize;
+
+    var paginationDiv = document.getElementById('ad-paging-div');
+
+    if (paginationDiv.childElementCount === 1) {
+        paginationDiv.removeChild(paginationDiv.children[0]);
+        var newP = document.createElement('P');
+        newP.classList.add('ad-pagination');
+        paginationDiv.appendChild(newP);
+    }
 
     if (Number.isInteger(fraction) === true) {
         totalPageCount = fraction;
@@ -250,4 +231,32 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
     }).on("page", function (event, num) {
         getAdvertisementList(num, pageSize);
     });
+}
+
+$('#adDeleteModal').on('show.bs.modal', function (event) {
+
+    var idToDelete = $(event.relatedTarget).data('id');
+
+    $(this).find("#ad-del-confirm-btn").click(function () {
+
+        deleteAd(idToDelete);
+        $('#usrDeleteModal').remove();
+    });
+});
+
+function deleteAd(id) {
+    console.log('ad delete: ' + id);
+    setTimeout(function () {
+        location.reload();
+    }, 500);
+}
+
+function changePage(pageName) {
+    window.location.replace(pageName);
+}
+
+function logout(event) {
+    event.preventDefault();
+    window.localStorage.removeItem('x-auth-token')
+    changePage("index.html");
 }

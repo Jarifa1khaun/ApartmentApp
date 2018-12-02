@@ -1,7 +1,95 @@
 var BASE_URL = "http://localhost:3000/api/";
 
 var apiKey = window.localStorage.getItem('x-auth-token');
+
 getAdInfo();
+
+function getAdInfo() {
+
+    let params = (new URL(document.location)).searchParams;
+    let id = params.get("id");
+
+    var adInfoURL = BASE_URL + "advertisement/" + id;
+
+    if (apiKey !== null) {
+
+        var methodType = "GET";
+
+        $.ajax({
+            type: methodType,
+            url: adInfoURL,
+            contentType: "application/json; charset=utf-8",
+            headers: {
+                'x-auth-token': apiKey
+            },
+            dataType: "json"
+        }).done(function (data, status, xhr) {
+
+            if (xhr.status === 200) {
+                configurepage(data);
+            }
+        }).fail(function (errMsg) {
+
+            console.log(errMsg);
+            // nofify here
+        });
+    }
+}
+
+function configurepage(data) {
+
+    var security = false;
+    var lift = false;
+    var parking = false;
+    var sublet = false;
+
+    if (data.security_guards === true) {
+        security = true;
+    }
+    if (data.lift_escalator === true) {
+        lift = true;
+    }
+    if (data.parking === true) {
+        parking = true;
+    }
+    if (data.sublet === true) {
+        sublet = true;
+    }
+
+    $('#id').val(data._id);
+    $('#house_name').val(data.name);
+    $('#contact_number').val(data.contact_number);
+    $('#alternative_contact').val(data.alternative_contact);
+    $('#lat').text(data.lat);
+    $('#long').text(data.long);
+
+    $('#address').val(data.address);
+    $('#thana').val(data.thana);
+    $('#post-code').val(data.postCode);
+    $('#zilla').val(data.zilla);
+
+
+    $('#isrented').val(data.is_rented);
+    $('#rent').val(data.rent);
+    $('#size').val(data.size);
+    $('#floor').val(data.floor);
+    $('#month').val(data.month_of_availability);
+
+    $('#sublet').prop('checked', sublet);
+    $('#parking').prop('checked', parking);
+    $('#security').prop('checked', security);
+    $('#lift').prop('checked', lift);
+
+    var rooms = data.rooms;
+
+    if (rooms !== undefined) {
+        $('#bedroom').val(rooms.bedroom);
+        $('#bathroom').val(rooms.bathroom);
+        $('#kitchen').val(rooms.kitchen);
+        $('#drawing').val(rooms.drawing);
+        $('#living').val(rooms.living);
+    }
+}
 
 function updateAd(event) {
 
@@ -135,6 +223,26 @@ function updateAd(event) {
     }
 }
 
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
+}
+
+function removeEmptyPropsFromObject(obj) {
+
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined ||
+            (typeof obj[propName] === 'string' && obj[propName].length === 0)) {
+
+            delete obj[propName];
+        }
+    }
+
+    return obj;
+}
+
 function changePage(pageName) {
     window.location.replace(pageName);
 }
@@ -143,95 +251,6 @@ function logout(event) {
     event.preventDefault();
     window.localStorage.removeItem('x-auth-token')
     changePage("index.html");
-}
-
-
-function getAdInfo() {
-
-    let params = (new URL(document.location)).searchParams;
-    let id = params.get("id");
-
-    var adInfoURL = BASE_URL + "advertisement/" + id;
-
-    if (apiKey !== null) {
-
-        var methodType = "GET";
-
-        $.ajax({
-            type: methodType,
-            url: adInfoURL,
-            contentType: "application/json; charset=utf-8",
-            headers: {
-                'x-auth-token': apiKey
-            },
-            dataType: "json"
-        }).done(function (data, status, xhr) {
-
-            if (xhr.status === 200) {
-                configurepage(data);
-            }
-        }).fail(function (errMsg) {
-
-            console.log(errMsg);
-            // nofify here
-        });
-    }
-}
-
-
-function configurepage(data) {
-
-    var security = false;
-    var lift = false;
-    var parking = false;
-    var sublet = false;
-
-    if (data.security_guards === true) {
-        security = true;
-    }
-    if (data.lift_escalator === true) {
-        lift = true;
-    }
-    if (data.parking === true) {
-        parking = true;
-    }
-    if (data.sublet === true) {
-        sublet = true;
-    }
-
-    $('#id').val(data._id);
-    $('#house_name').val(data.name);
-    $('#contact_number').val(data.contact_number);
-    $('#alternative_contact').val(data.alternative_contact);
-    $('#lat').text(data.lat);
-    $('#long').text(data.long);
-
-    $('#address').val(data.address);
-    $('#thana').val(data.thana);
-    $('#post-code').val(data.postCode);
-    $('#zilla').val(data.zilla);
-
-
-    $('#isrented').val(data.is_rented);
-    $('#rent').val(data.rent);
-    $('#size').val(data.size);
-    $('#floor').val(data.floor);
-    $('#month').val(data.month_of_availability);
-
-    $('#sublet').prop('checked', sublet);
-    $('#parking').prop('checked', parking);
-    $('#security').prop('checked', security);
-    $('#lift').prop('checked', lift);
-
-    var rooms = data.rooms;
-
-    if (rooms !== undefined) {
-        $('#bedroom').val(rooms.bedroom);
-        $('#bathroom').val(rooms.bathroom);
-        $('#kitchen').val(rooms.kitchen);
-        $('#drawing').val(rooms.drawing);
-        $('#living').val(rooms.living);
-    }
 }
 
 $(function () {
@@ -250,25 +269,3 @@ $(function () {
         }
     });
 });
-
-
-function showNotification(message, type) {
-
-    $.notify(message, type, {
-        autoHideDelay: 8000
-    });
-}
-
-
-function removeEmptyPropsFromObject(obj) {
-
-    for (var propName in obj) {
-        if (obj[propName] === null || obj[propName] === undefined ||
-            (typeof obj[propName] === 'string' && obj[propName].length === 0)) {
-
-            delete obj[propName];
-        }
-    }
-
-    return obj;
-}

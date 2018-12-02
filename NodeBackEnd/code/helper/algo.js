@@ -85,7 +85,7 @@ async function getSortedArray(criteria, advertisementArray) {
             advertisement.rank = totalScore;
         }
 
-        return advertisementArray.sort(compare);
+        return await advertisementArray.sort(compare);
 
     } else {
         return null;

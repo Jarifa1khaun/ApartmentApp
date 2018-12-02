@@ -68,7 +68,7 @@ function enableDisableDivTogglerButton() {
     var radiusVal = $('#radius').val();
     var x = document.getElementById("searchPreferencePanel");
 
-    if (radiusVal.length !== 0 ) {
+    if (radiusVal.length !== 0) {
 
         $('#divToggler').prop('disabled', false);
     } else {
@@ -206,6 +206,170 @@ function signup(event) {
     });
 }
 
+function getAdviseList(postData, pageNumber, pageSize) {
+
+    var adviseListURL = BASE_URL + `advertisement/getAdvice?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+    var methodType = "POST";
+
+//    console.log(JSON.stringify(postData));
+
+    $.ajax({
+        type: methodType,
+        url: adviseListURL,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(postData)
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            populateAdList(data, pageNumber, pageSize, postData);
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        showNotification(msgToDisplay, "error");
+    });
+}
+
+function populateAdList(data, pageNumber, pageSize, postData) {
+
+    var offset = (pageNumber - 1) * pageSize;
+
+    const adList = data.adList;
+    const rankList = data.ranks;
+    const totalCount = data.totalCount;
+
+    if (adList.length === 0) {
+        var noDataLabel = document.getElementById("no-data-section");
+        noDataLabel.style.display = "block";
+    } else {
+
+        var adTableDiv = document.getElementById("ad-list-section");
+        adTableDiv.style.display = "block";
+
+        var table = document.getElementById("ad-table");
+        var tableBody = document.createElement('TBODY');
+
+        for (i = 0; i < adList.length; i++) {
+
+            var item = adList[i];
+            var rank = rankList[i];
+
+            var tr = document.createElement('TR');
+
+            var serialTd = document.createElement('TD')
+            serialTd.appendChild(document.createTextNode(offset + i + 1));
+            serialTd.setAttribute('class', 'text-center');
+            tr.appendChild(serialTd);
+
+            var nameTd = document.createElement('TD')
+            nameTd.appendChild(document.createTextNode(item.name));
+            nameTd.setAttribute('class', 'text-center');
+            tr.appendChild(nameTd);
+
+            var rankTd = document.createElement('TD')
+            rankTd.appendChild(document.createTextNode(rank));
+            rankTd.setAttribute('class', 'text-center');
+            tr.appendChild(rankTd);
+
+            var userName = '';
+            if (item.user !== null) {
+                var userName = item.user.name;
+            }
+
+            var userTd = document.createElement('TD')
+            userTd.appendChild(document.createTextNode(userName));
+            userTd.setAttribute('class', 'text-center');
+            tr.appendChild(userTd);
+
+            var validityTd = document.createElement('TD')
+            validityTd.appendChild(document.createTextNode(item.invalid_after));
+            validityTd.setAttribute('class', 'text-center');
+            tr.appendChild(validityTd);
+
+            var btnTd = document.createElement('TD')
+            btnTd.setAttribute('class', 'td-actions text-right');
+
+            var profileBtn = document.createElement("BUTTON");
+            profileBtn.setAttribute('data-toggle', 'modal');
+
+            profileBtn.setAttribute('data-target', '#adInfoModal');
+            profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
+
+            var btnIcon = document.createElement("I");
+            btnIcon.setAttribute('class', 'tim-icons icon-single-02');
+
+            profileBtn.appendChild(btnIcon);
+            profileBtn.setAttribute('style', 'padding-right: 10px;');
+            btnTd.appendChild(profileBtn);
+
+            tr.appendChild(btnTd);
+
+            tableBody.appendChild(tr);
+
+        }
+        var oldTbody = table.tBodies[0];
+        if (oldTbody !== undefined) {
+
+            oldTbody.parentNode.replaceChild(tableBody, oldTbody);
+        } else {
+
+            table.appendChild(tableBody);
+        }
+        adjustAdListPaginationPannel(pageNumber, totalCount, postData);
+    }
+
+}
+
+function adjustAdListPaginationPannel(pageNumber, totalCount, postData) {
+
+    var pageSize = 5;
+    var maxVisible = 5;
+    var totalPageCount = 0;
+    var fraction = totalCount / pageSize;
+
+    var paginationDiv = document.getElementById('pagination-div');
+
+    if (paginationDiv.childElementCount === 1) {
+        paginationDiv.removeChild(paginationDiv.children[0]);
+        var newP = document.createElement('P');
+        newP.classList.add('ad-pagination');
+        paginationDiv.appendChild(newP);
+    }
+
+    if (Number.isInteger(fraction) === true) {
+        totalPageCount = fraction;
+    } else {
+        totalPageCount = Math.floor(fraction) + 1;
+    }
+
+
+    if (totalPageCount < maxVisible) {
+        maxVisible = totalPageCount;
+    }
+
+    $('.ad-pagination').bootpag({
+        total: totalPageCount,
+        page: pageNumber,
+        maxVisible: maxVisible,
+        leaps: true,
+        firstLastUse: true,
+        first: '←',
+        last: '→',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'next',
+        prevClass: 'prev',
+        lastClass: 'last',
+        firstClass: 'first'
+    }).on("page", function (event, num) {
+        getAdviseList(postData, num, pageSize);
+    });
+}
+
 function changePage(pageName) {
     window.location.replace(pageName);
 }
@@ -232,6 +396,9 @@ function configureNavBar() {
 }
 
 function getAdvice() {
+
+    var pageNumber = 1;
+    var pageSize = 2; // TODO: change it
 
     var rentItem = null;
     var sizeItem = null;
@@ -491,86 +658,8 @@ function getAdvice() {
     };
 
     const postData = removeEmptyPropsFromObject(uncleanedPostData)
-    console.log(JSON.stringify(postData));
 
-    //
-    //
-    //    if (security_guards === undefined) {
-    //        security_guards = false;
-    //    } else {
-    //        security_guards = true;
-    //    }
-    //
-    //    if (sublet === undefined) {
-    //        sublet = false;
-    //    } else {
-    //        sublet = true;
-    //    }
-    //
-    //    if (parking === undefined) {
-    //        parking = false;
-    //    } else {
-    //        parking = true;
-    //    }
-    //
-    //    if (lift_escalator === undefined) {
-    //        lift_escalator = false;
-    //    } else {
-    //        lift_escalator = true;
-    //    }
-    //
-    //
-    //    var methodType = 'POST';
-    //    var postData = {
-    //        name: name,
-    //        invalid_after: timeStamp,
-    //        is_rented: false,
-    //        sublet: sublet,
-    //        contact_number: contact_number,
-    //        alternative_contact: alternative_contact,
-    //        lat: lat,
-    //        long: long,
-    //        address: address,
-    //        thana: thana,
-    //        postCode: postCode,
-    //        zilla: zilla,
-    //        rent: rent,
-    //        size: size,
-    //        floor: floor,
-    //        security_guards: security_guards,
-    //        lift_escalator: lift_escalator,
-    //        parking: parking,
-    //        sublet: sublet,
-    //        month_of_availability: month_of_availability,
-    //        rooms: {
-    //            bedroom: bedroom,
-    //            bathroom: bathroom,
-    //            kitchen: kitchen,
-    //            drawing: drawing,
-    //            living: living,
-    //        }
-    //    };
-    //
-    //    $.ajax({
-    //        type: methodType,
-    //        url: createAdURL,
-    //        data: JSON.stringify(postData),
-    //        contentType: "application/json; charset=utf-8",
-    //        dataType: "json",
-    //        headers: {
-    //            'x-auth-token': apiKey
-    //        },
-    //    }).done(function (data, status, xhr) {
-    //        if (xhr.status === 200) {
-    //            console.log('a new house has been created with id: ' + data._id);
-    //            changePage("profile-page.html?adCreation=successful");
-    //        }
-    //    }).fail(function (errMsg) {
-    //
-    //        var msg = JSON.parse(errMsg.responseText);
-    //        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
-    //        showNotification(msgToDisplay, "error");
-    //    });
+    getAdviseList(postData, pageNumber, pageSize);
 }
 
 function removeEmptyPropsFromObject(obj) {
@@ -584,4 +673,11 @@ function removeEmptyPropsFromObject(obj) {
     }
 
     return obj;
+}
+
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
 }

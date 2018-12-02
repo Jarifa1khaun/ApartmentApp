@@ -19,9 +19,10 @@
 
     <!--    Custom CSS-->
     <link href="css/index.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/pagination.css" rel="stylesheet" />
 </head>
 
-<body class="profile-page">
+<body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top bg-info " color-on-scroll="100">
         <div class="container">
@@ -196,7 +197,7 @@
                                 <div class="row justify-content-md-center">
                                     <label class="col-sm-3 control-label" for="radius"><strong>Radius (in meters):
                                         </strong></label>
-                                    <input id="radius" name="radius" type="text" placeholder="radius" class="col-sm-5 form-control input-md" required disabled/>
+                                    <input id="radius" name="radius" type="text" placeholder="radius" class="col-sm-5 form-control input-md" required disabled />
                                 </div>
                                 <br />
                                 <div class="row justify-content-md-center">
@@ -359,7 +360,7 @@
                                 <br />
                                 <div class="row">
                                     <label class="col-md-4 control-label" style="padding-top: 6px;" for="bathroom_label"><strong>Preference for Bathroom(s) : </strong></label>
-                                    <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-md-2 form-control input-md" required >
+                                    <input id="bathroom" name="bathroom" type="text" placeholder="No. of Bathroom(s) " class="col-md-2 form-control input-md" required>
                                     <label class="col-md-2 control-label" style="padding-top: 6px;" for="bathroom_preference"><strong>Priority: </strong></label>
                                     <select id="bathroom_preference" class="col-md-4 selectpicker" style="height: 35px;">
 
@@ -373,7 +374,7 @@
                                 <br />
                                 <div class="row">
                                     <label class="col-md-4 control-label" style="padding-top: 6px;" for="kitchen_label"><strong>Preference for Kitchen(s) : </strong></label>
-                                    <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="col-md-2 form-control input-md" required >
+                                    <input id="kitchen" name="kitchen" type="text" placeholder="No. of Kitchen(s) " class="col-md-2 form-control input-md" required>
                                     <label class="col-md-2 control-label" style="padding-top: 6px;" for="kitchen_preference"><strong>Priority : </strong></label>
                                     <select id="kitchen_preference" class="col-md-4 selectpicker" style="height: 35px;">
 
@@ -387,7 +388,7 @@
                                 <br />
                                 <div class="row">
                                     <label class="col-md-4 control-label" style="padding-top: 6px;" for="drawing_label"><strong>for Drawing Room(s): </strong></label>
-                                    <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="col-md-2 form-control input-md" required >
+                                    <input id="drawing" name="drawing" type="text" placeholder="No. of Drawing Room(s) " class="col-md-2 form-control input-md" required>
                                     <label class="col-md-2 control-label" style="padding-top: 6px;" for="drawing_preference_label"><strong>Priority: </strong></label>
                                     <select id="drawing_preference" class="col-md-4 selectpicker" style="height: 35px;">
 
@@ -401,7 +402,7 @@
                                 <br />
                                 <div class="row">
                                     <label class="col-md-4 control-label" style="padding-top: 6px;" for="living_label"><strong>for Living Room(s): </strong></label>
-                                    <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="col-md-2 form-control input-md" required >
+                                    <input id="living" name="living" type="text" placeholder="No. of Living Room(s)" class="col-md-2 form-control input-md" required>
                                     <label class="col-md-2 control-label" style="padding-top: 6px;" for="living_preference_label"><strong>Priority: </strong></label>
                                     <select id="living_preference" class="col-md-4 selectpicker" style="height: 35px;">
 
@@ -497,10 +498,75 @@
                 </div>
             </div>
         </div>
+        <div class="section" style="padding-top: 30px;">
+            <div id='no-data-section' class="container align-items-center" style="display: none">
+                <div class="row justify-content-md-center">
+                    <label>
+                        <strong>
+                            <h3>Sorry, No Data Found</h3>
+                        </strong>
+                    </label>
+                </div>
+            </div>
+            <div id='ad-list-section' class="container align-items-center" style="display: none">
+                <label style="padding-left: 50px;"><strong>
+                        <h3>Advertisement List</h3>
+                    </strong></label>
+                <div class="row justify-content-md-center">
+                    <div id='ad-table-div' class="col-lg-12 col-md-4">
+                        <table id='ad-table' class="table">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">House Name</th>
+                                    <th class="text-center">Rank Value</th>
+                                    <th class="text-center">Created By</th>
+                                    <th class="text-center">validity</th>
+                                    <th class="text-right">Actions</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div id='pagination-div' class="row justify-content-md-center">
+                        <p class="ad-pagination"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-black" id="adInfoModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-top: 150px;">
+        <div class="modal-dialog" style="background-color: #171941; ">
+            <div class="col-lg-10 col-md-12 ml-auto mr-auto">
+                <div class="card card-coin card-plain">
+                    <div class="card-header">
+                        <img src="./img/mike.jpg" class="img-center img-fluid rounded-circle">
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8 col-md-12 text-center">
+                                <label>
+                                    <h3><strong>Test Name</strong></h3>
+                                </label>
+                            </div>
+                            <div class="col-lg-8 col-md-12 text-center"><label>
+                                    <h4>email: email@server.com</h4>
+                                </label></div>
+                            <div class="col-lg-8 col-md-12 text-center"><label>
+                                    <h4>Admin Status: Admin </h4>
+                                </label></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!--   Core JS Files   -->
-    <script src="js/core/jquery.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="js/lib/jquery.bootpag.js"></script>
+    <script type="text/javascript" src="js/lib/notify.js"></script>
+
     <script src="js/core/popper.min.js" type="text/javascript"></script>
     <script src="js/core/bootstrap.min.js" type="text/javascript"></script>
     <script src="js/plugins/perfect-scrollbar.jquery.min.js"></script>

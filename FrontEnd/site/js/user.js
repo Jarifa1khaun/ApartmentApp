@@ -90,7 +90,10 @@ function getUserList(pageNumber, pageSize) {
                 populateUserList(data, pageNumber, pageSize);
             }
         }).fail(function (errMsg) {
-            console.log(errMsg);
+
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
         });
     }
 }
@@ -228,6 +231,15 @@ function adjustUserListPaginationPannel(pageNumber, totalCount) {
     var totalPageCount = 0;
     var fraction = totalCount / pageSize;
 
+    var paginationDiv = document.getElementById('usr-paging-div');
+
+    if (paginationDiv.childElementCount === 1) {
+        paginationDiv.removeChild(paginationDiv.children[0]);
+        var newP = document.createElement('P');
+        newP.classList.add('usr-pagination');
+        paginationDiv.appendChild(newP);
+    }
+
     if (Number.isInteger(fraction) === true) {
         totalPageCount = fraction;
     } else {
@@ -256,30 +268,35 @@ function adjustUserListPaginationPannel(pageNumber, totalCount) {
 
 function getAdvertisementList(pageNumber, pageSize) {
 
-    var advertisementListURL = BASE_URL + `advertisement/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-
+    var advertisementListURL;
     if (apiKey !== null) {
-
-        var methodType = "GET";
-
-        $.ajax({
-            type: methodType,
-            url: advertisementListURL,
-            contentType: "application/json; charset=utf-8",
-            headers: {
-                'x-auth-token': apiKey
-            },
-            dataType: "json"
-        }).done(function (data, status, xhr) {
-
-            if (xhr.status === 200) {
-                populateAdList(data, pageNumber, pageSize);
-            }
-        }).fail(function (errMsg) {
-
-            console.log(errMsg);
-        });
+        advertisementListURL = BASE_URL + `advertisement/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+    } else {
+        advertisementListURL = BASE_URL + `advertisement/getAdvertisementByUserId/?pageSize=${pageSize}&pageNumber=${pageNumber}`;
     }
+
+    var methodType = "GET";
+
+    $.ajax({
+        type: methodType,
+        url: advertisementListURL,
+        contentType: "application/json; charset=utf-8",
+        headers: {
+            'x-auth-token': apiKey
+        },
+        dataType: "json"
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            populateAdList(data, pageNumber, pageSize);
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        showNotification(msgToDisplay, "error");
+    });
+
 }
 
 function populateAdList(data, pageNumber, pageSize) {
@@ -335,7 +352,7 @@ function populateAdList(data, pageNumber, pageSize) {
             var profileBtn = document.createElement("BUTTON");
             profileBtn.setAttribute('data-toggle', 'modal');
 
-            profileBtn.setAttribute('data-target', '#usrInfoModal');
+            profileBtn.setAttribute('data-target', '#adInfoModal');
             profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
             var btnIcon = document.createElement("I");
@@ -397,6 +414,15 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
     var maxVisible = 5;
     var totalPageCount = 0;
     var fraction = totalCount / pageSize;
+
+    var paginationDiv = document.getElementById('ad-paging-div');
+
+    if (paginationDiv.childElementCount === 1) {
+        paginationDiv.removeChild(paginationDiv.children[0]);
+        var newP = document.createElement('P');
+        newP.classList.add('ad-pagination');
+        paginationDiv.appendChild(newP);
+    }
 
     if (Number.isInteger(fraction) === true) {
         totalPageCount = fraction;
@@ -647,4 +673,11 @@ function notificationCheck() {
     if (adDeleteVal === "successful") {
         $.notify("Advertisement deleted successfully.", "success");
     }
+}
+
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
 }

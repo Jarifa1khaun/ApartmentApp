@@ -202,9 +202,6 @@ async function findAdvertisementById(req, res) {
             message: "advertisement not found."
         });
 
-
-        console.log(advertisement.user.name);
-
         return res.status(200).send(advertisement);
     } catch (error) {
         console.log(error);
@@ -253,35 +250,28 @@ async function findAdvertisementsByUserId(req, res) {
                 message: err
             });
         });
-    } catch (error) {
-        console.log(error);
-        return res.status(500).send({
-            message: "something wrong happened."
-        });
-    }
-
-    try {
 
         Advertisement.find({
-                user: userId
-            }, {}, query)
-            .then(function (advertisements) {
-                let response = {
-                    advertisementList: advertisements,
-                    totalCount: count
-                };
-                res.status(200).send(response);
-            }).catch(function (err) {
-                res.status(500).send({
-                    message: err
-                });
+            user: userId
+        }, {}, query)
+        .then(function (advertisements) {
+            let response = {
+                advertisementList: advertisements,
+                totalCount: count
+            };
+            res.status(200).send(response);
+        }).catch(function (err) {
+            res.status(500).send({
+                message: err
             });
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).send({
             message: "something wrong happened."
         });
     }
+
 }
 
 async function getAdviceOnHouses(req, res) {
@@ -293,41 +283,117 @@ async function getAdviceOnHouses(req, res) {
     if (error) return res.status(400).send({
         message: error.details[0].message
     });
+    
+    const pageNumber = parseInt(req.query.pageNumber);
+    const pageSize = parseInt(req.query.pageSize);
+
+    if (isNaN(pageNumber) || pageNumber < 0 || pageNumber === 0) {
+        return res.status(400).send({
+            message: "invalid page number, should start from 1."
+        });
+    }
+
+    if (isNaN(pageSize) || pageSize < 0 || pageSize === 0) {
+        return res.status(400).send({
+            message: "invalid page size, should be greater than 0."
+        });
+    }    
+
+    let count = 0;
 
     const lat = req.body.center_lat;
     const long = req.body.center_long;
     const radius = req.body.radius;
     const subletVal = req.body.sublet;
+    
+    try {
+        await Advertisement.count({
+            location: {
+                $geoWithin: {
+                    $center: [
+                        [long, lat], radius / 1000
+                    ]
+                }
+            },
+            sublet: subletVal,
+            is_rented: false
+        }).then(function (cnt) {
+            count = cnt;
+        }).catch(function (err) {
+            res.status(500).send({
+                message: err
+            });
+        });
 
-    const advertisements = await Advertisement.find({
-        location: {
-            $geoWithin: {
-                $center: [
-                    [long, lat], radius / 1000
-                ]
+        Advertisement.find({
+            location: {
+                $geoWithin: {
+                    $center: [
+                        [long, lat], radius / 1000
+                    ]
+                }
+            },
+            sublet: subletVal,
+            is_rented: false
+        }, {}, {})
+        .populate('user', ['_id', 'name'])
+        .then( async function (advertisements) {
+                        
+            let outputArray = []; 
+            let arr = [];
+
+            if (advertisements !== null && advertisements.length !== 0) {
+
+                const sortedAds = await algorithm.getSortedArray(req.body, advertisements);                
+                outputArray = await sliceArray(sortedAds, pageSize, pageNumber);
+                
+                for (i in outputArray) {
+                    arr.push(outputArray[i].rank);
+                }
             }
-        },
-        sublet: subletVal,
-        is_rented: false
-    });
 
-    const sortedAds = await algorithm.getSortedArray(req.body, advertisements);
+            let returnObj = {
+                adList: outputArray,
+                totalCount: count,
+                ranks: arr
+            };
 
+            return res.status(200).send(returnObj);
+        }).catch(function (err) {
+            res.status(500).send({
+                message: err
+            });
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({
+            message: "something wrong happened."
+        });
+    }
+}
 
-    let arr = [];
-    for (i in sortedAds) {
-        arr.push(sortedAds[i].rank);
+async function sliceArray(inputArray, pageSize, pageNumber) {
+
+    let query = {};
+    let outputArray = [];
+    let size = inputArray.length;
+
+    query.skip = pageSize * (pageNumber - 1);
+    query.limit = query.skip + pageSize;
+    
+    if (query.limit > size) {
+        query.limit = size;
     }
 
-    let count = arr.length;
+    if (query.skip > size) {
+        return outputArray;
+    }
+    
+    for (var i = query.skip; i < query.limit; i++) {
+        outputArray.push(inputArray[i]);
+    }
 
-    let returnObj = {
-        data: sortedAds,
-        ranks: arr,
-        totalCount: count
-    };
-
-    return res.status(200).send(returnObj);
+    return outputArray;
 }
 
 async function nearbyUpdate(advertisement) {

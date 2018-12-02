@@ -194,7 +194,6 @@ $(function () {
     });
 });
 
-
 function showNotification(message, type) {
 
     $.notify(message, type, {
