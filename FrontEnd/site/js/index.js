@@ -1,4 +1,6 @@
 var BASE_URL = "http://localhost:3000/api/";
+var initialPageSize = 5;
+var initialPageNumber = 1;
 
 configureNavBar();
 
@@ -206,199 +208,10 @@ function signup(event) {
     });
 }
 
-function getAdviseList(postData, pageNumber, pageSize) {
-
-    var adviseListURL = BASE_URL + `advertisement/getAdvice?pageNumber=${pageNumber}&pageSize=${pageSize}`;
-
-    var methodType = "POST";
-
-//    console.log(JSON.stringify(postData));
-
-    $.ajax({
-        type: methodType,
-        url: adviseListURL,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        data: JSON.stringify(postData)
-    }).done(function (data, status, xhr) {
-
-        if (xhr.status === 200) {
-            populateAdList(data, pageNumber, pageSize, postData);
-        }
-    }).fail(function (errMsg) {
-
-        var msg = JSON.parse(errMsg.responseText);
-        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
-        showNotification(msgToDisplay, "error");
-    });
-}
-
-function populateAdList(data, pageNumber, pageSize, postData) {
-
-    var offset = (pageNumber - 1) * pageSize;
-
-    const adList = data.adList;
-    const rankList = data.ranks;
-    const totalCount = data.totalCount;
-
-    if (adList.length === 0) {
-        var noDataLabel = document.getElementById("no-data-section");
-        noDataLabel.style.display = "block";
-    } else {
-
-        var adTableDiv = document.getElementById("ad-list-section");
-        adTableDiv.style.display = "block";
-
-        var table = document.getElementById("ad-table");
-        var tableBody = document.createElement('TBODY');
-
-        for (i = 0; i < adList.length; i++) {
-
-            var item = adList[i];
-            var rank = rankList[i];
-
-            var tr = document.createElement('TR');
-
-            var serialTd = document.createElement('TD')
-            serialTd.appendChild(document.createTextNode(offset + i + 1));
-            serialTd.setAttribute('class', 'text-center');
-            tr.appendChild(serialTd);
-
-            var nameTd = document.createElement('TD')
-            nameTd.appendChild(document.createTextNode(item.name));
-            nameTd.setAttribute('class', 'text-center');
-            tr.appendChild(nameTd);
-
-            var rankTd = document.createElement('TD')
-            rankTd.appendChild(document.createTextNode(rank));
-            rankTd.setAttribute('class', 'text-center');
-            tr.appendChild(rankTd);
-
-            var userName = '';
-            if (item.user !== null) {
-                var userName = item.user.name;
-            }
-
-            var userTd = document.createElement('TD')
-            userTd.appendChild(document.createTextNode(userName));
-            userTd.setAttribute('class', 'text-center');
-            tr.appendChild(userTd);
-
-            var validityTd = document.createElement('TD')
-            validityTd.appendChild(document.createTextNode(item.invalid_after));
-            validityTd.setAttribute('class', 'text-center');
-            tr.appendChild(validityTd);
-
-            var btnTd = document.createElement('TD')
-            btnTd.setAttribute('class', 'td-actions text-right');
-
-            var profileBtn = document.createElement("BUTTON");
-            profileBtn.setAttribute('data-toggle', 'modal');
-
-            profileBtn.setAttribute('data-target', '#adInfoModal');
-            profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
-
-            var btnIcon = document.createElement("I");
-            btnIcon.setAttribute('class', 'tim-icons icon-single-02');
-
-            profileBtn.appendChild(btnIcon);
-            profileBtn.setAttribute('style', 'padding-right: 10px;');
-            btnTd.appendChild(profileBtn);
-
-            tr.appendChild(btnTd);
-
-            tableBody.appendChild(tr);
-
-        }
-        var oldTbody = table.tBodies[0];
-        if (oldTbody !== undefined) {
-
-            oldTbody.parentNode.replaceChild(tableBody, oldTbody);
-        } else {
-
-            table.appendChild(tableBody);
-        }
-        adjustAdListPaginationPannel(pageNumber, totalCount, postData);
-    }
-
-}
-
-function adjustAdListPaginationPannel(pageNumber, totalCount, postData) {
-
-    var pageSize = 5;
-    var maxVisible = 5;
-    var totalPageCount = 0;
-    var fraction = totalCount / pageSize;
-
-    var paginationDiv = document.getElementById('pagination-div');
-
-    if (paginationDiv.childElementCount === 1) {
-        paginationDiv.removeChild(paginationDiv.children[0]);
-        var newP = document.createElement('P');
-        newP.classList.add('ad-pagination');
-        paginationDiv.appendChild(newP);
-    }
-
-    if (Number.isInteger(fraction) === true) {
-        totalPageCount = fraction;
-    } else {
-        totalPageCount = Math.floor(fraction) + 1;
-    }
-
-
-    if (totalPageCount < maxVisible) {
-        maxVisible = totalPageCount;
-    }
-
-    $('.ad-pagination').bootpag({
-        total: totalPageCount,
-        page: pageNumber,
-        maxVisible: maxVisible,
-        leaps: true,
-        firstLastUse: true,
-        first: '←',
-        last: '→',
-        wrapClass: 'pagination',
-        activeClass: 'active',
-        disabledClass: 'disabled',
-        nextClass: 'next',
-        prevClass: 'prev',
-        lastClass: 'last',
-        firstClass: 'first'
-    }).on("page", function (event, num) {
-        getAdviseList(postData, num, pageSize);
-    });
-}
-
-function changePage(pageName) {
-    window.location.replace(pageName);
-}
-
-function logout(event) {
-    event.preventDefault();
-    window.localStorage.removeItem('x-auth-token')
-    changePage("index.html");
-}
-
-function configureNavBar() {
-
-    var apiKey = window.localStorage.getItem('x-auth-token');
-
-    if (apiKey !== null) {
-
-        var outButton = document.getElementById("out-btn");
-        var profileButton = document.getElementById("profile-btn");
-        var adButton = document.getElementById("ad-btn");
-        outButton.style.display = "block";
-        profileButton.style.display = "block";
-        adButton.style.display = "none";
-    }
-}
-
 function getAdvice() {
 
-    var pageNumber = 1;
-    var pageSize = 2; // TODO: change it
+    var pageSize = initialPageSize;
+    var pageNumber = initialPageNumber;
 
     var rentItem = null;
     var sizeItem = null;
@@ -660,6 +473,194 @@ function getAdvice() {
     const postData = removeEmptyPropsFromObject(uncleanedPostData)
 
     getAdviseList(postData, pageNumber, pageSize);
+}
+
+function getAdviseList(postData, pageNumber, pageSize) {
+
+    var adviseListURL = BASE_URL + `advertisement/getAdvice?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+
+    var methodType = "POST";
+
+//    console.log(JSON.stringify(postData));
+
+    $.ajax({
+        type: methodType,
+        url: adviseListURL,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        data: JSON.stringify(postData)
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            populateAdList(data, pageNumber, pageSize, postData);
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        showNotification(msgToDisplay, "error");
+    });
+}
+
+function populateAdList(data, pageNumber, pageSize, postData) {
+
+    var offset = (pageNumber - 1) * pageSize;
+
+    const adList = data.adList;
+    const rankList = data.ranks;
+    const totalCount = data.totalCount;
+
+    if (adList.length === 0) {
+        var noDataLabel = document.getElementById("no-data-section");
+        noDataLabel.style.display = "block";
+    } else {
+
+        var adTableDiv = document.getElementById("ad-list-section");
+        adTableDiv.style.display = "block";
+
+        var table = document.getElementById("ad-table");
+        var tableBody = document.createElement('TBODY');
+
+        for (i = 0; i < adList.length; i++) {
+
+            var item = adList[i];
+            var rank = rankList[i];
+
+            var tr = document.createElement('TR');
+
+            var serialTd = document.createElement('TD')
+            serialTd.appendChild(document.createTextNode(offset + i + 1));
+            serialTd.setAttribute('class', 'text-center');
+            tr.appendChild(serialTd);
+
+            var nameTd = document.createElement('TD')
+            nameTd.appendChild(document.createTextNode(item.name));
+            nameTd.setAttribute('class', 'text-left');
+            tr.appendChild(nameTd);
+
+            var rankTd = document.createElement('TD')
+            rankTd.appendChild(document.createTextNode(rank));
+            rankTd.setAttribute('class', 'text-center');
+            tr.appendChild(rankTd);
+
+            var userName = '';
+            if (item.user !== undefined) {
+                var userName = item.user.name;
+            }
+
+            var userTd = document.createElement('TD')
+            userTd.appendChild(document.createTextNode(userName));
+            userTd.setAttribute('class', 'text-center');
+            tr.appendChild(userTd);
+
+            var validityTd = document.createElement('TD')
+            var validity = moment(item.invalid_after);
+            validityTd.appendChild(document.createTextNode(validity.format('Do MMM, YYYY')));
+            validityTd.setAttribute('class', 'text-right');
+            tr.appendChild(validityTd);
+
+            var btnTd = document.createElement('TD')
+            btnTd.setAttribute('class', 'td-actions text-center');
+
+            var profileBtn = document.createElement("BUTTON");
+            profileBtn.setAttribute('data-toggle', 'modal');
+
+            profileBtn.setAttribute('data-target', '#adInfoModal');
+            profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
+
+            var btnIcon = document.createElement("I");
+            btnIcon.setAttribute('class', 'fas fa-info-circle');
+
+            profileBtn.appendChild(btnIcon);
+            profileBtn.setAttribute('style', 'padding-right: 10px;');
+            btnTd.appendChild(profileBtn);
+
+            tr.appendChild(btnTd);
+
+            tableBody.appendChild(tr);
+
+        }
+        var oldTbody = table.tBodies[0];
+        if (oldTbody !== undefined) {
+
+            oldTbody.parentNode.replaceChild(tableBody, oldTbody);
+        } else {
+
+            table.appendChild(tableBody);
+        }
+        adjustAdListPaginationPannel(pageSize, pageNumber, totalCount, postData);
+    }
+
+}
+
+function adjustAdListPaginationPannel(pageSize, pageNumber, totalCount, postData) {
+
+    var maxVisible = 5;
+    var totalPageCount = 0;
+    var fraction = totalCount / pageSize;
+
+    var paginationDiv = document.getElementById('pagination-div');
+
+    if (paginationDiv.childElementCount === 1) {
+        paginationDiv.removeChild(paginationDiv.children[0]);
+        var newP = document.createElement('P');
+        newP.classList.add('ad-pagination');
+        paginationDiv.appendChild(newP);
+    }
+
+    if (Number.isInteger(fraction) === true) {
+        totalPageCount = fraction;
+    } else {
+        totalPageCount = Math.floor(fraction) + 1;
+    }
+
+    if (totalPageCount < maxVisible) {
+        maxVisible = totalPageCount;
+    }
+
+    $('.ad-pagination').bootpag({
+        total: totalPageCount,
+        page: pageNumber,
+        maxVisible: maxVisible,
+        leaps: true,
+        firstLastUse: true,
+        first: '←',
+        last: '→',
+        wrapClass: 'pagination',
+        activeClass: 'active',
+        disabledClass: 'disabled',
+        nextClass: 'next',
+        prevClass: 'prev',
+        lastClass: 'last',
+        firstClass: 'first'
+    }).on("page", function (event, num) {
+        getAdviseList(postData, num, pageSize);
+    });
+}
+
+function changePage(pageName) {
+    window.location.replace(pageName);
+}
+
+function logout(event) {
+    event.preventDefault();
+    window.localStorage.removeItem('x-auth-token')
+    changePage("index.html");
+}
+
+function configureNavBar() {
+
+    var apiKey = window.localStorage.getItem('x-auth-token');
+
+    if (apiKey !== null) {
+
+        var outButton = document.getElementById("out-btn");
+        var profileButton = document.getElementById("profile-btn");
+        var adButton = document.getElementById("ad-btn");
+        outButton.style.display = "block";
+        profileButton.style.display = "block";
+        adButton.style.display = "none";
+    }
 }
 
 function removeEmptyPropsFromObject(obj) {

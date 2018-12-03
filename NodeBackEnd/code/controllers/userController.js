@@ -103,7 +103,8 @@ async function deleteSingleUser(req, res) {
             message: "user not found"
         });
 
-        user.remove().then(function (product) {
+        user.remove()
+        .then(function (user) {
 
             return res.status(200).send({
                 message: 'user deletion successful.'
@@ -147,14 +148,28 @@ async function getAllUser(req, res) {
     let count = 0;
 
     try {
-        User.count({}, function (err, cnt) {
-            if (err) {
-                res.status(500).send({
-                    message: err
-                });
-            } else {
-                count = cnt;
-            }
+        await User.count({})
+        .then(function (cnt) {             
+            count = cnt;
+        })
+        .catch(function(err) {
+            res.status(500).send({
+                message: err
+            });
+        });
+
+        User.find({}, {}, query)
+        .then(function (users) {
+            const userList = _.map(users, _.partialRight(_.pick, ['_id', 'name', 'email', 'isAdmin']));
+            let response = {
+                userList: userList,
+                totalCount: count
+            };
+            res.status(200).send(response);
+        }).catch(function(err) {
+            if (error) return res.status(500).send({
+                message: error.details[0].message
+            });
         });
 
     } catch (error) {
@@ -162,23 +177,7 @@ async function getAllUser(req, res) {
         return res.status(500).send({
             message: "something wrong happened."
         });
-    }
-
-
-    User.find({}, {}, query, function (err, users) {
-        if (err) {
-            if (error) return res.status(500).send({
-                message: error.details[0].message
-            });
-        } else {
-            const userList = _.map(users, _.partialRight(_.pick, ['_id', 'name', 'email', 'isAdmin']));
-            let response = {
-                userList: userList,
-                totalCount: count
-            };
-            res.status(200).send(response);
-        }
-    });
+    }    
 }
 
 async function findUserById(req, res) {

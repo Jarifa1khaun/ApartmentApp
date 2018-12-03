@@ -27,8 +27,12 @@ function getProfileInfo() {
             }
         }).fail(function (errMsg) {
 
-            console.log(errMsg);
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
         });
+    } else {
+        showNotification("You need to login first.", "error");
     }
 }
 
@@ -42,7 +46,7 @@ function configurePage(data) {
 
         isAdmin = data.isAdmin;
 
-        if (isAdmin === false) {
+        if (isAdmin === undefined || isAdmin === false) {
             var x = document.getElementById("user-list-panel");
             x.style.display = "none";
         } else {
@@ -50,9 +54,9 @@ function configurePage(data) {
         }
 
         updateNameCard(data);
-        getAdvertisementList(pageNumber, pageSize);
+        getAdvertisementList(isAdmin, pageNumber, pageSize);
     } else {
-        // error banner here
+        showNotification("No Data Found", "error");
     }
 }
 
@@ -266,10 +270,10 @@ function adjustUserListPaginationPannel(pageNumber, totalCount) {
     });
 }
 
-function getAdvertisementList(pageNumber, pageSize) {
+function getAdvertisementList(isAdmin, pageNumber, pageSize) {
 
     var advertisementListURL;
-    if (apiKey !== null) {
+    if (isAdmin === true) {
         advertisementListURL = BASE_URL + `advertisement/?pageNumber=${pageNumber}&pageSize=${pageSize}`;
     } else {
         advertisementListURL = BASE_URL + `advertisement/getAdvertisementByUserId/?pageSize=${pageSize}&pageNumber=${pageNumber}`;
@@ -288,7 +292,7 @@ function getAdvertisementList(pageNumber, pageSize) {
     }).done(function (data, status, xhr) {
 
         if (xhr.status === 200) {
-            populateAdList(data, pageNumber, pageSize);
+            populateAdList(data, pageNumber, pageSize, isAdmin);
         }
     }).fail(function (errMsg) {
 
@@ -299,7 +303,7 @@ function getAdvertisementList(pageNumber, pageSize) {
 
 }
 
-function populateAdList(data, pageNumber, pageSize) {
+function populateAdList(data, pageNumber, pageSize, isAdmin) {
 
     var offset = (pageNumber - 1) * pageSize;
 
@@ -310,6 +314,15 @@ function populateAdList(data, pageNumber, pageSize) {
         var noDataLabel = document.getElementById("no-data-text");
         noDataLabel.style.display = "block";
     } else {
+
+        var createdDisabled = false;
+
+        if (isAdmin === undefined || isAdmin === false) {
+            var createdTH = document.getElementById("created-th");
+            createdTH.style.display = 'none';
+            createdDisabled = true;
+        }
+
 
         var adTableDiv = document.getElementById("ad-table-div");
         adTableDiv.style.display = "block";
@@ -332,17 +345,22 @@ function populateAdList(data, pageNumber, pageSize) {
             nameTd.appendChild(document.createTextNode(item.name));
             tr.appendChild(nameTd);
 
-            var userName = '';
-            if (item.user !== null) {
-                var userName = item.user.name;
+            if (createdDisabled !== true) {
+
+                var userName = '';
+                if (item.user !== null) {
+                    var userName = item.user.name;
+                }
+
+                var userTd = document.createElement('TD')
+                userTd.appendChild(document.createTextNode(userName));
+                tr.appendChild(userTd);
             }
 
-            var userTd = document.createElement('TD')
-            userTd.appendChild(document.createTextNode(userName));
-            tr.appendChild(userTd);
-
+            var validity = moment(item.invalid_after).startOf('day');
             var validityTd = document.createElement('TD')
-            validityTd.appendChild(document.createTextNode(item.invalid_after));
+            validityTd.setAttribute('class', 'text-right');
+            validityTd.appendChild(document.createTextNode(validity.format('Do MMM, YYYY')));
             tr.appendChild(validityTd);
 
 
@@ -356,7 +374,7 @@ function populateAdList(data, pageNumber, pageSize) {
             profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
             var btnIcon = document.createElement("I");
-            btnIcon.setAttribute('class', 'tim-icons icon-single-02');
+            btnIcon.setAttribute('class', 'fas fa-info-circle');
 
             profileBtn.appendChild(btnIcon);
             profileBtn.setAttribute('style', 'padding-right: 10px;');
@@ -403,12 +421,12 @@ function populateAdList(data, pageNumber, pageSize) {
 
             table.appendChild(tableBody);
         }
-        adjustAdListPaginationPannel(pageNumber, totalCount);
+        adjustAdListPaginationPannel(pageNumber, totalCount, isAdmin);
     }
 
 }
 
-function adjustAdListPaginationPannel(pageNumber, totalCount) {
+function adjustAdListPaginationPannel(pageNumber, totalCount, isAdmin) {
 
     var pageSize = 5;
     var maxVisible = 5;
@@ -451,7 +469,7 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
         lastClass: 'last',
         firstClass: 'first'
     }).on("page", function (event, num) {
-        getAdvertisementList(num, pageSize);
+        getAdvertisementList(isAdmin, num, pageSize);
     });
 }
 
@@ -478,8 +496,6 @@ $('#userEditModal').on('show.bs.modal', function (event) {
     var name = $(event.relatedTarget).data('name');
     var email = $(event.relatedTarget).data('email');
     var admin = $(event.relatedTarget).data('admin');
-
-    console.log(email);
 
     let adminStatus = false;
     if (admin === true) {

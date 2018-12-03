@@ -1,6 +1,8 @@
 var BASE_URL = "http://localhost:3000/api/";
 
 var apiKey = window.localStorage.getItem('x-auth-token');
+var initialPageNumber = 1;
+var initialPageSize = 5;
 
 getProfileInfo();
 
@@ -30,15 +32,17 @@ function getProfileInfo() {
             }
         }).fail(function (errMsg) {
 
-            console.log(errMsg);
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
         });
     }
 }
 
 function configurepage(id, data) {
 
-    var pageSize = 5;
-    var pageNumber = 1;
+    var pageSize = initialPageSize;
+    var pageNumber = initialPageNumber;
 
     if (data !== null) {
 
@@ -79,16 +83,18 @@ function getAdvertisementList(id, pageNumber, pageSize) {
         }).done(function (data, status, xhr) {
 
             if (xhr.status === 200) {
-                populateAdList(data, pageNumber, pageSize);
+                populateAdList(data, pageNumber, pageSize, id);
             }
         }).fail(function (errMsg) {
 
-            console.log(errMsg);
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
         });
     }
 }
 
-function populateAdList(data, pageNumber, pageSize) {
+function populateAdList(data, pageNumber, pageSize, id) {
 
     var offset = (pageNumber - 1) * pageSize;
 
@@ -118,14 +124,15 @@ function populateAdList(data, pageNumber, pageSize) {
             tr.appendChild(serialTd);
 
             var nameTd = document.createElement('TD')
+            nameTd.setAttribute('class', 'text-left');
             nameTd.appendChild(document.createTextNode(item.name));
             tr.appendChild(nameTd);
 
-
+            var validity = moment(item.invalid_after).startOf('day');
             var validityTd = document.createElement('TD')
-            validityTd.appendChild(document.createTextNode(item.invalid_after));
+            validityTd.setAttribute('class', 'text-right');
+            validityTd.appendChild(document.createTextNode(validity.format('Do MMM, YYYY')));
             tr.appendChild(validityTd);
-
 
             var btnTd = document.createElement('TD')
             btnTd.setAttribute('class', 'td-actions text-right');
@@ -137,7 +144,7 @@ function populateAdList(data, pageNumber, pageSize) {
             profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
             var btnIcon = document.createElement("I");
-            btnIcon.setAttribute('class', 'tim-icons icon-single-02');
+            btnIcon.setAttribute('class', 'fas fa-info-circle');
 
             profileBtn.appendChild(btnIcon);
             profileBtn.setAttribute('style', 'padding-right: 10px;');
@@ -186,14 +193,13 @@ function populateAdList(data, pageNumber, pageSize) {
             table.appendChild(tableBody);
         }
 
-        adjustAdListPaginationPannel(pageNumber, totalCount);
+        adjustAdListPaginationPannel(pageNumber, pageSize, totalCount, id);
     }
 
 }
 
-function adjustAdListPaginationPannel(pageNumber, totalCount) {
+function adjustAdListPaginationPannel(pageNumber, pageSize, totalCount, id) {
 
-    var pageSize = 5;
     var maxVisible = 5;
     var totalPageCount = 0;
     var fraction = totalCount / pageSize;
@@ -229,7 +235,7 @@ function adjustAdListPaginationPannel(pageNumber, totalCount) {
         lastClass: 'last',
         firstClass: 'first'
     }).on("page", function (event, num) {
-        getAdvertisementList(num, pageSize);
+        getAdvertisementList(id, num, pageSize);
     });
 }
 
@@ -245,10 +251,29 @@ $('#adDeleteModal').on('show.bs.modal', function (event) {
 });
 
 function deleteAd(id) {
-    console.log('ad delete: ' + id);
-    setTimeout(function () {
-        location.reload();
-    }, 500);
+
+    const deleteUserURL = BASE_URL + `advertisement/${id}`;
+    const methodType = 'DELETE';
+
+    $.ajax({
+        type: methodType,
+        url: deleteUserURL,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        headers: {
+            'x-auth-token': apiKey
+        },
+    }).done(function (data, status, xhr) {
+
+        if (xhr.status === 200) {
+            changePage("profile-page.html?adDelete=successful");
+        }
+    }).fail(function (errMsg) {
+
+        var msg = JSON.parse(errMsg.responseText);
+        var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+        $.notify(msgToDisplay, "error");
+    });
 }
 
 function changePage(pageName) {
@@ -259,4 +284,11 @@ function logout(event) {
     event.preventDefault();
     window.localStorage.removeItem('x-auth-token')
     changePage("index.html");
+}
+
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
 }

@@ -83,8 +83,7 @@ function createAd(event) {
         var drawing = $('#drawing').val();
         var living = $('#living').val();
 
-
-        var timeStamp = new Date(new Date().getTime() + 86399000).getTime();
+        var timeStamp = moment(invalid_after).endOf('day').valueOf();
 
         if (security_guards === undefined) {
             security_guards = false;
@@ -153,7 +152,6 @@ function createAd(event) {
             },
         }).done(function (data, status, xhr) {
             if (xhr.status === 200) {
-                console.log('a new house has been created with id: ' + data._id);
                 changePage("profile-page.html?adCreation=successful");
             }
         }).fail(function (errMsg) {
@@ -179,7 +177,7 @@ function logout(event) {
 
 $(function () {
     $('#invalid_after').datetimepicker({
-        format: 'L',
+        format: 'LL',
         icons: {
             time: "fa fa-clock-o",
             date: "fa fa-calendar",

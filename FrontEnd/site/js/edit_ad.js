@@ -30,8 +30,9 @@ function getAdInfo() {
             }
         }).fail(function (errMsg) {
 
-            console.log(errMsg);
-            // nofify here
+            var msg = JSON.parse(errMsg.responseText);
+            var msgToDisplay = errMsg.status + " " + errMsg.statusText + ", " + msg.message;
+            showNotification(msgToDisplay, "error");
         });
     }
 }
@@ -58,6 +59,8 @@ function configurepage(data) {
 
     $('#id').val(data._id);
     $('#house_name').val(data.name);
+    $('#invalid_after').val(moment(data.invalid_after).format('LL'));
+
     $('#contact_number').val(data.contact_number);
     $('#alternative_contact').val(data.alternative_contact);
     $('#lat').text(data.lat);
@@ -130,7 +133,7 @@ function updateAd(event) {
         var living = $('#living').val();
 
 
-        var timeStamp = new Date(new Date().getTime() + 86399000).getTime();
+        var timeStamp = moment(invalid_after).endOf('day').valueOf();
 
 
         if (security_guards === undefined) {
@@ -197,8 +200,6 @@ function updateAd(event) {
 
         const postData = removeEmptyPropsFromObject(uncleanedPostData);
 
-        console.log(JSON.stringify(postData));
-
         $.ajax({
             type: methodType,
             url: updateAdURL,
@@ -255,7 +256,7 @@ function logout(event) {
 
 $(function () {
     $('#invalid_after').datetimepicker({
-        format: 'L',
+        format: 'LL',
         icons: {
             time: "fa fa-clock-o",
             date: "fa fa-calendar",
@@ -269,3 +270,10 @@ $(function () {
         }
     });
 });
+
+function showNotification(message, type) {
+
+    $.notify(message, type, {
+        autoHideDelay: 8000
+    });
+}

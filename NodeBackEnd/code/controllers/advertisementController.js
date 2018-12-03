@@ -48,7 +48,8 @@ async function updateAdvertisement(req, res) {
     try {
         const advertisementFromDb = await Advertisement.findById(req.body._id);
         if (advertisementFromDb) {
-            if (req.user.isAdmin === true || advertisementFromDb.user === req.user._id) {
+
+            if (req.user.isAdmin === true || advertisementFromDb.user.toString() === req.user._id.toString()) {
 
                 let advertisement = new Advertisement(req.body);
                 delete advertisement._id;
@@ -156,7 +157,7 @@ async function getAllAdvertisement(req, res) {
 
     try {
 
-        Advertisement.count({})
+        await Advertisement.count({})
             .then(function (cnt) {
                 count = cnt;
             })
@@ -168,6 +169,7 @@ async function getAllAdvertisement(req, res) {
 
         Advertisement.find({}, {}, query)
             .populate('user', ['_id', 'name'])
+            .select('_id name invalid_after user.name')
             .then(function (advertisements) {
 
                 let response = {
@@ -241,7 +243,7 @@ async function findAdvertisementsByUserId(req, res) {
 
     try {
 
-        Advertisement.count({
+        await Advertisement.count({
             user: userId
         }).then(function (cnt) {
             count = cnt;
@@ -254,6 +256,7 @@ async function findAdvertisementsByUserId(req, res) {
         Advertisement.find({
             user: userId
         }, {}, query)
+        .select('_id name invalid_after')
         .then(function (advertisements) {
             let response = {
                 advertisementList: advertisements,
@@ -390,7 +393,8 @@ async function sliceArray(inputArray, pageSize, pageNumber) {
     }
     
     for (var i = query.skip; i < query.limit; i++) {
-        outputArray.push(inputArray[i]);
+
+        outputArray.push(_.pick(inputArray[i], ['_id', 'name', 'invalid_after', 'user.name', 'rank']));
     }
 
     return outputArray;
