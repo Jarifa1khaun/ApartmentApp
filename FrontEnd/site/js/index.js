@@ -1,4 +1,7 @@
-var BASE_URL = "http://localhost:3000/api/";
+var port = 3000;
+var site = getBackEndIPAddress();
+var BASE_URL = `http://${site}:${port}/api/`;
+
 var initialPageSize = 5;
 var initialPageNumber = 1;
 
@@ -11,6 +14,21 @@ $("#signup :input").keyup(enableDisableSignupButton);
 $("#signup :input").keydown(enableDisableSignupButton);
 $("#radius").keyup(enableDisableDivTogglerButton);
 $("#radius").keydown(enableDisableDivTogglerButton);
+
+function configureNavBar() {
+
+    var apiKey = window.localStorage.getItem('x-auth-token');
+
+    if (apiKey !== null) {
+
+        var outButton = document.getElementById("out-btn");
+        var profileButton = document.getElementById("profile-btn");
+        var adButton = document.getElementById("ad-btn");
+        outButton.style.display = "block";
+        profileButton.style.display = "block";
+        adButton.style.display = "none";
+    }
+}
 
 function enableDisableLoginButton() {
 
@@ -646,21 +664,6 @@ function logout(event) {
     event.preventDefault();
     window.localStorage.removeItem('x-auth-token')
     changePage("index.html");
-}
-
-function configureNavBar() {
-
-    var apiKey = window.localStorage.getItem('x-auth-token');
-
-    if (apiKey !== null) {
-
-        var outButton = document.getElementById("out-btn");
-        var profileButton = document.getElementById("profile-btn");
-        var adButton = document.getElementById("ad-btn");
-        outButton.style.display = "block";
-        profileButton.style.display = "block";
-        adButton.style.display = "none";
-    }
 }
 
 function removeEmptyPropsFromObject(obj) {

@@ -1,6 +1,9 @@
-var BASE_URL = "http://localhost:3000/api/";
+var port = 3000;
+var site = getBackEndIPAddress();
+var BASE_URL = `http://${site}:${port}/api/`;
 
 var apiKey = window.localStorage.getItem('x-auth-token');
+
 var initialPageNumber = 1;
 var initialPageSize = 5;
 
