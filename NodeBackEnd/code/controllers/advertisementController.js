@@ -58,8 +58,7 @@ async function updateAdvertisement(req, res) {
                     type: "Point",
                     coordinates: [req.body.long, req.body.lat]
                 };
-
-                console.log('address: ' + advertisement.address);
+                
                 Advertisement.update({
                     _id: advertisementFromDb._id
                 }, advertisement, function (err, advertisement) {
