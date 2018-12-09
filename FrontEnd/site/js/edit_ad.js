@@ -94,6 +94,7 @@ function configurepage(data) {
         $('#drawing').val(rooms.drawing);
         $('#living').val(rooms.living);
     }
+    mapInitializationForEdit();
 }
 
 function updateAd(event) {
