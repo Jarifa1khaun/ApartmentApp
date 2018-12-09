@@ -40,11 +40,21 @@ async function getNearbyInformation(source_lat, source_long, type) {
 
 async function getDistanceBetweenCoordinates(source_lat, source_long, des_lat, des_long) {
     
-    return geolib.getDistanceSimple(
+    return geolib.getDistance(
         {latitude: source_lat, longitude: source_long},
         {latitude: des_lat, longitude: des_long}
     );
 }
 
+async function isPointInCircle(center_lat, center_long, obj_lat, obj_long, radius) {
+    
+    return geolib.isPointInCircle(
+        {latitude: obj_lat, longitude: obj_long},
+        {latitude: center_lat, longitude: center_long},
+        radius
+    );
+}
+
 exports.fillUpNearby = fillUpNearby;
 exports.getDistanceBetweenCoordinates = getDistanceBetweenCoordinates;
+exports.isPointInCircle = isPointInCircle;

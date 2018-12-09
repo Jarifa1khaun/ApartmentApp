@@ -229,6 +229,11 @@ function signup(event) {
 
 function getAdvice() {
 
+    var noDataLabel = document.getElementById("no-data-section");
+    noDataLabel.style.display = "none";
+    var adTableDiv = document.getElementById("ad-list-section");
+    adTableDiv.style.display = "none";
+
     var pageSize = initialPageSize;
     var pageNumber = initialPageNumber;
 
@@ -500,7 +505,7 @@ function getAdviseList(postData, pageNumber, pageSize) {
 
     var methodType = "POST";
 
-//    console.log(JSON.stringify(postData));
+    //    console.log(JSON.stringify(postData));
 
     $.ajax({
         type: methodType,

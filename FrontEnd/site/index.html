@@ -73,102 +73,7 @@
     <div class="wrapper">
         <div class="section">
             <!-- Form Modal -->
-            <div class="modal fade modal-black" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div id="signin" class="modal-content log-status ">
-                        <div class="modal-header justify-content-center">
-                            <button type="button" class="close" onclick="clearLogInInputs(event)" data-dismiss="modal" aria-hidden="true">
-                                <i class="tim-icons icon-simple-remove text-white"></i>
-                            </button>
-                            <div class="text-muted text-center ml-auto mr-auto">
-                                <h3 class="mb-0">Sign in</h3>
-                            </div>
-                        </div>
-                        <div class="modal-body">
-                            <form id="login-form" role="form">
-                                <div class="form-group mb-3">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="tim-icons icon-email-85"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" placeholder="Email/Username" type="text" id="uname">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="tim-icons icon-key-25"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" placeholder="Password" type="password" id="psw">
-                                    </div>
-                                </div>
-                                <span class="alert-msg"></span>
-                                <div class="text-center">
-                                    <button id="login-button" type="submit" onclick="login(event)" class="btn btn-primary my-4" disabled>Sign in</button>
-                                    <button type="button" onclick="clearLogInInputs(event)" class="btn btn-link btn-success" data-dismiss="modal" data-toggle="modal" data-target="#registrationModal">Sign up instead?</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--  End Modal -->
-            <!-- Form Modal -->
-            <div class="modal fade modal-black" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div id="signup" class="modal-content log-status ">
-                        <div class="modal-header justify-content-center">
-                            <button type="button" class="close" onclick="clearSignUpInputs(event)" data-dismiss="modal" aria-hidden="true">
-                                <i class="tim-icons icon-simple-remove text-white"></i>
-                            </button>
-                            <div class="text-muted text-center ml-auto mr-auto">
-                                <h3 class="mb-0">Sign up</h3>
-                            </div>
-                        </div>
-                        <div class="modal-body">
-                            <form id="signup-form" role="form">
-                                <div class="form-group mb-3">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="tim-icons icon-email-85"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" placeholder="Name" type="text" id="name">
-                                    </div>
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="tim-icons icon-email-85"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" placeholder="Email/Username" type="text" id="username">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="tim-icons icon-key-25"></i>
-                                            </span>
-                                        </div>
-                                        <input class="form-control" placeholder="Password" type="password" id="password">
-                                    </div>
-                                </div>
-                                <span class="alert-msg"></span>
-                                <div class="text-center">
-                                    <button id="signup-button" type="submit" onclick="signup(event)" class="btn btn-primary my-4" disabled>Sign up</button>
-                                    <button type="button" onclick="clearSignUpInputs(event)" class="btn btn-link btn-success" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Sign-in instead?</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+
             <!--  End Modal -->
             <div class="container align-items-center">
                 <div class="row justify-content-md-center">
@@ -530,6 +435,103 @@
                     <div id='pagination-div' class="row justify-content-md-center">
                         <p class="ad-pagination"></p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade modal-black" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div id="signin" class="modal-content log-status ">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" onclick="clearLogInInputs(event)" data-dismiss="modal" aria-hidden="true">
+                        <i class="tim-icons icon-simple-remove text-white"></i>
+                    </button>
+                    <div class="text-muted text-center ml-auto mr-auto">
+                        <h3 class="mb-0">Sign in</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="login-form" role="form">
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-email-85"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Email/Username" type="text" id="uname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-key-25"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password" id="psw">
+                            </div>
+                        </div>
+                        <span class="alert-msg"></span>
+                        <div class="text-center">
+                            <button id="login-button" type="submit" onclick="login(event)" class="btn btn-primary my-4" disabled>Sign in</button>
+                            <button type="button" onclick="clearLogInInputs(event)" class="btn btn-link btn-success" data-dismiss="modal" data-toggle="modal" data-target="#registrationModal">Sign up instead?</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--  End Modal -->
+    <!-- Form Modal -->
+    <div class="modal fade modal-black" id="registrationModal" tabindex="-1" role="dialog" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div id="signup" class="modal-content log-status ">
+                <div class="modal-header justify-content-center">
+                    <button type="button" class="close" onclick="clearSignUpInputs(event)" data-dismiss="modal" aria-hidden="true">
+                        <i class="tim-icons icon-simple-remove text-white"></i>
+                    </button>
+                    <div class="text-muted text-center ml-auto mr-auto">
+                        <h3 class="mb-0">Sign up</h3>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <form id="signup-form" role="form">
+                        <div class="form-group mb-3">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-email-85"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Name" type="text" id="name">
+                            </div>
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-email-85"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Email/Username" type="text" id="username">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group input-group-alternative">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="tim-icons icon-key-25"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" placeholder="Password" type="password" id="password">
+                            </div>
+                        </div>
+                        <span class="alert-msg"></span>
+                        <div class="text-center">
+                            <button id="signup-button" type="submit" onclick="signup(event)" class="btn btn-primary my-4" disabled>Sign up</button>
+                            <button type="button" onclick="clearSignUpInputs(event)" class="btn btn-link btn-success" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Sign-in instead?</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

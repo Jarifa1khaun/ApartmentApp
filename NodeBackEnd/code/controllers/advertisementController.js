@@ -310,48 +310,29 @@ async function getAdviceOnHouses(req, res) {
     const subletVal = req.body.sublet;
     
     try {
-        await Advertisement.count({
-            location: {
-                $geoWithin: {
-                    $center: [
-                        [long, lat], radius / 1000
-                    ]
-                }
-            },
-            sublet: subletVal,
-            is_rented: false
-        }).then(function (cnt) {
-            count = cnt;
-        }).catch(function (err) {
-            res.status(500).send({
-                message: err
-            });
-        });
 
         Advertisement.find({
-            location: {
-                $geoWithin: {
-                    $center: [
-                        [long, lat], radius / 1000
-                    ]
-                }
-            },
             sublet: subletVal,
             is_rented: false
         }, {}, {})
         .populate('user', ['_id', 'name'])
         .then( async function (advertisements) {
-                        
+
             let outputArray = []; 
             let arr = [];
 
             if (advertisements !== null && advertisements.length !== 0) {
 
-                const sortedAds = await algorithm.getSortedArray(req.body, advertisements);                
-                outputArray = await sliceArray(sortedAds, pageSize, pageNumber);
-                
-                for (i in outputArray) {
-                    arr.push(outputArray[i].rank);
+                const filteredArray = await filterArray(advertisements, lat, long, radius);
+                if (filteredArray !== null && filteredArray.length !== 0) {
+
+                    count = filteredArray.length;
+                    const sortedAds = await algorithm.getSortedArray(req.body, filteredArray); 
+                    outputArray = await sliceArray(sortedAds, pageSize, pageNumber);
+                    
+                    for (i in outputArray) {
+                        arr.push(outputArray[i].rank);
+                    }
                 }
             }
 
@@ -363,6 +344,7 @@ async function getAdviceOnHouses(req, res) {
 
             return res.status(200).send(returnObj);
         }).catch(function (err) {
+            console.log(err);
             res.status(500).send({
                 message: err
             });
@@ -373,6 +355,25 @@ async function getAdviceOnHouses(req, res) {
             message: "something wrong happened."
         });
     }
+}
+
+async function filterArray(inputArray, center_lat, center_long, radius) {
+
+    for (var index = 0; index < inputArray.length; index++) {
+
+        var item = inputArray[index];
+        var db_lat = item.lat;
+        var db_long = item.long;
+        
+        var result = await mapUtils.isPointInCircle(center_lat, center_long, db_lat, db_long, radius);
+
+        if (result !== true) {
+            inputArray.splice(index, 1);
+            index--;
+        }
+    }
+
+    return inputArray;
 }
 
 async function sliceArray(inputArray, pageSize, pageNumber) {
