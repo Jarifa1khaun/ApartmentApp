@@ -29,8 +29,6 @@ services:
     container_name: ${DB_CONTAINER_NAME}
     networks:
       - back
-    ports:
-    - 27017:27017
     volumes:
       - mongo-dev-vol:/data/db
   #--------------------------------------
