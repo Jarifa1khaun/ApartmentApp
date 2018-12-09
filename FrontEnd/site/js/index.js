@@ -5,6 +5,7 @@ var BASE_URL = `http://${site}:${port}/api/`;
 var initialPageSize = 5;
 var initialPageNumber = 1;
 
+initMap();
 configureNavBar();
 
 $('.modalText').keypress(removeWrongEntryClass);
@@ -581,9 +582,7 @@ function populateAdList(data, pageNumber, pageSize, postData) {
             btnTd.setAttribute('class', 'td-actions text-center');
 
             var profileBtn = document.createElement("BUTTON");
-            profileBtn.setAttribute('data-toggle', 'modal');
-
-            profileBtn.setAttribute('data-target', '#adInfoModal');
+            profileBtn.setAttribute('onclick', `adDetailsClickActionListener('${item._id}')`);
             profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
             var btnIcon = document.createElement("I");

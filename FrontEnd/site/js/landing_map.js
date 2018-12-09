@@ -27,7 +27,7 @@ function initMap() {
     map.addListener('click', function (event) {
         deleteMarkers();
         clearCirle();
-        addMarker(event.latLng);
+        addMarker(event.latLng.lat(), event.latLng.lng());
         lastClickedOnMap = event.latLng;
         $('#lat').text(event.latLng.lat()).trigger('latChanged');
         $('#long').text(event.latLng.lng()).trigger('longChanged');
@@ -113,6 +113,7 @@ function updateCirle() {
 }
 
 function addMarker(location) {
+    console.log('inside add marker');
     var marker = new google.maps.Marker({
         position: location,
         map: map

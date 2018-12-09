@@ -141,9 +141,7 @@ function populateAdList(data, pageNumber, pageSize, id) {
             btnTd.setAttribute('class', 'td-actions text-right');
 
             var profileBtn = document.createElement("BUTTON");
-            profileBtn.setAttribute('data-toggle', 'modal');
-
-            profileBtn.setAttribute('data-target', '#usrInfoModal');
+            profileBtn.setAttribute('onclick', `adDetailsClickActionListener('${item._id}')`);
             profileBtn.setAttribute('class', 'btn btn-info btn-simple btn-icon btn-sm');
 
             var btnIcon = document.createElement("I");

@@ -535,27 +535,32 @@
         </div>
     </div>
 
-    <div class="modal fade modal-black" id="adInfoModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="padding-top: 150px;">
-        <div class="modal-dialog" style="background-color: #171941; ">
-            <div class="col-lg-10 col-md-12 ml-auto mr-auto">
-                <div class="card card-coin card-plain">
-                    <div class="card-header">
-                        <img src="./img/mike.jpg" class="img-center img-fluid rounded-circle">
-                    </div>
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-8 col-md-12 text-center">
-                                <label>
-                                    <h3><strong>Test Name</strong></h3>
-                                </label>
-                            </div>
-                            <div class="col-lg-8 col-md-12 text-center"><label>
-                                    <h4>email: email@server.com</h4>
-                                </label></div>
-                            <div class="col-lg-8 col-md-12 text-center"><label>
-                                    <h4>Admin Status: Admin </h4>
-                                </label></div>
+    <div class="modal fade modal-black" id="adInfoModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="background-color: #171941; height: 550px;">
+            <div class="modal-content" style="height: 550px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row" style="flex-wrap: nowrap">
+                        <div class="col-lg-5 col-md-8 modal_body_content">
+                            <label id="ad-modal-house-info">House Name: Test House</label>
+                            <br />
+                            <br />
+                            <label id="ad-modal-contact-info">Contact Number: Test House</label>
                         </div>
+
+                        <div class="col-lg-8 col-md-12  modal_body_map">
+                            <div class="ad-map" id="location-map">
+                                <div style="width: 400px; height: 200px;" id="map_canvas"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div id="ad-modal-basic-info" class="col-lg-4 col-md-5 modal_body_content" style="padding-top: 40px;"></div>
+                        <div id="ad-modal-room-info" class="col-lg-4 col-md-5 modal_body_content" style="padding-top: 40px;"></div>
+                        <div id="ad-modal-nearby-info" class="col-lg-4 col-md-5 modal_body_content" style="padding-top: 40px;"></div>
                     </div>
                 </div>
             </div>
@@ -585,10 +590,12 @@
     <!-- Control Center for Black UI Kit: parallax effects, scripts for the example pages etc -->
     <script src="js/blk-design-system.min.js?v=1.0.0" type="text/javascript"></script>
     <!-- Custom JS -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWNE_jdj3NJj4IUWwz4kCRUg3k0hjVzWc&callback=initMap"></script>
-    <script src="js/landing_map.js"></script>
     <script src="js/configure_url.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBXf9UcZgkvTHLH5hTWhoRGs5p9tI11USQ"></script>
+    <script src="js/landing_map.js"></script>
+    <script src="js/ad-details-modal.js"></script>
     <script src="js/index.js"></script>
+
 </body>
 
 </html>
