@@ -5,6 +5,7 @@ services:
   #--------------------------------------
   node:
     container_name: ${SERVER_CONTAINER_NAME}
+    image: ${NODE_IMAGE_NAME}:${NODE_IMAGE_VERSION}
     build:
       context: ./NodeBackEnd
       dockerfile: NodeDockerFile
@@ -25,7 +26,7 @@ services:
     - back
   #--------------------------------------
   mongodb:
-    image: mongo:latest
+    image: ${DB_IMAGE_NAME}:${DB_IMAGE_VERSION}
     container_name: ${DB_CONTAINER_NAME}
     networks:
       - back
@@ -34,6 +35,7 @@ services:
   #--------------------------------------
   web-front:
     container_name: ${UI_CONTAINER_NAME}
+    image: ${FRONT_IMAGE_NAME}:${FRONT_IMAGE_VERSION}
     build:
       context: ./FrontEnd
       dockerfile: FrontDockerFile
@@ -44,8 +46,6 @@ services:
     depends_on:
       - "mongodb"
       - "node"
-    links:
-    - node
     networks:
     - front
 ###########################################
