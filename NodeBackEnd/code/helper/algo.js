@@ -57,8 +57,6 @@ async function getSortedArray(criteria, advertisementArray) {
                 }
             }
 
-            // nearby
-
             if (criteria.nearby != undefined) {
 
                 if (criteria.nearby.mosque != undefined && criteria.nearby.mosque.value != undefined && criteria.nearby.mosque.priority != undefined) {
@@ -93,15 +91,7 @@ async function getSortedArray(criteria, advertisementArray) {
 }
 
 function getAbsoluteDistance(factor, weight, dbValue) {
-    if (factor != undefined && !Number.isNaN(factor) &&
-        weight != undefined && !Number.isNaN(weight) &&
-        dbValue != undefined && !Number.isNaN(dbValue)
-    ) {
-
-        return Math.abs((dbValue - factor) / factor * weight);
-    } else {
-        return 0;
-    }
+    return Math.abs(getNumericalDistance(factor, weight, dbValue));
 }
 
 function getNumericalDistance(factor, weight, dbValue) {
@@ -115,7 +105,6 @@ function getNumericalDistance(factor, weight, dbValue) {
         return 0;
     }
 }
-
 
 function getBooleanDistance(factor, weight, dbValue) {
     if (factor != undefined && typeof factor === "boolean" &&
