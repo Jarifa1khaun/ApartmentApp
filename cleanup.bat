@@ -32,17 +32,13 @@ set FRONT_CONTAINER_PORT=80
 set FRONT_IMAGE_VERSION=1.0.0
 set UI_CONTAINER_NAME=apartment_front
 
-:: deploying the khoj app
+:: for removing the containers only, data will remain
 
-docker network create -d bridge apartmentapp_front
-docker network create -d bridge apartmentapp_back 
-docker volume create apartmentapp_mongo-dev-vol
+docker stop %UI_CONTAINER_NAME% %SERVER_CONTAINER_NAME% %DB_CONTAINER_NAME%
+docker rm %UI_CONTAINER_NAME% %SERVER_CONTAINER_NAME% %DB_CONTAINER_NAME%
 
-docker run -d --name %DB_CONTAINER_NAME% --network apartmentapp_back -v apartmentapp_mongo-dev-vol:/data/db %DB_IMAGE_NAME%:%DB_IMAGE_VERSION%
+:: DANGER !! uncomment the following lines for removing network, data, images
 
-docker run -d --network apartmentapp_back --name %SERVER_CONTAINER_NAME% -p %SERVER_HOST_PORT%:%CONTAINER_PORT% -e NODE_ENV -e CONTAINER_PORT -e JWT_PRIVATE_KEY -e DB_URI -e API_KEY -e SESSION_DURATION %NODE_IMAGE_NAME%:%NODE_IMAGE_VERSION%
-
-docker run -d --name %UI_CONTAINER_NAME%  --network apartmentapp_front -p %FRONT_HOST_PORT%:%FRONT_CONTAINER_PORT%  %FRONT_IMAGE_NAME%:%FRONT_IMAGE_VERSION%
-
-:: status report 
-docker ps
+:: docker network rm apartmentapp_front apartmentapp_back 
+:: docker volume rm apartmentapp_mongo-dev-vol
+:: docker rmi %NODE_IMAGE_NAME%:%NODE_IMAGE_VERSION% %FRONT_IMAGE_NAME%:%FRONT_IMAGE_VERSION%
