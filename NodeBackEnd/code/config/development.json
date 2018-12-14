@@ -1,5 +1,0 @@
-{
-    "jwtPrivateKey": "apartment_jwtPrivateKey",
-    "webMongoURL": "mongodb://dev_jarifa:devJarifa123@ds159651.mlab.com:59651/khoj_the_search",
-    "mongoURL": "mongodb://apartmentmongo:27017/khoj_the_search"
-}

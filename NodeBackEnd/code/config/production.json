@@ -1,4 +1,0 @@
-{
-    "jwtPrivateKey": "production_jwtPrivateKey",
-    "mongoURL": "mongodb://apartmentmongo:27017/khoj_the_search"
-}
