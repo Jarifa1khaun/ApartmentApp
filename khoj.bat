@@ -1,11 +1,7 @@
 :: setting necessary env variables
 
-set NODE_IMAGE_NAME=apartment_node
-set FRONT_IMAGE_NAME=apartment_site
-
-:: uncomment the following to pull image from docker hub repo
-:: set NODE_IMAGE_NAME=jarifamustafa/apartment_node
-:: set FRONT_IMAGE_NAME=jarifamustafa/apartment_site
+set NODE_IMAGE_NAME=jarifamustafa/apartment_node
+set FRONT_IMAGE_NAME=jarifamustafa/apartment_site
 
 :: env for mongo
 
