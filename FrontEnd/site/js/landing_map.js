@@ -109,7 +109,6 @@ function updateLandingCirle() {
 }
 
 function addLandingMarker(location) {
-    console.log('inside add marker');
     var marker = new google.maps.Marker({
         position: location,
         map: landingMap

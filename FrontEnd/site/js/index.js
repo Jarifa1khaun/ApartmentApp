@@ -399,7 +399,7 @@ function getAdvice() {
     if (living.length !== 0) {
         livingItem = {
             value: living,
-            priority: livingItem
+            priority: livingPreference
         };
     }
 
@@ -425,9 +425,9 @@ function getAdvice() {
     }
 
     if (park.length !== 0) {
-        parkingItem = {
+        parkItem = {
             value: park,
-            priority: parkingPreference
+            priority: parkPreference
         };
     }
 
@@ -469,7 +469,7 @@ function getAdvice() {
             mosque: mosqueItem,
             hospital: hospitalItem,
             school: schoolItem,
-            park: parkingItem,
+            park: parkItem,
             department_store: departmentStoreItem
         }
     }
@@ -496,6 +496,8 @@ function getAdvice() {
 
     const postData = removeEmptyPropsFromObject(uncleanedPostData)
 
+//    console.log(JSON.stringify(postData));
+
     getAdviseList(postData, pageNumber, pageSize);
 }
 
@@ -504,8 +506,6 @@ function getAdviseList(postData, pageNumber, pageSize) {
     var adviseListURL = BASE_URL + `advertisement/getAdvice?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
     var methodType = "POST";
-
-    //    console.log(JSON.stringify(postData));
 
     $.ajax({
         type: methodType,
